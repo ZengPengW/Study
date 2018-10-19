@@ -1,7 +1,7 @@
 import java.math.BigInteger;
 import java.util.Scanner;
 
-public class Louti {
+public class UDStairs{
 
 	public static void main(String[] args) {
 

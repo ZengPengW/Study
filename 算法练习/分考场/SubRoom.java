@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Fenkaochang {
+public class SubRoom{
 
 	private static int sum=0;
 	public static void main(String[] args) {
