@@ -43,9 +43,7 @@ public class Duishu {
 			if (i == 4) {
 				i++;
 			}
-			if (book[i] == 0 && (index + i + 1) != 6 && (index + i + 1) != 8
-					&& (index + i + 1) < arr.length
-					&& !temp.contains(index + i + 1)) {
+			if (book[i] == 0 && (index + i + 1) < arr.length&& !temp.contains(index + i + 1)) {
 				temp.add(index);
 				temp.add(index + i + 1);
 				book[i] = 1;
