@@ -1,48 +1,43 @@
-public class Test1 {
-	private static int[][] num = new int[3][4];
-	private static int sum = 0;
-
+public class He
+{
+	
+	private static int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	private static int sum=0;
 	public static void main(String[] args) {
-		int[] book = new int[10];
-
-		num[0][0] = 999;
-		num[3][3] = 888;
-		dfs(0, book);
+	
+		dfs(0);
 		System.out.println(sum);
 	}
-
-	public static void dfs(int index, int[] book) {
-		if (index >= 10) {
+	public static boolean check() {
+		 if((Math.abs(a[0]-a[1])!=1)&&(Math.abs(a[1]-a[2])!=1)&&(Math.abs(a[3]-a[4])!=1)&&(Math.abs(a[4]-a[5])!=1)&&
+		          (Math.abs(a[5]-a[6])!=1)&&(Math.abs(a[7]-a[8])!=1)&&(Math.abs(a[8]-a[9])!=1)&&
+		          (Math.abs(a[0]-a[4])!=1)&&(Math.abs(a[1]-a[5])!=1)&&(Math.abs(a[2]-a[6])!=1)&&
+		          (Math.abs(a[3]-a[7])!=1)&&(Math.abs(a[4]-a[8])!=1)&&(Math.abs(a[5]-a[9])!=1)&&
+		          (Math.abs(a[0]-a[3])!=1)&&(Math.abs(a[0]-a[5])!=1)&&(Math.abs(a[1]-a[4])!=1)&&
+		          (Math.abs(a[1]-a[6])!=1)&&(Math.abs(a[2]-a[5])!=1)&&(Math.abs(a[4]-a[7])!=1)&&(Math.abs(a[4]-a[9])!=1)&&
+		          (Math.abs(a[3]-a[8])!=1)&&(Math.abs(a[5]-a[8])!=1)&&(Math.abs(a[6]-a[9])!=1)){
+			 
+			 return true;
+		 }
+		 return false;
+	}
+	public static void dfs(int index) {
+		if (index>=10) {
 			if (check()) {
 				sum++;
-
 			}
 		}
-		for (int i = 0; i <= 3; i++) {
-			for (int j = 0; j < 4; j++) {
-				if (num[i][j] == 0) {
-					for (int k = 0; k <= 9; k++) {
-						if (book[k] == 0) {
-							book[k]=1;
-							num[i][j]=k;
-							dfs(index+1, book);
-							book[k]=0;
-							num[i][j]=0;
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-
-	}
-
-	public static boolean check() {
-
 		
-		return false;
+		for (int i = index; i < a.length; i++) {
+			
+			int temp = a[index];
+			a[index]=a[i];
+			a[i]=temp;
+			dfs(index+1);
+		    temp = a[index];
+			a[index]=a[i];
+			a[i]=temp;
+		}
 	}
 }
+
