@@ -57,7 +57,7 @@ public class Through {
 
 			if (ud - 1 >= 0 && bs[ud - 1][lr] == 0
 					&& map[ud - 1][lr] != map[ud][lr]) {
-				bs[ud - 1][lr] = bs[ud][lr] += 1;
+				bs[ud - 1][lr] = bs[ud][lr] + 1;
 				al.add(Node(ud - 1, lr));
 				if (ud - 1 == end[0][0] && lr == end[0][1]) {
 					System.out.println(bs[ud - 1][lr]);
