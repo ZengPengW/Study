@@ -1,0 +1,77 @@
+public class Test2 {
+	private static int sum = 0;
+
+	private static int[] book = new int[13];
+	private static int[] num = new int[5];
+
+	public static void main(String[] args) {	
+		f(0, 1);
+		System.out.println(sum);
+	}
+
+	public static void f(int index, int id) {
+
+		if (index == 5) {
+			if (check()) {
+				sum++;
+			}
+			return;
+		}
+		for (int i = id; i <=12; i++) {
+			if (book[i] == 0) {
+				num[index] = i;
+				book[i] = 1;
+				f(index + 1, id + 1);
+				book[i] = 0;
+				num[index] = 0;
+			}
+
+		}
+
+	}
+
+	public static boolean check() {
+
+		int flag=0;
+		for (int i = 0; i < 5; i++) {
+			flag=0;
+			for (int j = 0; j < 5; j++) {
+				
+					if ((num[i] / 4 == num[j] / 4&&(Math.abs(num[i]-num[j])==1))
+						||(Math.abs(num[i]-num[j])==4)	
+							) {
+                             flag=1;
+                             break;
+					
+				}
+
+			}
+			if (flag!=1) {
+				return false;
+			}
+           
+		}
+		return true;
+
+		
+	}
+	
+	
+	 private static boolean judge() {  
+		             boolean visit[] = new boolean[5];  
+		            dfs(visit,0);  
+		             return visit[0]&&visit[1]&&visit[2]&&visit[3]&&visit[4];  
+		        }  
+		        
+		          private static void dfs(boolean[] visit, int i) {  
+		              visit[i] = true;  
+		              for (int j = 0; j < visit.length; j++) {  
+		                  if(!visit[j]&&(num[i]/4==num[j]/4)&&(num[i]==num[j]+1||num[i]==num[j]-1)) {  
+		                      dfs(visit, j);  
+		                  }  
+		                  if (!visit[j]&&(num[i]==num[j]+4||num[i]==num[j]-4)) {  
+		                     dfs(visit, j);  
+		                  }  
+		             }  
+		          }  
+		  }
