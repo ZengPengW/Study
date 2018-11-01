@@ -1,55 +1,53 @@
-import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Scanner;
 
-public class UDStairs{
+public class Louti {
 
+	private static HashMap<Long, Long> hs = new HashMap<Long, Long>();
+    private static long m;
 	public static void main(String[] args) {
 
-		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
-		BigInteger n = sc.nextBigInteger();
-		BigInteger m = sc.nextBigInteger();
+		long n = sc.nextLong();
+		m = sc.nextLong();
 
-		BigInteger sum = BigInteger.ZERO;
-		BigInteger[] sum1 = new BigInteger[Integer.valueOf(n.toString())];
-		if (m.compareTo(BigInteger.ZERO) == 0) {
-			System.out.println("分母不能为零");
-			return;
-		}
-		if (n.compareTo(BigInteger.ZERO) == 0) {
-			if (m.compareTo(BigInteger.ONE) == 0) {
-				System.out.println(0);
-			} else {
-				System.out.println(1);
-			}
+		long sum = 0;
 
-			return;
-		}
-		for (int i = 1; i <= n.intValue(); i++) {
+		long sum1 = 0;
+		for (long i = 1; i <= n; i++) {
 			sum = jisaun(i);
-			sum1[i - 1] = sum;
+			sum1 = (sum1 + sum*sum)%m;
 		}
-		sum = BigInteger.ZERO;
-		for (int j = 0; j < sum1.length; j++) {
 
-			sum = sum1[j].multiply(sum1[j]).add(sum);
-		}
-		sum = (sum.add(BigInteger.ONE)).mod(m);
-		System.out.println(sum);
+		System.out.println((sum1 + 1) % m);
 	}
 
-	public static BigInteger jisaun(long n) {
+	public static long jisaun(long n) {
 
 		if (n <= 0) {
-			return BigInteger.ZERO;
+			return 0;
 		}
 		if (n == 2) {
-			return BigInteger.valueOf(2);
+			return 2;
 		}
 		if (n == 1) {
-			return BigInteger.ONE;
+			return 1;
 		}
-
-		return jisaun(n - 1).add(jisaun(n - 2));
+		if (hs.containsKey(n)) {
+			return hs.get(n);
+		}
+		long a=1;
+		long b=2;
+        long temp=0;
+        for (int i = 3; i <=n; i++) {
+			temp=(a+b)%m;
+			a=b;
+			b=temp;
+			
+		}
+			if (!hs.containsKey(n)) {
+			hs.put(n, temp);
+		}
+		return temp;
 	}
 }
