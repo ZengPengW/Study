@@ -17,14 +17,16 @@ public class CutChange {
 
 	}
 	public static void f() {
+		int index;
 		for (int i = 0; i < num.length; i++) {
-			if (!ls.contains(num[i])) {
+			 index=ls.indexOf(num[i]);
+			if (index==-1) {
 				System.out.print((num[i]*-1)+" ");
 				ls.add(num[i]);
 			}else {
 				ls.add(num[i]);
-				System.out.print((ls.lastIndexOf(num[i])-ls.indexOf(num[i])-1)+" ");
-				ls.remove(ls.indexOf(num[i]));
+				System.out.print((ls.size()-index-2)+" ");
+				ls.remove(index);
 			}	
 		}
 		
