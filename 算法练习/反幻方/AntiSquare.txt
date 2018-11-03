@@ -1,0 +1,56 @@
+public class AntiSquare{
+
+	private static int sum = 0;
+	private static int[] num = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+	public static void main(String[] args) {
+		  dfs(0);
+		  System.out.println(sum/4/2);
+				
+	}
+
+	public static void dfs(int index) {
+
+		if (index>=9) {
+			if (check()) {
+				sum++;
+			}
+			return;
+		}
+		
+		for (int i = index; i < 9; i++) {
+			int temp = num[index];
+			num[index] = num[i];
+			num[i] = temp;
+			dfs(index + 1);
+			temp = num[index];
+			num[index] = num[i];
+			num[i] = temp;
+
+		}
+
+	}
+	
+	public static boolean check() {
+		int a=num[0]+num[1]+num[2];
+		int b=num[3]+num[4]+num[5];
+		int c=num[6]+num[7]+num[8];
+		int d=num[0]+num[3]+num[6];
+		int e=num[1]+num[4]+num[7];
+		int f=num[2]+num[5]+num[8];
+		int g=num[2]+num[4]+num[6];
+		int h=num[0]+num[4]+num[8];
+		if (a!=b&&a!=c&&a!=d&&a!=e&&a!=f&&a!=g&&a!=h
+		    &&b!=c&&b!=d&&b!=e&&b!=f&&b!=g&&b!=h
+		    &&c!=d&&c!=e&&c!=f&&c!=g&&c!=h
+		    &&d!=e&&d!=f&&d!=g&&d!=h
+		    &&e!=f&&e!=g&&e!=h
+		    &&f!=g&&f!=h
+		    &&g!=h) {
+			return true;
+		}
+		return false;
+		
+	}
+
+}
