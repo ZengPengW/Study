@@ -1,39 +1,24 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-
-public class JianJi2 {
-	private static int n, m, k;
-	private static HashMap<String, Integer> hm = new HashMap<String, Integer>();
-	private static ArrayList<HashMap<String, Integer>> al = new ArrayList<HashMap<String, Integer>>();
-
-	@SuppressWarnings("unchecked")
+private static int n;
+	private static int m;
+	private static long [][]HF;
+	private static long [][]KPQ;
+	private static int [] num;
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		n = sc.nextInt();
-		m = sc.nextInt();
-		k = sc.nextInt();
-
-		String[] dna = new String[n];
-		for (int i = 0; i < dna.length; i++) {
-			dna[i] = sc.next();
+		Scanner scan=new Scanner(System.in);
+		n=scan.nextInt();
+		
+		HF=new long[n+1][2];
+		for (int i = 1; i < HF.length; i++) {
+			HF[i][0]=scan.nextLong();
+			HF[i][1]=scan.nextLong();	
 		}
-		for (int i = 0; i < dna.length; i++) {
-			String str = dna[i];
-			for (int j = 0; j <= str.length() - k; j++) {
-				String s = str.substring(j, j + k);
-				if (!hm.containsKey(s)) {
-					hm.put(s, 1);
-				} else {
-					hm.put(s, hm.get(s) + 1);
-				}
-			}
-			al.add((HashMap<String, Integer>) hm.clone());
-			hm.clear();
+		m=scan.nextInt();
+		KPQ=new long[m][3];
+		for (int i = 0; i < KPQ.length; i++) {
+			KPQ[i][0]=scan.nextLong();
+			KPQ[i][1]=scan.nextLong();
+			KPQ[i][2]=scan.nextLong();	
 		}
-
-		System.out.println();
-		sc.close();
+		
+		
 	}
-
-}
