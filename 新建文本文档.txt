@@ -1,24 +1,188 @@
-private static int n;
-	private static int m;
-	private static long [][]HF;
-	private static long [][]KPQ;
-	private static int [] num;
-	public static void main(String[] args) {
-		Scanner scan=new Scanner(System.in);
-		n=scan.nextInt();
-		
-		HF=new long[n+1][2];
-		for (int i = 1; i < HF.length; i++) {
-			HF[i][0]=scan.nextLong();
-			HF[i][1]=scan.nextLong();	
+import javax.xml.transform.Templates;
+
+import org.omg.CORBA.INTERNAL;
+
+public class Test1 {
+
+	public static void main(String[] args) throws Exception {
+		int[] arr = { 9, 7, 8, 6, 4, 5, 3, 1, 2 };
+		// xuanze(arr);
+		// charu(arr);
+		// xier(arr);
+		// maopao(arr);
+		// kuaisu(arr, 0, arr.length-1);
+		//guibing(arr, 0, arr.length - 1);
+		//guibingRE(arr);
+		//threeKuaiSu(arr, 0, arr.length-1);
+		for (int i : arr) {
+			System.out.print(i);
 		}
-		m=scan.nextInt();
-		KPQ=new long[m][3];
-		for (int i = 0; i < KPQ.length; i++) {
-			KPQ[i][0]=scan.nextLong();
-			KPQ[i][1]=scan.nextLong();
-			KPQ[i][2]=scan.nextLong();	
-		}
-		
-		
 	}
+
+	public static void xuanze(int[] arr) {
+		int min = 0;
+		for (int i = 0; i < arr.length; i++) {
+			min = i;
+			for (int j = i + 1; j < arr.length; j++) {
+				if (arr[min] > arr[j]) {
+					min = j;
+				}
+
+			}
+			int temp = arr[i];
+			arr[i] = arr[min];
+			arr[min] = temp;
+		}
+
+	}
+
+	public static void charu(int[] arr) {
+
+		for (int i = 1; i < arr.length; i++) {
+			for (int j = i; j > 0; j--) {
+				if (arr[j] < arr[j - 1]) {
+					int temp = arr[j];
+					arr[j] = arr[j - 1];
+					arr[j - 1] = temp;
+				}
+
+			}
+
+		}
+	}
+
+	public static void xier(int[] arr) {
+		int id = 1;
+		while ((arr.length) / 3 > id)
+			id = id * 3 + 1;
+
+		while (id >= 1) {
+			for (int i = id; i < arr.length; i++) {
+				for (int j = i; j >= id; j -= id) {
+					if (arr[j] < arr[j - id]) {
+						int temp = arr[j];
+						arr[j] = arr[j - id];
+						arr[j - id] = temp;
+					}
+				}
+			}
+			id /= 3;
+		}
+	}
+
+	public static void maopao(int[] arr) {
+
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr.length - 1; j++) {
+				if (arr[j] > arr[j + 1]) {
+					int temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+
+			}
+
+		}
+	}
+
+	public static int qeifen(int[] arr, int lo, int hi) {
+		int temp = arr[lo];
+
+		while (lo < hi) {
+			while (arr[hi] > temp && lo < hi)
+				hi--;
+			arr[lo] = arr[hi];
+
+			while (arr[lo] < temp && lo < hi)
+				lo++;
+			arr[hi] = arr[lo];
+
+		}
+		arr[hi] = temp;
+		return hi;
+
+	}
+
+	public static void kuaisu(int[] arr, int lo, int hi) {
+		if (lo >= hi) {
+			return;
+		}
+
+		int index = qeifen(arr, lo, hi);
+		kuaisu(arr, lo, index - 1);
+		kuaisu(arr, index + 1, hi);
+
+	}
+
+	private static int[] a;
+
+	public static void guiBingArr(int[] arr, int lo, int mid, int hi) {
+		if (arr[mid]<arr[mid+1]) {
+			return;
+		}
+		int j = lo;
+		int k = mid + 1;
+		a = new int[hi + 1];
+		for (int i = lo; i <= hi; i++) {
+			a[i] = arr[i];
+		}
+		for (int i = lo; i <= hi; i++) {
+			if (j > mid)
+				arr[i] = a[k++];
+			else if (k > hi)
+				arr[i] = a[j++];
+			else if (a[j] < a[k])
+				arr[i] = a[j++];
+			else
+				arr[i] = a[k++];
+		}
+
+	}
+
+	public static void guibing(int[] arr, int lo, int hi) {
+		if (lo >= hi) {
+			return;
+		}
+		int mid = (hi - lo) / 2 + lo;
+		guibing(arr, lo, mid);
+		guibing(arr, mid + 1, hi);
+		guiBingArr(arr, lo, mid, hi);
+	}
+
+	public static void guibingRE(int[] arr) {
+		int n = arr.length;
+		for (int i = 1; i < n; i += i) {
+			for (int j = 0; j <n-i; j+=i+i) {
+				guiBingArr(arr, j, j+i-1,Math.min(n-1, j+i-1+i));
+			}
+
+		}
+
+	}
+	
+	public static void threeKuaiSu(int [] arr,int lo ,int hi) {
+		if (lo>=hi) {
+			return;
+		}
+		int lt=lo,i=lo+1,gt=hi;
+		while (i<=gt) {
+			if (arr[i]<arr[lt]) {
+				int temp=arr[i];
+				arr[i]=arr[lt];
+				arr[lt]=temp;
+				i++;
+				lt++;
+			}else if (arr[i]>arr[gt]) {
+				int temp=arr[i];
+				arr[i]=arr[gt];
+				arr[gt]=temp;
+				gt--;				
+			}else {
+				i++;
+			}
+			
+		}
+		threeKuaiSu(arr, lo, lt-1);
+		threeKuaiSu(arr, gt+1,hi);
+	}
+}
