@@ -1,5 +1,3 @@
-package com.reflectTest.www;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
