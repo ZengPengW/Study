@@ -1,188 +1,76 @@
-import javax.xml.transform.Templates;
+import java.util.Scanner;
 
-import org.omg.CORBA.INTERNAL;
 
-public class Test1 {
-
+public class Test {
+	private static int sum=0;
 	public static void main(String[] args) throws Exception {
-		int[] arr = { 9, 7, 8, 6, 4, 5, 3, 1, 2 };
-		// xuanze(arr);
-		// charu(arr);
-		// xier(arr);
-		// maopao(arr);
-		// kuaisu(arr, 0, arr.length-1);
-		//guibing(arr, 0, arr.length - 1);
-		//guibingRE(arr);
-		//threeKuaiSu(arr, 0, arr.length-1);
-		for (int i : arr) {
-			System.out.print(i);
+		int [][] cell=new int[10000][10000];
+		Scanner scan=new Scanner(System.in);
+		for (int i = 3000; i <3011; i++) {
+			String str=scan.nextLine();
+			for (int j = 0; j <str.length(); j++) {
+				if (String.valueOf(str.charAt(j)).equals("X")) {
+					cell[i][j+3000]=1;
+				}		
+			}	
 		}
-	}
-
-	public static void xuanze(int[] arr) {
-		int min = 0;
-		for (int i = 0; i < arr.length; i++) {
-			min = i;
-			for (int j = i + 1; j < arr.length; j++) {
-				if (arr[min] > arr[j]) {
-					min = j;
-				}
-
-			}
-			int temp = arr[i];
-			arr[i] = arr[min];
-			arr[min] = temp;
-		}
-
-	}
-
-	public static void charu(int[] arr) {
-
-		for (int i = 1; i < arr.length; i++) {
-			for (int j = i; j > 0; j--) {
-				if (arr[j] < arr[j - 1]) {
-					int temp = arr[j];
-					arr[j] = arr[j - 1];
-					arr[j - 1] = temp;
-				}
-
-			}
-
-		}
-	}
-
-	public static void xier(int[] arr) {
-		int id = 1;
-		while ((arr.length) / 3 > id)
-			id = id * 3 + 1;
-
-		while (id >= 1) {
-			for (int i = id; i < arr.length; i++) {
-				for (int j = i; j >= id; j -= id) {
-					if (arr[j] < arr[j - id]) {
-						int temp = arr[j];
-						arr[j] = arr[j - id];
-						arr[j - id] = temp;
+		for (long j = 0; j <1000000000; j++) {
+			f(cell);
+			for (int[] is : cell) {
+				for (int i : is) {
+					if (i==1) {
+						sum++;
 					}
 				}
 			}
-			id /= 3;
+			System.out.print(sum+" ");
+			sum=0;
 		}
+		
+		
+	
 	}
 
-	public static void maopao(int[] arr) {
-
-		for (int i = 0; i < arr.length; i++) {
-			for (int j = 0; j < arr.length - 1; j++) {
-				if (arr[j] > arr[j + 1]) {
-					int temp = arr[j];
-					arr[j] = arr[j + 1];
-					arr[j + 1] = temp;
-				}
-
+	
+public static void f(int[][]cell) {
+	int [][]live= new int[10000][10000];
+	int [][]die= new int[10000][10000];
+	
+	int li=0;
+	
+for (int i = 0; i < cell.length; i++) {
+	for (int j = 0; j < cell[i].length; j++) {
+		li=0;
+		if (i-1>=0&&i+1<10000&&j+1<10000&&j-1>=0) {
+			for (int k = i-1; k <=i+1; k++) {
+				for (int l = j-1; l <=j+1; l++) {
+				if (cell[k][l]==1)
+				 li++;														
+				}	
 			}
-
 		}
-	}
-
-	public static int qeifen(int[] arr, int lo, int hi) {
-		int temp = arr[lo];
-
-		while (lo < hi) {
-			while (arr[hi] > temp && lo < hi)
-				hi--;
-			arr[lo] = arr[hi];
-
-			while (arr[lo] < temp && lo < hi)
-				lo++;
-			arr[hi] = arr[lo];
-
+		if (cell[i][j]==1&&(li<2||li>3)) {
+			die[i][j]=1;
+		}else if (cell[i][j]==0&&li==3) {
+			live[i][j]=1;
 		}
-		arr[hi] = temp;
-		return hi;
-
-	}
-
-	public static void kuaisu(int[] arr, int lo, int hi) {
-		if (lo >= hi) {
-			return;
-		}
-
-		int index = qeifen(arr, lo, hi);
-		kuaisu(arr, lo, index - 1);
-		kuaisu(arr, index + 1, hi);
-
-	}
-
-	private static int[] a;
-
-	public static void guiBingArr(int[] arr, int lo, int mid, int hi) {
-		if (arr[mid]<arr[mid+1]) {
-			return;
-		}
-		int j = lo;
-		int k = mid + 1;
-		a = new int[hi + 1];
-		for (int i = lo; i <= hi; i++) {
-			a[i] = arr[i];
-		}
-		for (int i = lo; i <= hi; i++) {
-			if (j > mid)
-				arr[i] = a[k++];
-			else if (k > hi)
-				arr[i] = a[j++];
-			else if (a[j] < a[k])
-				arr[i] = a[j++];
-			else
-				arr[i] = a[k++];
-		}
-
-	}
-
-	public static void guibing(int[] arr, int lo, int hi) {
-		if (lo >= hi) {
-			return;
-		}
-		int mid = (hi - lo) / 2 + lo;
-		guibing(arr, lo, mid);
-		guibing(arr, mid + 1, hi);
-		guiBingArr(arr, lo, mid, hi);
-	}
-
-	public static void guibingRE(int[] arr) {
-		int n = arr.length;
-		for (int i = 1; i < n; i += i) {
-			for (int j = 0; j <n-i; j+=i+i) {
-				guiBingArr(arr, j, j+i-1,Math.min(n-1, j+i-1+i));
-			}
-
-		}
-
+		
 	}
 	
-	public static void threeKuaiSu(int [] arr,int lo ,int hi) {
-		if (lo>=hi) {
-			return;
+}
+
+for (int i = 0; i < die.length; i++) {
+	for (int j = 0; j < die.length; j++) {
+		if (die[j][i]==1) {
+			cell[j][i]=0;
 		}
-		int lt=lo,i=lo+1,gt=hi;
-		while (i<=gt) {
-			if (arr[i]<arr[lt]) {
-				int temp=arr[i];
-				arr[i]=arr[lt];
-				arr[lt]=temp;
-				i++;
-				lt++;
-			}else if (arr[i]>arr[gt]) {
-				int temp=arr[i];
-				arr[i]=arr[gt];
-				arr[gt]=temp;
-				gt--;				
-			}else {
-				i++;
-			}
-			
+		if (live[j][i]==1) {
+			cell[j][i]=1;
 		}
-		threeKuaiSu(arr, lo, lt-1);
-		threeKuaiSu(arr, gt+1,hi);
+		
 	}
+	
+}
+System.gc();	
+}
 }
