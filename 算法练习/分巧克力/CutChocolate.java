@@ -4,7 +4,7 @@ public class CutChocolate {
 
 	private static int N;
 	private static int K;
-	private static int min;
+	private static int max=0;
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
@@ -14,20 +14,21 @@ public class CutChocolate {
 		for (int i = 0; i < cho.length; i++) {
 			cho[i][0] = scan.nextInt();
 			cho[i][1] = scan.nextInt();
-			if (min < cho[i][0] || min < cho[i][1]) {
-				min = Math.min(cho[i][0], cho[i][1]);
+			if (max < cho[i][0] || max <cho[i][1]) {
+				max = Math.max(cho[i][0], cho[i][1]);
 			}
 		}
 		f2(cho);
+		//f1(cho);
 		scan.close();
 
 	}
 
-	// 方法一
+
 	public static void f1(int[][] cho) {
 
 		long sum = 0;
-		for (long i = min; min / i >= 1; i--) {
+		for (long i = max; max / i >= 1; i--) {
 
 			sum = 0;
 			for (int j = 0; j < cho.length; j++) {
@@ -44,12 +45,12 @@ public class CutChocolate {
 
 	}
 
-	// 方法二 ：二分法
+	
 	public static void f2(int[][] cho) {
 		long sum = 0;
-		int index = min / 2;
+		int index = max / 2;
 		int l = 1;
-		int r = min;
+		int r = max;
 		while (l <= r) {
 			sum = 0;
 			for (int j = 0; j < cho.length; j++) {
