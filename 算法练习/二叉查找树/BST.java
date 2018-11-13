@@ -5,7 +5,7 @@ public class BST {
 		BST bs=new BST();
 		
 		
-		bs.put(3, "c");
+		bs.put(1, "c");
 		bs.put(2, "b");
 		bs.put(5, "d");
 		bs.put(11, "a");
@@ -13,11 +13,16 @@ public class BST {
 		bs.put(9, "d");
 		bs.put(8, "a");
 		
-		System.out.println(bs.size());
-		System.out.println(bs.get(2));
-		System.out.println(bs.min());
-		System.out.println(bs.floor(6));
-		System.out.println(bs.select(3));
+		System.out.println("查询二叉树大小:"+bs.size());
+		System.out.println("查询指定key的value:"+bs.get(2));
+		System.out.println("查询最小key:"+bs.min());
+		System.out.println("查询比key小的最大key:"+bs.floor(6));
+		System.out.println("查询第n大的key:"+bs.select(5));
+		System.out.println("查询key小于指定key的个数:"+bs.rank(9));
+		System.out.println("删除最小key: bs.deleteMin();");bs.deleteMin();
+		bs.delete(5);
+	
+		
 		System.out.print(bs.root);
 		
 		
@@ -131,6 +136,56 @@ public class BST {
 		if(t>k)return select(x.left, k);
 		else if(t<k) return select(x.right, k-t-1);
 		else return x;
+	}
+	
+	public  int  rank(int key) {
+		
+		return rank(key,root);
+		
+	}
+
+	private int rank(int key, Node x) {
+		if(x==null)return 0;
+		int cmp=key>(x.key)?1:key==(x.key)?0:-1;
+		if(cmp<0)return rank(key,x.left);
+		else if(cmp>0) return 1+size(x.left)+rank(key, x.right);
+		else return size(x.left);
+		
+	}
+	
+	public void deleteMin(){
+		root=deleteMin(root);
+	}
+
+	private Node deleteMin(Node x) {
+		if(x.left==null)return x.right;
+		x.left=deleteMin(x.left);
+		x.N=size(x.left)+size(x.right)+1;
+		return x;
+		
+	}
+	
+	public void delete(int key){
+		root=delete(root,key);
+	}
+
+	private Node delete(Node x, int key) {
+		
+		if(x==null)return null;
+		int cmp=key>(x.key)?1:key==(x.key)?0:-1;
+		if(cmp>0) x.right=delete(x.right, key);
+		else if(cmp<0) x.left=delete(x.left, key);
+		else {
+			if(x.left==null)return x.right;
+			if(x.right==null)return x.left;
+			Node t=x;
+			x=min(t.right);
+			x.right=deleteMin(t.right);
+			x.left=t.left;
+			
+		}
+		x.N=size(x.left)+size(x.right)+1;
+		return x;
 	}
 
 }
