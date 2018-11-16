@@ -1,13 +1,12 @@
+import java.security.Key;
+
 
 public class RedBlackBST {
 
 	private static final boolean RED=true;
 	private static final boolean BLACK=false;
 	
-	public static void main(String[] args) {
-		
 
-	}
 	private Node root;
 	private class Node{
 		private int key ;
@@ -96,12 +95,108 @@ public class RedBlackBST {
 	
 
 	public int min(){
-		return min(root).key;
+		
+		Node x= min(root);
+		if(x==null) return -1;
+		return x.key;
 	}
 
 	private Node min(Node x) {
+		if(x==null)return null;
 		if (x.left==null) return x;
 		return min(x.left);
+		
+	}
+	public int max(){
+		Node x=max(root);
+		if(x==null) return -1;
+		return x.key;
+	}
+	private Node max(Node x) {
+		if(x==null)return null;
+		if(x.right==null)return x;
+		
+		return max(x.right);
+	}
+
+	public int floor(int key){
+		Node x=floor(root,key);
+		if(x==null)return -1;
+		return x.key;
+		
+	}
+
+	private Node floor(Node x, int key) {
+		if(x==null)return null;
+		int cmp=key>(x.key)?1:key==(x.key)?0:-1;
+		if (cmp<0)return floor(x.left, key);
+		if (cmp==0)return x;
+		Node t=floor(x.right, key);
+		if(t!=null) return t;
+		else return x;
+		
+	
+	}
+	public int select(int k){
+		if(k>size()-1)return -1;
+		return select(root,k).key;
+	}
+
+	private Node select(Node x, int k) {
+		
+		if(x==null)return null;
+		int t=size(x.left);
+		if(t>k)return select(x.left, k);
+		else if(t<k) return select(x.right, k-t-1);
+		else return x;
+	}
+	
+	public  int  rank(int key) {
+		
+		return rank(key,root);
+		
+	}
+
+	private int rank(int key, Node x) {
+		if(x==null)return 0;
+		int cmp=key>(x.key)?1:key==(x.key)?0:-1;
+		if(cmp<0)return rank(key,x.left);
+		else if(cmp>0) return 1+size(x.left)+rank(key, x.right);
+		else return size(x.left);
+		
+	}
+	public String get(int key){
+		return get(key,root);
+	}
+	private String get(int key, Node x) {
+		if (x==null)return null;
+		int cmp=key>(x.key)?1:key==(x.key)?0:-1;
+		if(cmp<0)return get(key, x.left);
+		else if(cmp>0)return get(key, x.right);
+		else return x.val;
+		
+	}
+	
+
+	
+
+	public static void main(String[] args) {
+		RedBlackBST rbt=new RedBlackBST();
+		rbt.put(9, "A");
+		rbt.put(4, "B");
+		rbt.put(7, "C");
+		rbt.put(8, "D");
+		rbt.put(2, "E");
+		rbt.put(5, "F");
+		rbt.put(3, "G");
+		
+		System.out.println("查询二叉树大小:"+rbt.size());
+		System.out.println("查询指定key的value:"+rbt.get(2));
+		System.out.println("查询最小key:"+rbt.min());
+		System.out.println("查询最大key:"+rbt.max());
+		System.out.println("查询比key小的最大key:"+rbt.floor(6));
+		System.out.println("查询第n大的key:"+rbt.select(1));
+		System.out.println("查询key小于指定key的个数:"+rbt.rank(6));
 		
 	}
 
