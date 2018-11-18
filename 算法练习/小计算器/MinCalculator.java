@@ -46,6 +46,7 @@ public class MinCalculator
 			case 4:
 				Clear();
 				count=0;
+				index=-1;
 				break;
 			case 5:
 				if(count==0){
@@ -65,17 +66,34 @@ public class MinCalculator
 		numb=0;
 	}
 	public static long NUM(String s){
-		return Long.valueOf(s,radix);	
+	
+		return Long.valueOf(s, radix);
+		
+//		char [] ch=s.toCharArray();
+//		long sum=0;
+//		long currad=1;
+//		for (int i =  ch.length-1; i >=0; i--) {
+//			
+//			if (ch[i]>='A'&&ch[i]<='Z') {
+//				sum+=(ch[i]-'A'+10)*currad;
+//			}else {
+//				sum+=(ch[i]-'0')*currad;
+//			}
+//			
+//			currad*=radix;
+//		}
+//		
+//		return sum;	
 		
 	}
 	public static void Equal() {
-		System.out.println(Long.toString(numb, radix));
+		System.out.println(Long.toString(numb, radix).toUpperCase());
 	}
 	public static void Change(String rdx) {
 		radix=Integer.valueOf(rdx);
 	}
 	
-	public static void MyMath(Long num,String sigh) {
+	public static void MyMath(long num,String sigh) {
 	//'ADD','SUB','MUL','DIV','MOD'	
 		int sigh1 = 0;
 		if (sigh.equals("ADD")) sigh1=1;
