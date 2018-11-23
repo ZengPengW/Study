@@ -1,59 +1,63 @@
 import java.util.Scanner;
 
-public class Cs {
-	private static int[] num = new int[3];
-	private static int maxLcn=0;
-	public static void main(String[] args) {
-
-		Scanner scan = new Scanner(System.in);
-		int n = scan.nextInt();
-		dfs(n, 1, 0);
-		System.out.println(maxLcn);
-
+class ReTree{
+	public ReTree root;
+	public ReTree left;
+	public ReTree right;
+	public int val;
+	public  ReTree(int v) {
+		this.val=v;
 	}
-
-	public static void f2(int n) {
-		int []arr=new int[3];
-		int[] book=new int [3];
-		for (int i = n; i >=1; i--) {
-			if(i%2==0)arr[1]=i;
-			if(i%2!=0)arr[2]=i;
-			
-			
-		}
-	}
-	public static boolean isSushu(int num) {
-		for (int i = 2; i*i<=num; i++) {
-			if(num%i)
-			
-		}
-	}
-	public static void dfs(int n, int id, int index) {
-		if (index >= 3) {
-			maxLcn=Math.max(maxLcn, maxLcn(num));
-			
-			return;
-		}
-		for (int i = id; i <= n; i++) {
-			num[index] = i;
-			dfs(n, i + 1, index + 1);
-		}
-	}
-
-	public static int maxLcn(int[] num) {
-
-		int gcd = num[0];
-		for (int i = 1; i <= 2; i++)
-			gcd = gcd(gcd, num[i]);
-
-		return (num[0] * num[1] * num[2]) / gcd;
-
-	}
-
-	public static int gcd(int a, int b) {
-		if (b == 0)
-			return a;
-		return gcd(b, a % b);
-	}
-
 }
+
+public class Cs {
+	private static ReTree root;
+	public static void main(String[] args) {
+		Scanner scan=new Scanner(System.in);
+		int n=2*scan.nextInt()-1;
+		int []num=new int[n+1];
+		for (int i = 1; i <=n; i++) {
+			num[i]=scan.nextInt();
+		}
+	}
+	
+	public static void setTree(int num) {
+		
+		root=setTree(num,root);
+		
+//		int[] arr=new int [num.length];
+//	
+//		int id = 0;
+//		for (int i =1; i < num.length; i++) {
+//			if(num[i]==0) {
+//				arr[i]=0;
+//				arr[i*2]=arr[i+1];
+//				if(i*2+1<=num.length-1)arr[i*2+1]=arr[i+2];
+//				
+//			}else {
+//				arr[i]=num[i];
+//			}
+			
+			
+			
+		}
+
+	private static ReTree setTree(int num, ReTree x) {
+		
+		if(x==null)return new ReTree(num);
+		if(x.left.val==0)return x.left=setTree(num, x.left);
+		
+		if(x.val==0&&x.left==null)x.left=setTree(num, x.left);
+		else if (x.val==0&&x.right==null)x.right=setTree(num, x.right);
+		else x.left=setTree(num, x.left);
+			
+		
+		
+		return x;
+	}
+		
+		
+		
+		
+		
+	}
