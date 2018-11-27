@@ -1,63 +1,32 @@
 import java.util.Scanner;
 
-class ReTree{
-	public ReTree root;
-	public ReTree left;
-	public ReTree right;
-	public int val;
-	public  ReTree(int v) {
-		this.val=v;
-	}
-}
 
 public class Cs {
-	private static ReTree root;
+	
 	public static void main(String[] args) {
-		Scanner scan=new Scanner(System.in);
-		int n=2*scan.nextInt()-1;
-		int []num=new int[n+1];
-		for (int i = 1; i <=n; i++) {
-			num[i]=scan.nextInt();
+	Scanner scan =new Scanner(System.in);
+	String num=Integer.toString(scan.nextInt(), 2);
+	//2(2(2)+2(2(0))+2+)+2(2+2(0))+2()
+	//2£¨2£¨2£©+2+2£¨0£©£©+2£¨2+2£¨0£©£©+2£¨0£©
+	//2(2(2)+2(2(0))+2()+)+2(2+2(0))+2()+
+	System.out.println(f(num, 0));
+	}
+	public static String f(String num,int id) {
+		if(num.equals("1"))return "2(0)";
+		if(num.equals("10"))return "2";
+		if(num.equals("11"))return "2+2(0)";
+		String str="";
+		while (num.indexOf("1", id)!=-1) {
+			id=num.indexOf("1", id);
+			String val=Integer.toString((num.length()-id-1),2);
+			str+="2("+f(val, 0)+")+";
+			
+			id+=1;
 		}
+		
+		return str;
+		
 	}
 	
-	public static void setTree(int num) {
-		
-		root=setTree(num,root);
-		
-//		int[] arr=new int [num.length];
-//	
-//		int id = 0;
-//		for (int i =1; i < num.length; i++) {
-//			if(num[i]==0) {
-//				arr[i]=0;
-//				arr[i*2]=arr[i+1];
-//				if(i*2+1<=num.length-1)arr[i*2+1]=arr[i+2];
-//				
-//			}else {
-//				arr[i]=num[i];
-//			}
-			
-			
-			
-		}
+}
 
-	private static ReTree setTree(int num, ReTree x) {
-		
-		if(x==null)return new ReTree(num);
-		if(x.left.val==0)return x.left=setTree(num, x.left);
-		
-		if(x.val==0&&x.left==null)x.left=setTree(num, x.left);
-		else if (x.val==0&&x.right==null)x.right=setTree(num, x.right);
-		else x.left=setTree(num, x.left);
-			
-		
-		
-		return x;
-	}
-		
-		
-		
-		
-		
-	}
