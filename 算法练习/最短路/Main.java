@@ -2,7 +2,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-public class Main {
+public class Main{
 	private static int[][] map;
 	private static int[] val;
 	private static int m;
@@ -33,7 +33,7 @@ public class Main {
 		val[1] = 0;
 		//dijkstra();
 		// bellman_ford();
-		bellman_ford_que() 
+		bellman_ford_que() ;
 		for (int i = 2; i < val.length; i++) {
 			System.out.println(val[i]);
 		}
@@ -120,6 +120,4 @@ public static void bellman_ford_que() {
 		
 	}
 }
-}
-
 }
