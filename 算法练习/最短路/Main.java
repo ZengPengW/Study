@@ -29,8 +29,8 @@ public class Main {
 		}
 		map[1][1] = 0;
 		val[1] = 0;
-		dijkstra();
-		// bellman_ford();
+		//dijkstra();
+		 bellman_ford();
 		for (int i = 2; i < val.length; i++) {
 			System.out.println(val[i]);
 		}
@@ -81,18 +81,21 @@ public class Main {
 			}
 		}
 
-		flag = false;
-		for (int j = 1; j < map.length; j++) {
-			for (int k = 1; k < map.length; k++) {
-				if (map[j][k] != 999999 && val[j] != 999999 && val[k] > map[j][k] + val[j]) {
-					flag = true;
+		if(flag) {
+			flag = false;
+			for (int j = 1; j < map.length; j++) {
+				for (int k = 1; k < map.length; k++) {
+					if (map[j][k] != 999999 && val[j] != 999999 && val[k] > map[j][k] + val[j]) {
+						flag = true;
+					}
 				}
 			}
+			if (flag) {
+				System.out.println("存在负环-无最短路");
+				System.exit(0);
+			}
 		}
-		if (flag) {
-			System.out.println("存在负环-无最短路");
-			System.exit(0);
-		}
+		
 
 	}
 }
