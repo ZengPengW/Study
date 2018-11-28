@@ -30,7 +30,8 @@ public class Main {
 		map[1][1] = 0;
 		val[1] = 0;
 		//dijkstra();
-		 bellman_ford();
+		// bellman_ford();
+		bellman_ford_que() 
 		for (int i = 2; i < val.length; i++) {
 			System.out.println(val[i]);
 		}
@@ -98,4 +99,25 @@ public class Main {
 		
 
 	}
+
+public static void bellman_ford_que() {
+
+	Queue<Integer> id=new LinkedList<Integer>();
+	
+	id.offer(1);
+	
+	while(!id.isEmpty()){
+		int w=id.poll();
+		for (int i = 1; i < map.length; i++) {
+			if(map[w][i]!=999999&&val[i]>map[w][i]+val[w]){
+				val[i]=map[w][i]+val[w];
+				if(!id.contains(i))id.offer(i);
+				
+			}	
+		}
+		
+	}
+}
+}
+
 }
