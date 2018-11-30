@@ -24,7 +24,8 @@ public class LakeVex {
 	}
 	public static void dfs(int []num,int id,int index) {
 		
-		if(id>=n&&check(num)) {
+		if(id>=n) {
+			if(check(num))
 			count++;
 			return;
 		}
