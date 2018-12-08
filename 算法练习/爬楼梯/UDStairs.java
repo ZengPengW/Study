@@ -10,11 +10,11 @@ public class UDStairs{
 		
 		
 		if(n<=0){
-			System.out.println(0);
+			System.out.println(1%m);
 			return;
 		}
 		if(n==1){
-			System.out.println(1%m);
+			System.out.println(2%m);
 			return;
 		}
 		if(n==2){
