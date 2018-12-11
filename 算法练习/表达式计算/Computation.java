@@ -26,10 +26,11 @@ public class Computation{
 		Stack<String> op = new Stack<String>();
 		Queue<String> que = new LinkedList<String>();
 		String snum="";
-		
+		int mark=0;//标记上一个是左括号
 		for (int i = 0; i < c.length; i++) {
 			snum="";
-			if ((i==0&&c[i]=='-')||c[i] >= '0' && c[i] <= '9') {
+			if ((c[i] >= '0' && c[i] <= '9')||(i==0&&c[i]=='-')||(mark==1&&c[i]=='-')) {
+				if(mark==1)mark=0;
 				snum+=c[i];
 				while(i<c.length){
 					if (i+1<c.length&&c[i+1] >= '0' && c[i+1] <= '9'){
@@ -64,7 +65,8 @@ public class Computation{
 							break;
 						}	
 					}
-				}
+					
+				}else mark=1;
 				
 				op.push("" + c[i]);
 			}
