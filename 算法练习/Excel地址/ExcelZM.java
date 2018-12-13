@@ -44,7 +44,7 @@ ArrayList<Integer> al=new ArrayList<Integer>();
 			}
 			if (i>0&&num-sum<=db[i-1]) {
 				al.add(j);
-				i=-1;
+				i=i-2;
 				num=num-sum;
 				break;
 			}
