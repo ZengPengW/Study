@@ -1,51 +1,54 @@
+package 蓝桥杯;
+
 import java.util.Scanner;
 
 
 
-public class TEST {
+public class Testcs {
 
 	public static void main(String[] args) {
 
-		TEST bs=new TEST();
+		Testcs bs=new Testcs();
 		Scanner sc=new Scanner(System.in);
 		String[] str=sc.nextLine().split(" ");
 		for (int i = 0,len=str.length; i < len; i++) {
 			bs.put(Integer.parseInt(str[i]), str[i]);	
 		}
 		
-		print(bs.root, 1, 0);
+		print(bs.root, 1,"");
 		
 		
 	}
-	private static int firstlen;
-	public static void print(Node x,int id,int len) {
+	
+	public static void print(Node x,int id,String str) {
 		if(x==null)return;
 		int key=x.key;
 		int h=(int) (Math.log(id)/Math.log(2)+1);//所在高度
-		String str;
+		
 		
 		if(h==1){
 			str=key+"-|";	
-			len=str.length();
-			firstlen=len;
 		}
 		else if(h==2){
-			str=String.format("%"+(firstlen-1)+"s%s", "","|").replace(" ", ".");
+			str=str.replaceAll("\\d|\\-", ".");
 			if(x.left==null&&x.right==null)str+="-"+key;
 			else str+="-"+key+"-|";
-			len=str.length();
 		}else {
-			
-			str=String.format("%"+(firstlen-1)+"s%s", "","|").replace(" ", ".");
-			str+=String.format("%"+(len-firstlen-1)+"s%s", "","|").replace(" ", ".");
+			str=str.replaceAll("\\d|\\-", ".");
+			if((x.fa.fa.left!=null&&x.fa.fa.left.left==x)||(x.fa.fa.right!=null&&x.fa.fa.right.right==x))
+			{
+				int index=str.lastIndexOf("|", str.length()-2);
+				str=str.substring(0, index)+"."+str.substring(index+1, str.length());
+				
+			}
 			if(x.left==null&&x.right==null)str+="-"+key;
 			else str+="-"+key+"-|";
-			len=str.length();
+			
 			
 		}
-		print(x.right,id*2+1,len);
+		print(x.right,id*2+1,str);
 		System.out.println(str);
-		print(x.left,id*2,len);
+		print(x.left,id*2,str);
 		
 		
 		
@@ -58,13 +61,14 @@ public class TEST {
 	private class Node {
 		private int key;
 		private String val;
-		private Node left, right;
+		private Node left, right,fa;
 		private int N;
 
-		private Node(int key, String val, int N) {
+		private Node(int key, String val, int N,Node fa) {
 			this.key = key;
 			this.N = N;
 			this.val = val;
+			this.fa=fa;
 		}
 
 		@Override
@@ -87,35 +91,19 @@ public class TEST {
 			return x.N;
 	}
 
-	public String get(int key) {
-		return get(root, key);
-	}
-
-	public String get(Node x, int key) {
-		if (x == null)
-			return null;
-		int cmp = key > x.key ? 1 : key == x.key ? 0 : -1;
-		if (cmp < 0)
-			return get(x.left, key);
-		else if (cmp > 0)
-			return get(x.right, key);
-		else
-			return x.val;
-
-	}
 
 	public void put(int key, String val) {
-		root = put(root, key, val);
+		root = put(root, key, val,null);
 	}
 
-	public Node put(Node x, int key, String val) {
+	public Node put(Node x, int key, String val,Node fa) {
 		if (x == null)
-			return new Node(key, val, 1);
+			return new Node(key, val, 1,fa);
 		int cmp = key > x.key ? 1 : key == x.key ? 0 : -1;
 		if (cmp < 0)
-			x.left = put(x.left, key, val);
+			x.left = put(x.left, key, val,x);
 		else if (cmp > 0)
-			x.right = put(x.right, key, val);
+			x.right = put(x.right, key, val,x);
 		else
 			x.val = val;
 		x.N = size(x.left) + size(x.right) + 1;
@@ -123,22 +111,6 @@ public class TEST {
 	}
 	
 
-	public int select(int k){
-		return select(root,k).key;
-	}
-
-	private Node select(Node x, int k) {
-		
-		if(x==null)return null;
-		int t=size(x.left);
-		if(t>k)return select(x.left, k);
-		else if(t<k) return select(x.right, k-t-1);
-		else return x;
-	}
-	
-	
-
-	
 	
 	
 }
