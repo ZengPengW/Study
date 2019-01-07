@@ -1,48 +1,144 @@
 import java.util.Scanner;
 
-public class Main2 {
-	private static int  maxv=0;
+
+
+public class TEST {
+
 	public static void main(String[] args) {
+
+		TEST bs=new TEST();
 		Scanner sc=new Scanner(System.in);
-		int n=sc.nextInt();
-		dfs(1, (n+1)/2, n,0, 3);
-		System.out.println(maxv);
-	}
-	public static void dfs(int lo,int mid,int hi,int con,int sj) {
-		if(hi<lo){
-			if(maxv<con)maxv=con;
-			return;
+		String[] str=sc.nextLine().split(" ");
+		for (int i = 0,len=str.length; i < len; i++) {
+			bs.put(Integer.parseInt(str[i]), str[i]);	
 		}
-		if(sj==0){
-			return;
-		}
-		dfs(lo,(mid+lo)/2,mid-1,con+1,sj-1);
-		dfs(mid+1,(hi+mid)/2+1,hi,con+1,sj);
+		
+		print(bs.root, 1, 0);
+		
+		
 	}
+	private static int firstlen;
+	public static void print(Node x,int id,int len) {
+		if(x==null)return;
+		int key=x.key;
+		int h=(int) (Math.log(id)/Math.log(2)+1);//所在高度
+		String str;
+		
+		if(h==1){
+			str=key+"-|";	
+			len=str.length();
+			firstlen=len;
+		}
+		else if(h==2){
+			str=String.format("%"+(firstlen-1)+"s%s", "","|").replace(" ", ".");
+			if(x.left==null&&x.right==null)str+="-"+key;
+			else str+="-"+key+"-|";
+			len=str.length();
+		}else {
+			
+			str=String.format("%"+(firstlen-1)+"s%s", "","|").replace(" ", ".");
+			str+=String.format("%"+(len-firstlen-1)+"s%s", "","|").replace(" ", ".");
+			if(x.left==null&&x.right==null)str+="-"+key;
+			else str+="-"+key+"-|";
+			len=str.length();
+			
+		}
+		print(x.right,id*2+1,len);
+		System.out.println(str);
+		print(x.left,id*2,len);
+		
+		
+		
+	}
+	private Node root;
+	/*
+	 * 判断条件为该结点父结点的父结点存在且该父节点的左孩子的左孩子或者右孩子的右孩子为当前结点时
+	 * “|”位置替换为“.”其他情况下“|”的位置不变。
+	 */
+	private class Node {
+		private int key;
+		private String val;
+		private Node left, right;
+		private int N;
+
+		private Node(int key, String val, int N) {
+			this.key = key;
+			this.N = N;
+			this.val = val;
+		}
+
+		@Override
+		public String toString() {
+			return "Node [key=" + key + ", val=" + val + ", left=" + left
+					+ ", right=" + right + ", N=" + N + "]";
+		}
+
+		
+	}
+
+	public int size() {
+		return size(root);
+	}
+
+	public int size(Node x) {
+		if (x == null)
+			return 0;
+		else
+			return x.N;
+	}
+
+	public String get(int key) {
+		return get(root, key);
+	}
+
+	public String get(Node x, int key) {
+		if (x == null)
+			return null;
+		int cmp = key > x.key ? 1 : key == x.key ? 0 : -1;
+		if (cmp < 0)
+			return get(x.left, key);
+		else if (cmp > 0)
+			return get(x.right, key);
+		else
+			return x.val;
+
+	}
+
+	public void put(int key, String val) {
+		root = put(root, key, val);
+	}
+
+	public Node put(Node x, int key, String val) {
+		if (x == null)
+			return new Node(key, val, 1);
+		int cmp = key > x.key ? 1 : key == x.key ? 0 : -1;
+		if (cmp < 0)
+			x.left = put(x.left, key, val);
+		else if (cmp > 0)
+			x.right = put(x.right, key, val);
+		else
+			x.val = val;
+		x.N = size(x.left) + size(x.right) + 1;
+		return x;
+	}
+	
+
+	public int select(int k){
+		return select(root,k).key;
+	}
+
+	private Node select(Node x, int k) {
+		
+		if(x==null)return null;
+		int t=size(x.left);
+		if(t>k)return select(x.left, k);
+		else if(t<k) return select(x.right, k-t-1);
+		else return x;
+	}
+	
+	
+
+	
+	
+	
 }
-/*
- *
- *#include<stdio.h>
-#define Max(a,b) (a>b?a:b)
-#define Min(a,b) (a<b?a:b)
-int dp[1005][50];
-int main(int argc, char* argv[])
-{
-    int n,m;
-    scanf("%d%d",&n,&m);
-    for (int i=1;i<=n;i++)
-        dp[i][1]=i;
-    for (int cnt=2;cnt<=m;cnt++)
-    {
-        for (int ind=1;ind<=n;ind++)
-        {
-            dp[ind][cnt]=1+dp[ind-1][cnt];
-            for (int k=2;k<ind;k++)
-                dp[ind][cnt]=Min(dp[ind][cnt],1+Max(dp[k-1][cnt-1],dp[ind-k][cnt]));
-        }
-    }
-    printf("%d\n",dp[n][m]);
-    return 0;
-}
- 
- */
