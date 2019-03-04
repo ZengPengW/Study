@@ -1,0 +1,12 @@
+困难的串
+      如果一个字符串包含两个相邻的重复子串，则称它为容易的串，其他串称为困难的串。
+如：BB , ABCDACABCAB , ABCDABCD 都是容易的，A, AB，ABA，D, DC, ABDAB, CBABCBA 都是
+困难的。
+
+      输入正整数n，L输出由前L个字符（大写英文字母）组成的，字典序第n小的困难的串。
+例如，当L=3时，前7个困难数的串分别为：
+A,AB,ABA,ABAC,ABACA,ABACAB,ABACABA
+
+n=4时
+输出ABAC
+	
