@@ -1,97 +1,86 @@
+
+
+import java.util.ArrayList;
+
 public class CutStamp {
-	private static int sum = 0;
-	private static int[] book = new int[13];
-	private static int[] num = new int[5];
-	private static int[][] map1 = new int[3][5];
-	private static int[][] fx = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
-	private static int js = 1;
 
 	public static void main(String[] args) {
-		f(0, 1);
-		System.out.println(sum);
+		int[] mark = new int[13];
+		ArrayList<Integer> arr = new ArrayList<Integer>(5);
+		f(mark, arr, 0, 0);
+		System.out.println(ans);
+
 	}
 
-	public static void fz() {
-		for (int i = 0; i < 5; i++) {
-			int j = num[i];
-			if (j <= 4) {
-				map1[0][j] = j;
-			} else if (j <= 8) {
-				map1[1][j - 4] = j;
-			} else {
-				map1[2][j - 8] = j;
-			}
-		}
-	}
+	private static int ans = 0;
 
-	public static void hs() {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 5; j++) {
-				map1[i][j] = 0;
-			}
-		}
-	}
-
-	public static int[] zuobiao() {
-		int[] arr = new int[2];
-		
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 5; j++) {
-				if (map1[i][j] != 0) {
-					arr[0] = i;
-					arr[1] = j;
-					break;
-				}
-
-			}
-			if (arr[0] != 0) {
-				break;
-			}
-		}
-
-		return arr;
-	}
-
-	public static void f(int index, int id) {
-
+	public static void f(int[] mark, ArrayList<Integer> arr, int index, int cur) {
 		if (index == 5) {
-			fz();
-			int[] arr = zuobiao();
-			check(arr[0], arr[1]);
-			if (js == 5) {
-				sum++;
+			if (check(arr)) {
+				ans++;
 			}
-			hs();
-			js = 1;
-
 			return;
 		}
-		for (int i = id; i <= 12; i++) {
-			if (book[i] == 0) {
-				num[index] = i;
-				book[i] = 1;
-				f(index + 1, i + 1);
-				book[i] = 0;
-				num[index] = 0;
-			}
-
-		}
-
-	}
-
-	public static void check(int x, int y) {
-
-		map1[x][y] = 999;
-		for (int k = 0; k < 4; k++) {
-			if (x + fx[k][0] >= 0 && x + fx[k][0] < 3 && y + fx[k][1] >= 1
-					&& y + fx[k][1] < 5
-					&& map1[x + fx[k][0]][y + fx[k][1]] != 0
-					&& map1[x + fx[k][0]][y + fx[k][1]] != 999) {
-				js++;
-				check(x + fx[k][0], y + fx[k][1]);
+		for (int i = cur + 1; i <= 12; i++) {
+			if (mark[i] == 0) {
+				arr.add(i);
+				mark[i] = 1;
+				f(mark, arr, index + 1, i);
+				mark[i] = 0;
+				arr.remove(arr.size() - 1);
 			}
 		}
 	}
 
+	private static boolean check(ArrayList<Integer> arr) {
+		int stx = 0, sty = 0;
+		boolean flag = false;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (map[i][j] == arr.get(0)) {
+					stx = i;
+					sty = j;
+					flag = true;
+					break;
+				}
+			}
+			if (flag)
+				break;
+		}
+
+		for (int i = 1; i <= 4; i++) {
+			int[][] mark = new int[3][4];
+			mark[stx][sty] = 1;
+			if (!dfs(stx, sty, arr.get(i), mark, arr)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private static int[][] map = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 },
+			{ 9, 10, 11, 12 } };
+	private static int[][] dir = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+
+	public static boolean dfs(int stx, int sty, int mdv, int[][] mark,
+			ArrayList<Integer> arr) {
+		if (map[stx][sty] == mdv) {
+			return true;
+		}
+
+		for (int i = 0; i < 4; i++) {
+			int x = dir[i][0] + stx;
+			int y = dir[i][1] + sty;
+			if (x >= 0 && x <= 2 && y >= 0 && y <= 3 && mark[x][y] == 0
+					&& arr.contains(map[x][y])) {
+				mark[x][y] = 1;
+				if (dfs(x, y, mdv, mark, arr)) {
+					return true;
+				}
+			}
+		}
+		return false;
+
+	}
 }
-
