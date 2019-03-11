@@ -1,31 +1,6 @@
 package À¶ÇÅ±­;
 
-import java.util.Scanner;
-if (x == null)
-			return 0;
-		else
-			return x.N;
-	}
 
-
-	public void put(int key, String val) {
-		root = put(root, key, val,null);
-	}
-
-	public Node put(Node x, int key, String val,Node fa) {
-		if (x == null)
-			return new Node(key, val, 1,fa);
-		int cmp = key > x.key ? 1 : key == x.key ? 0 : -1;
-		if (cmp < 0)
-			x.left = put(x.left, key, val,x);
-		else if (cmp > 0)
-			x.right = put(x.right, key, val,x);
-		else
-			x.val = val;
-		x.N = size(x.left) + size(x.right) + 1;
-		return x;
-	}
-	
 
 	
 	
