@@ -2,13 +2,13 @@
 import java.util.Scanner;
 
 public class ExcelCount {
-	private static int n;
+	private static int  n;
 	private static int m;
 	private static double[][] ex;
 	private static String[][] str;
 
 	public static void main(String[] args) {
-
+//ceshi
 		Scanner sc = new Scanner(System.in);
 		n = sc.nextInt();
 		m = sc.nextInt();
