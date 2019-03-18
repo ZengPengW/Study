@@ -64,15 +64,15 @@ public class FlightTime {
 		t %= 60;
 		ss = t;
 
-		String h, m, s;
-		h = String.valueOf(hh).length() < 2 ? String.valueOf("0" + hh) : String
-				.valueOf(hh);
-		m = String.valueOf(mm).length() < 2 ? String.valueOf("0" + mm) : String
-				.valueOf(mm);
-		s = String.valueOf(ss).length() < 2 ? String.valueOf("0" + ss) : String
-				.valueOf(ss);
+		//String h, m, s;
+		//h = String.valueOf(hh).length() < 2 ? String.valueOf("0" + hh) : String
+		//		.valueOf(hh);
+		//m = String.valueOf(mm).length() < 2 ? String.valueOf("0" + mm) : String
+		//		.valueOf(mm);
+		//s = String.valueOf(ss).length() < 2 ? String.valueOf("0" + ss) : String
+		//		.valueOf(ss);
 		
-		return h + ":" + m + ":" + s;
+		return String.format("%02d:%02d:%02d",hh,mm,ss ) ;
 
 	}
 }
