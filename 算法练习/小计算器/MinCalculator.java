@@ -1,18 +1,23 @@
-import java.util.Scanner;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 public class MinCalculator
 {
 	private static String[][]operate ;
 	private static long numb=0;
 	private static int radix=10;
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
-		Scanner scan=new Scanner(System.in);
-		int n=scan.nextInt();
-		scan.nextLine();
+		//Scanner scan=new Scanner(System.in);
+		BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+		int n=Integer.parseInt(in.readLine().trim());
+		//scan.nextLine();
 		operate=new String[n][];
 		for (int i = 0; i <n; i++) {
-			String []str=scan.nextLine().split(" ");
+			String []str=in.readLine().split(" ");
 			operate[i]=new String[str.length];
 			for (int j = 0; j < str.length; j++) {
 				operate[i][j]=str[j];
@@ -20,7 +25,7 @@ public class MinCalculator
 		}
 		
 		Calculator();
-		scan.close();
+		
 	}
 	
 	public static void Calculator() {
@@ -46,7 +51,6 @@ public class MinCalculator
 			case 4:
 				Clear();
 				count=0;
-				index=-1;
 				break;
 			case 5:
 				if(count==0){

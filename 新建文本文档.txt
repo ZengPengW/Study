@@ -1,50 +1,54 @@
+package À¶ÇÅ±­;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
 
-public class Test {
-	public static void main(String[] args) {
-		Scanner scan=new Scanner(System.in);
+
+public class Testcs {
+	private static class Node{
+		ArrayList<Integer> go=new ArrayList<Integer>();
+		ArrayList<Integer> val=new ArrayList<Integer>();
+	}
+	public static void main(String[] args) throws IOException {
+	//	Scanner scan=new Scanner(System.in);
+		BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
 		int t,r,p,s;
-		t=scan.nextInt();
-		r=scan.nextInt();
-		p=scan.nextInt();
-		s=scan.nextInt();
-		int [][]dis=new int [t+1][t+1];
+		String []strin;
+		strin=in.readLine().split(" ");
+		t=Integer.parseInt(strin[0]);
+		r=Integer.parseInt(strin[1]);
+		p=Integer.parseInt(strin[2]);
+		s=Integer.parseInt(strin[3]);
 		
-		//-10,000
-		for (int j = 0; j <=t; j++) {
-			for (int k = 0; k <=t; k++) {
-				dis[j][k]=-11111;
-			}
-		}
-		
+		Node[] node=new Node[t+1];
+	for (int j = 0; j <=t; j++) {
+		node[j]=new Node();
+	}
+	
 		int Ai,Bi,Ci;
 		for (int i = 0; i < r; i++) {
-			Ai=scan.nextInt();
-			Bi=scan.nextInt();
-			Ci=scan.nextInt();
+			strin=in.readLine().split(" ");
+			Ai=Integer.parseInt(strin[0]);
+			Bi=Integer.parseInt(strin[1]);
+			Ci=Integer.parseInt(strin[2]);
+			node[Ai].go.add(Bi);
+			node[Ai].val.add(Ci);
+			node[Bi].go.add(Ai);
+			node[Bi].val.add(Ci);
 			
-			if(dis[Ai][Bi]==-11111) {
-				dis[Ai][Bi]=Ci;
-				dis[Bi][Ai]=Ci;
-			}
-			else if(dis[Ai][Bi]>Ci){
-				dis[Ai][Bi]=Ci;
-				dis[Bi][Ai]=Ci;
-			}
 		}
 		for (int i = 0; i < p; i++) {
-			Ai=scan.nextInt();
-			Bi=scan.nextInt();
-			Ci=scan.nextInt();
-			if(dis[Ai][Bi]==-11111)dis[Ai][Bi]=Ci;
-			else if(dis[Ai][Bi]>Ci){
-				dis[Ai][Bi]=Ci;
-			}
-			
-			
+			strin=in.readLine().split(" ");
+			Ai=Integer.parseInt(strin[0]);
+			Bi=Integer.parseInt(strin[1]);
+			Ci=Integer.parseInt(strin[2]);
+			node[Ai].go.add(Bi);
+			node[Ai].val.add(Ci);
 		}
 		
 		long []v=new long[t+1];
@@ -52,59 +56,28 @@ public class Test {
 			v[i]=0x7fffffffffffffffL;
 		}
 		v[s]=0;
-		//dis[s][s]=0;
-		//dijkstra(dis, v, t);
-		Spfa(dis, v, t, s);
+		
+		Spfa(node, v, t, s);
 	}
 	
-	public static void dijkstra(int [][]dis,long []v,int n) {
-		
-		ArrayList<Integer >al=new ArrayList<Integer>();
-		long temp=0x7fffffffffffffffL;
-		int []mark=new int[n+1];
-		for (int i =1; i <=n; i++) {
-			temp=0x7fffffffffffffffL;
-			int id = 0;
-			for (int j = 1; j <=n; j++) {
-				for (int k = 1; k <=n; k++) {
-					if (dis[j][k]!=-11111&&v[k]<temp&&mark[k]==0&&!al.contains(k)) {
-						id=k;
-						temp=v[k];
-					}
-				}
-			}
-			al.add(id);
-			for (int j =1; j <=n; j++) {
-				if (dis[id][j]!=-11111&&dis[id][j]+v[id]<v[j]&&mark[j]==0) {
-					mark[id]=1;
-					v[j]=dis[id][j]+v[id];
-				}
-			}
-			
-		}
-		for (int i = 1; i <=n; i++) {
-			if(v[i]!=0x7fffffffffffffffL) {
-				System.out.println(v[i]);
-			}else {
-				System.out.println("NO PATH");
-			}
-		}
-		
-		
-	}
 	
-	public static void Spfa(int [][]dis,long []v,int n,int s) {
+	
+	public static void Spfa(Node[] node,long []v,int n,int s) {
 		Queue<Integer> que=new LinkedList<Integer>();
 		que.offer(s);
 		
 		while (!que.isEmpty()) {
 			int id=que.poll();
-			for (int i = 1; i <=n; i++) {
-				if(dis[id][i]!=-11111&&v[i]>dis[id][i]+v[id]) {
+			
+			for (int i =node[id].go.size()-1; i>=0; i--) {
+				int go=node[id].go.get(i);
+				int val=node[id].val.get(i);
+				
+				if(v[go]>v[id]+val) {
 					
-					v[i]=dis[id][i]+v[id];
+					v[go]=val+v[id];
 					//System.out.println(id+" "+i+" "+v[i]);
-					if(!que.contains(i))que.offer(i);
+					if(!que.contains(go))que.offer(go);
 				}
 			}	
 		}
