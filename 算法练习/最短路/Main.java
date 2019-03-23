@@ -1,16 +1,21 @@
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
-public class Main{
+
+public class Main {
 	private static int[][] map;
 	private static int[] val;
 	private static int m;
-
-	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		int n = scan.nextInt();
-		m = scan.nextInt();
+	private static int n;
+	public static void main(String[] args) throws IOException {
+		//Scanner scan = new Scanner(System.in);
+		BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+		String []instr=null;
+		instr=in.readLine().trim().split(" ");
+		n = Integer.parseInt(instr[0]);
+		m =  Integer.parseInt(instr[1]);
 		map = new int[n + 1][n + 1];
 		val = new int[n + 1];
 
@@ -24,9 +29,10 @@ public class Main{
 
 		int u, v, l;
 		for (int i = 0; i < m; i++) {
-			u = scan.nextInt();
-			v = scan.nextInt();
-			l = scan.nextInt();
+			instr=in.readLine().trim().split(" ");
+			u = Integer.parseInt(instr[0]);
+			v = Integer.parseInt(instr[1]);
+			l = Integer.parseInt(instr[2]);
 			map[u][v] = l;
 		}
 		map[1][1] = 0;
@@ -42,22 +48,22 @@ public class Main{
 
 	public static void dijkstra() {
 		int[] mark = new int[map.length];
-		int temp = 99999999;
+		int temp = 999999;
 		int id = 0;
-
-		for (int u = 1; u < mark.length; u++) {
-			temp = 99999999;
-			for (int i = 1; i < map.length; i++) {
-				for (int k = 1; k < map.length; k++) {
-					if (map[i][k] != 999999 && mark[k] == 0 && val[k] < temp) {
-						temp = val[k];
-						id = k;
+		int len=map.length;
+		for (int u = 1; u < len; u++) {
+			temp = 999999;
+			for (int i = 1; i < len; i++) {
+				
+					if (mark[i] == 0 && val[i] < temp) {
+						temp = val[i];
+						id = i;
 					}
-				}
+				
 			}
 			mark[id] = -1;
 			// &&mark[j]==0
-			for (int j = 1; j < mark.length; j++) {
+			for (int j = 1; j < len; j++) {
 				if (map[id][j] != 999999 && mark[j] == 0 && val[id] + map[id][j] < val[j])
 					val[j] = val[id] + map[id][j];
 			}
@@ -66,12 +72,12 @@ public class Main{
 	}
 
 	public static void bellman_ford() {
-
+		int len=map.length;
 		boolean flag = false;
-		for (int i = 1; i <= m; i++) {
+		for (int i = 1; i <n; i++) {
 			flag = false;
-			for (int j = 1; j < map.length; j++) {
-				for (int k = 1; k < map.length; k++) {
+			for (int j = 1; j < len; j++) {
+				for (int k = 1; k < len; k++) {
 					if (map[j][k] != 999999 && val[j] != 999999 && val[k] > map[j][k] + val[j]) {
 						val[k] = map[j][k] + val[j];
 						flag = true;
@@ -86,8 +92,8 @@ public class Main{
 
 		if(flag) {
 			flag = false;
-			for (int j = 1; j < map.length; j++) {
-				for (int k = 1; k < map.length; k++) {
+			for (int j = 1; j < len; j++) {
+				for (int k = 1; k < len; k++) {
 					if (map[j][k] != 999999 && val[j] != 999999 && val[k] > map[j][k] + val[j]) {
 						flag = true;
 					}
@@ -103,14 +109,14 @@ public class Main{
 	}
 
 public static void bellman_ford_que() {
-
+	int len=map.length;
 	Queue<Integer> id=new LinkedList<Integer>();
 	
 	id.offer(1);
 	
 	while(!id.isEmpty()){
 		int w=id.poll();
-		for (int i = 1; i < map.length; i++) {
+		for (int i = 1; i < len; i++) {
 			if(map[w][i]!=999999&&val[i]>map[w][i]+val[w]){
 				val[i]=map[w][i]+val[w];
 				if(!id.contains(i))id.offer(i);
