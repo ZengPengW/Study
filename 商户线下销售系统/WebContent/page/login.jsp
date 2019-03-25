@@ -11,7 +11,7 @@
 <script src="../js/stytle.js"></script>
 <link href="../css/style.css" type="text/css" rel="stylesheet" />
 </head>
-<body>
+<body style="height: 100%;">
 	
 <div id="bgcolor" >
 	
@@ -62,7 +62,7 @@
     						</div>
 						</div>
 				
-						<a href="" id="wjmm" style="color: #666666;">忘记密码</a>&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="findPwd.html" id="wjmm" style="color: #666666;">忘记密码</a>&nbsp;&nbsp;&nbsp;&nbsp;
 						<a href="register.html"  style="color: red;" ><img src="../imgs/icon/zc.svg"  style="width: 20px; height: 20px;"/>立即注册</a>
 </form>
 		
