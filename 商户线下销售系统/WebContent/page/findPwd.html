@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<link href="../css/bootstrap.css" rel="stylesheet"/>
+	<script src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
+	 <script  src="../js/stytle.js"></script>
+	</head>
+	<style>
+		.asy{
+			text-decoration: none;
+			color: #666666;
+			}
+	</style>
+	<body>
+		<div class="row">
+		<div class="col-lg-1 col-md-1">
+				
+			</div>
+			<div class="col-md-4">
+				<a class="asy" href="index.jsp"><img src="../imgs/icon/shouye.svg" style="width: 30px; height: 30px;" />首页</a>
+			</div>
+			
+		</div>
+		<div class="row">
+			<div class="col-lg-1 col-md-1">
+				
+			</div>
+			<div class="col-md-5 ">
+				<img src="../imgs/icon/findPW.svg" width="8%" height="8%" />
+				<strong style="color:#666666; font-size: 25px;">找回密码</strong>
+			</div>
+			<div class="col-md-2 col-xs-offset-4 col-lg-offset-0 col-sm-offset-0 col-md-offset-0">
+			
+			</div>
+		
+		</div>
+	
+		<hr width="100%" style="height: 2px;" color="#808080" />
+<br />
+<div class="row" style="width: 80%;">
+	
+<div class="container" >
+	<form role="form" class="form-horizontal" method="post" action="">
+					<div class="form-group">
+							<label  class="col-sm-3 control-label">邮箱地址</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" id="email" name="email"
+									placeholder="请输入邮箱地址" >
+									<input type="button" value="获取验证码"  id="getcheck1" onclick="getyzm(this)" class="btn btn-default" />
+							</div>
+							
+					</div>
+						<div class="form-group">
+							<label  class="col-sm-3 control-label">验&nbsp;证&nbsp;码</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" id="yanzhengma" name="yanzhengma"
+									placeholder="请输入邮箱验证码">
+								<span style="color: red;"> </span>
+							</div>
+							
+						</div>
+					<div class="form-group">
+							<div class="col-xs-offset-2 col-lg-offset-3 col-md-6 ">
+     							 <button type="submit" style=" width: 80%;   height: 40px; background-color: red; font-size: 20px; color: white;"  class="btn btn-default">下一步</button>
+    						</div>
+					</div>	
+				
+			</form>
+</div>
+</div>	
+			
+	
+			</body>
+</html>
