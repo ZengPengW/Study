@@ -12,7 +12,7 @@ $(function(){
 			
 				 password:{
 					 required:true,
-					 minlength:6
+					 rangelength:[6,18],
 					 },
 				 repassword:{
 					required:true,
@@ -20,19 +20,42 @@ $(function(){
 						 },
 				 email:{
 					  required:true,
-					  email:email
-					 
+					  email:email,
+					  remote:{
+						 	type:"POST",
+	                    	url:"../CheckUserEmail", // 请求地址
+	                   	 	data:{
+	                   	 	email:function(){ return $("#email").val(); }
+	                   	 	}
+
+						 }
 					 },	
 				 username:{
 					 required:true,
 					 rangelength:[3,20],
-					  minlength:3
+					 remote:{
+						 	type:"POST",
+	                    	url:"../CheckUserName", // 请求地址
+	                   	 	data:{
+	                   	 		username:function(){ return $("#username").val(); }
+	                   	 	}
+
+						 }
+					  
 					 },	
 	 	
 			
 				yanzhengma:{
 					required:true,
-					 rangelength:[5,5]
+					 rangelength:[6,6],
+					 remote:{
+					 	type:"POST",
+                    	url:"../CheckMsg", // 请求地址
+                   	 	data:{
+                        	msg:function(){ return $("#yanzhengma").val(); }
+                   	 	}
+
+					 }
 					},
 					
 				 shopname:{
@@ -43,12 +66,13 @@ $(function(){
 				messages:{
 				 username:{
 					required: "用户名不能为空",
-					 minlength:"用户名不能少于3位且不能大于20位"
+					rangelength:"用户名不能少于3位且不能大于20位",
+					remote:"用户名已存在"
 					 } ,
 				 password:{
 					 required:"密码不能为空",
 					
-					 minlength:"密码不能少于6位"
+					 rangelength:"密码不能少于6位且大于18位"
 					 },
 				 repassword:{
 					required:"确认密码不能为空",
@@ -56,74 +80,154 @@ $(function(){
 						 },
 				 email:{
 					  required:"邮箱不能为空",
-					  email:"请输入正确的邮箱"
-					 
+					  email:"请输入正确的邮箱",
+					 remote:"该邮箱已经注册过了"
 					 },	
 				
 				yanzhengma:{
 					required:"请输入验证码",
-					 rangelength:"验证码错误"
+					 rangelength:"验证码错误",
+					 remote:"验证码错误"
 					},
 				
-				shopname:{required:"请输入商品名称"}
+				shopname:{required:"请输入店铺名称"}
 					
-				}
-				  
-			//	focusInvalid:true,
-			//当未通过验证的元素获得焦点时，移除错误提示
-		//	focusCleanup:true,
+				},
+				 onfocus:true,　　　
+           		 onkeyup:false,　　　
+           		 focusCleanup:true
+					  
+// focusInvalid:true,
+// 当未通过验证的元素获得焦点时，移除错误提示
+// focusCleanup:true,
 			  
 			  
 			  });
-			//获取验证码
-     $("#getcheck").click(function  () {
- 				var validCode=true;
- 				//	alert("的");
-                 var time=45;
-                  if (time==0)validCode=false;
-                  if (validCode) {
-                      validCode=false;
-                    
-					$(this).prop("disabled",true);
-                     var t=setInterval(function  () {
-                         time--;
-                         $("#getcheck").val(time+"秒");
-                         if (time<=0) {
-                         	  validCode=false;
-                         	 $("#getcheck").val("重新获取");
-               				 $("#getcheck").prop("disabled",false);
-                             clearInterval(t);
-                        
-                         }
-                     },1000)
-                 }
-                  
-              
-             });
+	
+	$("#findword").validate({
+		  
+		  rules:{
+		
+			 email:{
+				  required:true,
+				  email:email
+				 },	
+			 
+	
+		
+			yanzhengma:{
+				required:true,
+				 rangelength:[6,6],
+				 remote:{
+				 	type:"POST",
+              	url:"../CheckMsg", // 请求地址
+             	 	data:{
+                  	msg:function(){ return $("#yanzhengma").val(); }
+             	 	}
+
+				 }
+				}
+		  },
+			
+			messages:{
+			 
+			 email:{
+				  required:"邮箱不能为空",
+				  email:"请输入正确的邮箱"
+				 
+				 },	
+			
+			yanzhengma:{
+				required:"请输入验证码",
+				 rangelength:"验证码错误",
+				 remote:"验证码错误"
+				}
+				
+			},
+			 onfocus:true,　　　
+     		 onkeyup:false,　　　
+     		 focusCleanup:true
+				  
+
+		  
+		  });
+
+ 
         
 });
 
 function getyzm (biaoqian) {
- 				var validCode=true;
- 				//	alert("的");
-                 var time=45;
-                  if (time==0)validCode=false;
-                  if (validCode) {
-                      validCode=false;
-                    
-					$(biaoqian).prop("disabled",true);
-                     var t=setInterval(function  () {
-                         time--;
-                         $(biaoqian).val(time+"秒");
-                         if (time<=0) {
-                         	  validCode=false;
-                         	 $(biaoqian).val("重新获取");
-               				 $(biaoqian).prop("disabled",false);
-                             clearInterval(t);
-                        
-                         }
-                     },1000)
-                 }
+	// alert(checkEmail($("#email").val()));
+	if(checkEmail($("#email").val())){
+		
+		var emailid=$("#email").val();
+		$.post("../CheckUserEmail",{email:emailid},function(data,status){
+			//alert(data);
+			if(data=="true"){
+				$.post("../GetCode",{email:emailid},function(data,status){});
+				var validCode=true;
+		 				// alert("的");
+		                 var time=45;
+		                  if (time==0)validCode=false;
+		                  if (validCode) {
+		                      validCode=false;
+		                    
+							$(biaoqian).prop("disabled",true);
+		                     var t=setInterval(function  () {
+		                         time--;
+		                         $(biaoqian).val(time+"秒");
+		                         if (time<=0) {
+		                         	  validCode=false;
+		                         	 $(biaoqian).val("重新获取");
+		               				 $(biaoqian).prop("disabled",false);
+		                             clearInterval(t);
+		                        
+		                         }
+		                     },1000)
+		                 }
+				
+			}
+		});
+	
                   
+	}else{
+		alert("请输入正确的邮箱");
+	}
+ 				
               
-             }
+   }
+
+function getyzmZHMM (biaoqian) {
+	if(checkEmail($("#email").val())){
+		
+		var emailid=$("#email").val();
+		
+				$.post("../GetCode",{email:emailid},function(data,status){});
+				var validCode=true;
+		 				
+		                 var time=45;
+		                  if (time==0)validCode=false;
+		                  if (validCode) {
+		                      validCode=false;
+		                    
+							$(biaoqian).prop("disabled",true);
+		                     var t=setInterval(function  () {
+		                         time--;
+		                         $(biaoqian).val(time+"秒");
+		                         if (time<=0) {
+		                         	  validCode=false;
+		                         	 $(biaoqian).val("重新获取");
+		               				 $(biaoqian).prop("disabled",false);
+		                             clearInterval(t);
+		                        
+		                         }
+		                     },1000)
+		                 }
+	
+                  
+	}else{
+		alert("请输入正确的邮箱");
+	}
+ 				
+              
+   }

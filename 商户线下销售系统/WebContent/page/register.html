@@ -12,6 +12,7 @@
 		<link href="../css/style.css" type="text/css" rel="stylesheet" />
 		<link href="../css/bootstrap.css" rel="stylesheet"/>
 	<script src="../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../js/regutils.js" ></script>
  
 	</head>
 		<style>
@@ -33,15 +34,21 @@
 <div class="container" >
 	
 <div class="row">
+<div class="col-md-1 hidden-xs hidden-sm" >
+	<br /><br /><br />
+	<img src="../imgs/icon/zcfw.svg" />
+</div>
+<div class="col-md-3 hidden-xs hidden-sm" >
 	
-<div class="col-md-12" id="lgform">
+</div>
+<div class="col-md-8" id="lgform">
 	<div class="row">
 		<div class="col-md-8"></div>
 		<div class="col-md-4"><span style="color: #666666;">已有账号？</span> <a  href="login.jsp" style="color: red;">请登录></a></div>
 	</div>
 	<br />
 	<center><h3 style=" color: red; "><strong>会员注册</strong></h3></center>
-<form role="form" class="form-horizontal " action="" method="post" id="registForm">
+<form role="form" class="form-horizontal " action="../RegisterServlet" method="post" id="registForm">
  				<div class="form-group">
 							<label for="username" class="col-sm-3 control-label">用户名</label>
 							<div class="col-sm-6">
@@ -76,7 +83,7 @@
 							<div class="col-sm-6">
 								<input type="text" class="form-control" id="email" name="email"
 									placeholder="请输入邮箱地址" >
-									<input type="button" value="获取验证码"  id="getcheck"  class="btn btn-primary" />
+									<input type="button" value="获取验证码" onclick="getyzm(this)"  id="getcheck"  class="btn btn-primary" />
 							</div>
 							
 					</div>

@@ -19,7 +19,8 @@
 	
 <div class="row">
 	<div class="col-md-8 hidden-xs hidden-sm">
-		<img src="./image/login.jpg" width="500" height="330" alt="会员登录" title="会员登录">
+		<br /><br /><br /><br />
+		<img src="../imgs/icon/login.svg" width="500" height="330" alt="会员登录" title="会员登录">
 	</div>
 <div class="col-md-4" id="lgform">
 	<br />
