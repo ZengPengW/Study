@@ -50,4 +50,39 @@ public class SellerdaoImpl implements Sellerdao {
 		else return true;
 	}
 
+	@Override
+	public boolean upPassWord(String email,String newPassWord) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="UPDATE  users SET password=? WHERE email=?";
+		int isSuccess=qr.update(sql,newPassWord ,email);
+		if(isSuccess==1)return true;
+		else return false;
+	}
+
+	@Override
+	public User getUser(String name) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="SELECT * FROM users WHERE email=? or username=?";
+		User user=qr.query(sql, new BeanHandler<User>(User.class), name,name);
+		return user;
+	}
+
+	@Override
+	public boolean alterSid(String email,String sid) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="UPDATE  users SET sid=? WHERE email=?";
+		int isSuccess=qr.update(sql,sid ,email);
+		if(isSuccess==1)return true;
+		else return false;
+	}
+
+	@Override
+	public boolean isExistUser(String name, String password) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="SELECT * FROM users WHERE (email=? or username=?) and password=?";
+		User user=qr.query(sql, new BeanHandler<User>(User.class), name,name,password);
+		if(user==null)return false;
+		else return true;
+	}
+
 }

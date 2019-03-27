@@ -22,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+	//	request.setCharacterEncoding("utf-8");
 		User user=new User();
 		try {
 			BeanUtils.populate(user, request.getParameterMap());
@@ -38,7 +38,7 @@ public class RegisterServlet extends HttpServlet {
 			}
 			
 		} catch (IllegalAccessException | InvocationTargetException | SQLException e) {
-			request.getRequestDispatcher("page/registerfail.html").forward(request, response);
+			response.sendRedirect("page/registerfail.html");
 			//e.printStackTrace();
 		}finally {
 			request.getSession().removeAttribute("msg");

@@ -9,36 +9,41 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import com.zpp.service.SellerService;
 import com.zpp.service.SellerServiceImpl;
 
 /**
- * Servlet implementation class CheckUserEmail
+ * Servlet implementation class CheckUserIsExis
  */
-@WebServlet("/CheckUserEmail")
-public class CheckUserEmail extends HttpServlet {
-
+@WebServlet("/CheckUserIsExis")
+public class CheckUserIsExis extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+ 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//request.setCharacterEncoding("utf-8");
-		String email=request.getParameter("email");
-		SellerService service=new SellerServiceImpl();
+		String name= request.getParameter("name");
+		String password=request.getParameter("password");
+		if(name.isEmpty()||password.isEmpty()) {
+			response.getWriter().print(false);
+			return;
+		}
+		boolean bl=false;
 		try {
-			boolean flag=service.isExistEmail(email);
-			if(flag) {
-				response.getWriter().print(false);
-			}else {
-				response.getWriter().print(true);
-			}
+			//System.out.println(name+" "+password);
+			SellerService service=new SellerServiceImpl();
+			 bl=service.isExistUser(name, password);
+			response.getWriter().print(bl);
 		} catch (SQLException e) {
 			response.getWriter().print(false);
-			e.printStackTrace();
+			
+		}finally {
+			if(bl) {
+				request.getSession().setAttribute("loginname", name);
+			}
 		}
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	
 		doGet(request, response);
 	}
 

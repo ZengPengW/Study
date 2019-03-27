@@ -47,7 +47,7 @@ public class ChangePassWordFD implements Filter {
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
-		System.out.println("a");
+		//System.out.println("a");
 	}
 
 }

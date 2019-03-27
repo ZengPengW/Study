@@ -1,10 +1,5 @@
 $(function(){
-	$("#wjmm").mouseleave(function(){
-		$(this).css("color","#333333")
-	});
-	$("#wjmm").mouseover(function(){
-		$(this).css("color","red")
-	});
+	
 	
 	$("#registForm").validate({
 			  
@@ -104,53 +99,7 @@ $(function(){
 			  
 			  });
 	
-	$("#findword").validate({
-		  
-		  rules:{
-		
-			 email:{
-				  required:true,
-				  email:email
-				 },	
-			 
 	
-		
-			yanzhengma:{
-				required:true,
-				 rangelength:[6,6],
-				 remote:{
-				 	type:"POST",
-              	url:"../CheckMsg", // 请求地址
-             	 	data:{
-                  	msg:function(){ return $("#yanzhengma").val(); }
-             	 	}
-
-				 }
-				}
-		  },
-			
-			messages:{
-			 
-			 email:{
-				  required:"邮箱不能为空",
-				  email:"请输入正确的邮箱"
-				 
-				 },	
-			
-			yanzhengma:{
-				required:"请输入验证码",
-				 rangelength:"验证码错误",
-				 remote:"验证码错误"
-				}
-				
-			},
-			 onfocus:true,　　　
-     		 onkeyup:false,　　　
-     		 focusCleanup:true
-				  
-
-		  
-		  });
 
  
         

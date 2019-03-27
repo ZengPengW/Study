@@ -16,7 +16,7 @@ import com.zpp.utils.MailUtils;
 public class GetCode extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+	//	request.setCharacterEncoding("utf-8");
 		String email=request.getParameter("email"); 
 		String msg=MailUtils.sendMail(email); 
 		if(msg!=null) {

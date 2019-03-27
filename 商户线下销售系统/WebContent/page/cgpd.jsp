@@ -5,13 +5,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>重设密码</title>
-	<link href="../css/bootstrap.css" rel="stylesheet"/>
-	<script src="../js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
-	 <script  src="../js/MyValidate.js"></script>
-	<script type="text/javascript" src="../js/regutils.js" ></script>
-	<script type="text/javascript" src="../js/jquery.validate.min.js" ></script>
-      <script type="text/javascript" src="../js/messages_zh.js" ></script>
+	<script type="text/javascript" src="/Zpp/js/jquery-1.11.3.min.js" ></script>
+	<link href="/Zpp/css/bootstrap.css" rel="stylesheet"/>
+	<script src="/Zpp/js/bootstrap.min.js"></script>
+
+	 <script  src="/Zpp/js/MyValidate.js"></script>
+	<script type="text/javascript" src="/Zpp/js/regutils.js" ></script>
+	<script type="text/javascript" src="/Zpp/js/jquery.validate.min.js" ></script>
+      <script type="text/javascript" src="/Zpp/js/messages_zh.js" ></script>
 	</head>
 	<style>
 		.asy{
@@ -19,7 +20,7 @@
 			color: #666666;
 			}
 		label.error{
-				background:url(../imgs/icon/unchecked.gif) no-repeat 10px 3px;
+				background:url(/Zpp/imgs/icon/unchecked.gif) no-repeat 10px 3px;
 				padding-left: 30px;
 				font-family:georgia;
 				font-size: 15px;
@@ -33,7 +34,7 @@
 				
 			</div>
 			<div class="col-md-4">
-				<a class="asy" href="index.jsp"><img src="../imgs/icon/shouye.svg" style="width: 30px; height: 30px;" />首页</a>
+				<a class="asy" href="index.jsp"><img src="/Zpp/imgs/icon/shouye.svg" style="width: 30px; height: 30px;" />首页</a>
 			</div>
 			
 		</div>
@@ -42,7 +43,7 @@
 				
 			</div>
 			<div class="col-md-5 ">
-				<img src="../imgs/icon/findPW.svg" width="8%" height="8%" />
+				<img src="/Zpp/imgs/icon/findPW.svg" width="8%" height="8%" />
 				<strong style="color:#666666; font-size: 25px;">找回密码</strong>
 			</div>
 			<div class="col-md-2 col-xs-offset-4 col-lg-offset-0 col-sm-offset-0 col-md-offset-0">
@@ -56,7 +57,7 @@
 <div class="row" style="width: 80%;">
 	
 <div class="container" >
-	<form role="form" class="form-horizontal" method="post" action="/Zpp/UpdataPassWordServlet" id="changepassword">
+	<form role="form" class="form-horizontal" method="post" action="/Zpp/AlterPassWordServlet" id="changepassword">
 					<div class="form-group">
 							<label for="password"   class="col-sm-3 control-label">新密码</label>
 							<div class="col-sm-6">

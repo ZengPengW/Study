@@ -7,27 +7,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class CheckMsg
- */
-@WebServlet("/CheckMsg")
-public class CheckMsg extends HttpServlet {
-	
+@WebServlet("/CheckLoginMsg")
+public class CheckLoginMsg extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	//	request.setCharacterEncoding("utf-8");
-		String mymsg=request.getParameter("msg");
-		String msg=(String) request.getSession().getAttribute("msg");
-	//	System.out.println(mymsg+" "+msg);
-		if(msg==null||!msg.equals(mymsg)) {
-			response.getWriter().print(false);
-		//	System.out.println(false);
-		}else {
+		String msg=request.getParameter("msg");
+		String checkcode_session=(String) request.getSession().getAttribute("checkcode_session");
+		//System.out.println(checkcode_session+" "+msg);
+		if(msg.equals(checkcode_session)) {
 			response.getWriter().print(true);
-		//	System.out.println(true);
+		}else {
+			response.getWriter().print(false);
 		}
 	}
 
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		doGet(request, response);
 	}
 

@@ -3,10 +3,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>修改密码</title>
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
 	<link href="../css/bootstrap.css" rel="stylesheet"/>
 	<script src="../js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
+	
 	 <script  src="../js/stytle.js"></script>
+	<!-- <script  src="../js/MyValidate.js"></script>-->
 	<script type="text/javascript" src="../js/regutils.js" ></script>
 	<script type="text/javascript" src="../js/jquery.validate.min.js" ></script>
       <script type="text/javascript" src="../js/messages_zh.js" ></script>
@@ -25,6 +27,66 @@
 				color: red;
 			}	
 	</style>
+	<script type="text/javascript">
+	$(function () {
+		 $("#findword").validate({
+			  
+			  rules:{
+			
+				 email:{
+					  required:true,
+					  email:email,
+					  remote:{
+						 	type:"POST",
+						 	url:"/Zpp/isNotExisEmail", // 请求地址
+	                	 	data:{
+	                	 	email:function(){ return $("#email").val(); }
+	                	 	}
+
+						 }
+					 },	
+				 
+		
+			
+				yanzhengma:{
+					required:true,
+					 rangelength:[6,6],
+					 remote:{
+					 	type:"POST",
+					 	url:"/Zpp/CheckMsg", // 请求地址
+	            	 	data:{
+	                 	msg:function(){ return $("#yanzhengma").val(); }
+	            	 	}
+
+					 }
+					}
+			  },
+				
+				messages:{
+				 
+				 email:{
+					  required:"邮箱不能为空",
+					  email:"请输入正确的邮箱",
+					  remote:"此邮箱尚未注册"
+					 
+					 },	
+				
+				yanzhengma:{
+					required:"请输入验证码",
+					 rangelength:"验证码错误",
+					 remote:"验证码错误"
+					}
+					
+				},
+				 onfocus:true,　　　
+	    		 onkeyup:false,　　　
+	    		 focusCleanup:true
+					  
+
+			  
+			  });
+	});
+	</script>
 	<body>
 		<div class="row">
 		<div class="col-lg-1 col-md-1">
@@ -54,11 +116,11 @@
 <div class="row" style="width: 80%;">
 	
 <div class="container" >
-	<form role="form" class="form-horizontal" method="post" action="/Zpp/page/cgpd.jsp" id="findword">
+	<form role="form" class="form-horizontal" method="post" action="/Zpp/UpdataPassWordServlet" id="findword">
 					<div class="form-group">
 							<label for="email"   class="col-sm-3 control-label">邮箱地址</label>
 							<div class="col-sm-6">
-								<input type="email" class="form-control" id="email" name="email"
+								<input type="text" class="form-control" id="email" name="email"
 									placeholder="请输入邮箱地址" >
 									<input type="button" value="获取验证码"  id="getcheck1" onclick="getyzmZHMM(this)" class="btn btn-primary" />
 							</div>
