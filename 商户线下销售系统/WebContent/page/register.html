@@ -1,118 +1,116 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title>会员注册</title>
-	
-		
-        <script type="text/javascript" src="../js/jquery-1.11.3.min.js" ></script>
-      <script type="text/javascript" src="../js/jquery.validate.min.js" ></script>
-      <script type="text/javascript" src="../js/messages_zh.js" ></script>
-     <script src="../js/stytle.js"></script>
+
+		<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="../js/messages_zh.js"></script>
+		<script src="../js/stytle.js"></script>
 		<link href="../css/style.css" type="text/css" rel="stylesheet" />
-		<link href="../css/bootstrap.css" rel="stylesheet"/>
-	<script src="../js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../js/regutils.js" ></script>
- 
+		<link href="../css/bootstrap.css" rel="stylesheet" />
+		<script src="../js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../js/regutils.js"></script>
+
 	</head>
-		<style>
-			a{text-decoration: none;}
-			
-			label.error{
-				background:url(../imgs/icon/unchecked.gif) no-repeat 10px 3px;
-				padding-left: 30px;
-				font-family:georgia;
-				font-size: 15px;
-				font-style: normal;
-				color: red;
-			}
-			
-		</style>
-<body>
-<div id="zcbj" >
-	
-<div class="container" >
-	
-<div class="row">
-<div class="col-md-1 hidden-xs hidden-sm" >
-	<br /><br /><br />
-	<img src="../imgs/icon/zcfw.svg" />
-</div>
-<div class="col-md-3 hidden-xs hidden-sm" >
-	
-</div>
-<div class="col-md-8" id="lgform">
-	<div class="row">
-		<div class="col-md-8"></div>
-		<div class="col-md-4"><span style="color: #666666;">已有账号？</span> <a  href="login.jsp" style="color: red;">请登录></a></div>
-	</div>
-	<br />
-	<center><h3 style=" color: red; "><strong>会员注册</strong></h3></center>
-<form role="form" class="form-horizontal " action="../RegisterServlet" method="post" id="registForm">
- 				<div class="form-group">
-							<label for="username" class="col-sm-3 control-label">用户名</label>
-							<div class="col-sm-6">
-								<input type="text" class="form-control" id="username"
-									placeholder="请输入用户名" name="username">
-							</div>
-				</div>
-				<div class="form-group">
-							<label for="shopname" class="col-sm-3 control-label">店铺名称</label>
-							<div class="col-sm-6">
-								<input type="text" class="form-control" id="shopname"
-									placeholder="请输入店铺名称" name="shopname">
-							</div>
-				</div>
-						<div class="form-group">
-							<label for="password" class="col-sm-3 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-							<div class="col-sm-6">
-								<input type="password" class="form-control" id="password"
-									placeholder="请输入密码" name="password">
-							</div>
-						</div>
-				
-					<div class="form-group">
-							<label for="repassword" class="col-sm-3 control-label">确认密码</label>
-							<div class="col-sm-6">
-								<input type="password" class="form-control" id="repassword" name="repassword"
-									placeholder="确认密码">
-							</div>
-					</div>
-					<div class="form-group">
-							<label for="email" class="col-sm-3 control-label">邮箱地址</label>
-							<div class="col-sm-6">
-								<input type="text" class="form-control" id="email" name="email"
-									placeholder="请输入邮箱地址" >
-									<input type="button" value="获取验证码" onclick="getyzm(this)"  id="getcheck"  class="btn btn-primary" />
-							</div>
-							
-					</div>
-						<div class="form-group">
-							<label for="yanzhengma" class="col-sm-3 control-label">验证码</label>
-							<div class="col-sm-3">
-								<input type="text" class="form-control" id="yanzhengma" name="yanzhengma"
-									placeholder="请输入邮箱验证码">
-							</div>
-							
-						</div>
-						
-						<div class="form-group">
-							<div class="col-xs-offset-2 col-sm-10 ">
-     							 <button type="submit" style=" width: 80%;   height: 40px; background-color: red; font-size: 20px; color: white;"  class="btn btn-default">注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册</button>
-    						</div>
-						</div>
-					<br />
-						
-</form>
+	<style>
+		a {
+			text-decoration: none;
+		}
 		
-	</div>
-</div>
-	
-	
-</div>
-<br /><br /><br /><br /><br /><br />
-</div>
+		label.error {
+			background: url(../imgs/icon/unchecked.gif) no-repeat 10px 3px;
+			padding-left: 30px;
+			font-family: georgia;
+			font-size: 15px;
+			font-style: normal;
+			color: red;
+		}
+	</style>
+
+	<body>
+		<div id="zcbj">
+
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-1 hidden-xs hidden-sm">
+						<br /><br /><br />
+						<img src="../imgs/icon/zcfw.svg" />
+					</div>
+					<div class="col-md-3 hidden-xs hidden-sm">
+
+					</div>
+					<div class="col-md-8" id="lgform">
+						<div class="row">
+							<div class="col-md-8"></div>
+							<div class="col-md-4"><span style="color: #666666;">已有账号？</span>
+								<a href="login.jsp" style="color: red;">请登录></a>
+							</div>
+						</div>
+						<br />
+						<center>
+							<h3 style=" color: red; "><strong>会员注册</strong></h3></center>
+						<form role="form" class="form-horizontal " action="../RegisterServlet" method="post" id="registForm">
+							<div class="form-group">
+								<label for="username" class="col-sm-3 control-label">用户名</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="username" placeholder="请输入用户名" name="username">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="shopname" class="col-sm-3 control-label">店铺名称</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="shopname" placeholder="请输入店铺名称" name="shopname">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="password" class="col-sm-3 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+								<div class="col-sm-6">
+									<input type="password" class="form-control" id="password" placeholder="请输入密码" name="password">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="repassword" class="col-sm-3 control-label">确认密码</label>
+								<div class="col-sm-6">
+									<input type="password" class="form-control" id="repassword" name="repassword" placeholder="确认密码">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="email" class="col-sm-3 control-label">邮箱地址</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="email" name="email" placeholder="请输入邮箱地址">
+									<input type="button" value="获取验证码" onclick="getyzm(this)" id="getcheck" class="btn btn-primary" />
+								</div>
+
+							</div>
+							<div class="form-group">
+								<label for="yanzhengma" class="col-sm-3 control-label">验证码</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" id="yanzhengma" name="yanzhengma" placeholder="请输入邮箱验证码">
+								</div>
+
+							</div>
+
+							<div class="form-group">
+								<div class="col-xs-offset-2 col-sm-10 ">
+									<button type="submit" style=" width: 80%;   height: 40px; background-color: red; font-size: 20px; color: white;" class="btn btn-default">注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;册</button>
+								</div>
+							</div>
+							<br />
+
+						</form>
+
+					</div>
+				</div>
+
+			</div>
+			<br /><br /><br /><br /><br /><br />
+		</div>
 
 	</body>
-</html>
 
+</html>

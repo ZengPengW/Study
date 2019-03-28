@@ -1,8 +1,5 @@
-<%@page import="Jedis.JedisPoolUtils"%>
-<%@page import="redis.clients.jedis.Jedis"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -13,10 +10,14 @@
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>首页</title>
-		<link href="../css/bootstrap.css" rel="stylesheet" type="text/css">
-		<script src="../js/jquery-1.11.3.min.js"></script>
-		<script src="../js/bootstrap.min.js"></script>
+		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
+		<script src="../../js/jquery-1.11.3.min.js"></script>
+		<script src="../../js/bootstrap.min.js"></script>
+		
+		<link rel="stylesheet" href="../../css/fileinput.min.css" type="text/css" />
+		
 
+		<script type="text/javascript" src="../../js/upimg.js" ></script>
 	</head>
 
 	<body>
@@ -37,6 +38,7 @@
 				</div>
 			</div>
 		</div>
+
 
 		<!--导航栏-->
 		<div class="container" style="margin-top: 10px;">
@@ -59,7 +61,7 @@
 						<ul class="nav navbar-nav">
 
 							<li class="">
-								<a href="adimn/AddMerchandise.jsp">添加商品 <span class="sr-only">(current)</span></a>
+								<a href="#">添加商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="#">在售商品 <span class="sr-only">(current)</span></a>
@@ -97,49 +99,62 @@
 				</div>
 			</nav>
 		</div>
-
 		<div class="container">
-			<table class="table table-striped table-responsive">
-				<tr>
+			<form role="form" class="form-horizontal " action="../RegisterServlet" method="post" id="registForm">
+				<div class="form-group">
+					<label for="productName" class="col-sm-3 control-label">商品名称</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="productName" placeholder="请输入商品名称" name="productName">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="price" class="col-sm-3 control-label">价格/元</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="price" placeholder="请输入商品价格" name="price">
+					
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="productCount" class="col-sm-3 control-label">数量/件</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="productCount" placeholder="请输入商品数量" name="productCount">
+					
+					</div>
+				</div>
 				
-					<th colspan="2" class="text-center">
-						<h2><strong>商铺信息表</strong></h2></th>
-					</tr>
-				<tr class=" success">
-					<td>
-						<h3>余额/元</h3></td>
-					<td>
-						<h2><strong>0.00</strong></h2></td>
-				</tr>
-				<tr>
-					<td>
-						<h3>在售商品/条</h3></td>
-					<td>
-						<h2><strong>0.00</strong></h2></td>
-				</tr>
-				<tr class="warning">
-					<td>
-						<h3>仓库中的商品/条</h3></td>
-					<td>
-						<h2><strong>0.00</strong></h2></td>
-				</tr>
-				<tr>
-					<td>
-						<h3>总售出/件</h3></td>
-					<td>
-						<h2><strong>1.00</strong></h2></td>
-				</tr>
+				<div class="form-group">
+					<label for="productImg" class="col-sm-3 control-label">商品图片</label>
+					<div class="col-sm-6">
+						<input id="productImg" type="file" class="file" name="productImg" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="col-sm-3 control-label"></label>
+					<div class="col-sm-6">
+						<img class="img-rounded" width="140px" height="140px" src="../../imgs/icon/douzi.svg" id="spimg"/>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label for="productMessage" class="col-sm-3 control-label">商品描述</label>
+					<div class="col-sm-6">
+						
+					<textarea cols="20" rows="5"  class="form-control" id="productMessage"  name="productMessage">
+     
+     				 </textarea>
+     				 <textarea id="J_ItemDesc" data-first="true" class="item-desc-textarea ks-editor-textarea" data-maxlength="25000" data-msgbox-id="J_MsgBoxDesc" name="_fm.i._0.de" style="width: 100%; height: 429px;">							</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-offset-2 col-sm-10 ">
+						<button type="submit" style=" width: 80%;   height: 40px; background-color: red; font-size: 20px; color: white;" class="btn btn-default">添加到仓库</button>
+					</div>
+				</div>
+				<br />
 
-				<tr class="danger">
-					<td>
-						<h3>总盈利/元</h3></td>
-					<td>
-						<h2><strong>0.00</strong></h2></td>
-				</tr>
-
-			</table>
+			</form>
 
 		</div>
+
 	</body>
 
 </html>
