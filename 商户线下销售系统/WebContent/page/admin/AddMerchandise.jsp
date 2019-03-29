@@ -9,16 +9,29 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>首页</title>
+		<title>添加商品</title>
 		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
 		<script src="../../js/jquery-1.11.3.min.js"></script>
 		<script src="../../js/bootstrap.min.js"></script>
-		
-		<link rel="stylesheet" href="../../css/fileinput.min.css" type="text/css" />
-		
+		<script type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="../../js/MyValidate.js"></script>
 
-		<script type="text/javascript" src="../../js/upimg.js" ></script>
+		<script type="text/javascript" src="../../js/AddMer.js"></script>
 	</head>
+	<style>
+		a {
+			text-decoration: none;
+		}
+		
+		label.error {
+			background: url(../../imgs/icon/unchecked.gif) no-repeat 10px 3px;
+			padding-left: 30px;
+			font-family: georgia;
+			font-size: 15px;
+			font-style: normal;
+			color: red;
+		}
+	</style>
 
 	<body>
 
@@ -39,7 +52,6 @@
 			</div>
 		</div>
 
-
 		<!--导航栏-->
 		<div class="container" style="margin-top: 10px;">
 			<nav class="navbar navbar-inverse">
@@ -52,7 +64,7 @@
 					        <span class="icon-bar"></span>
 					        <span class="icon-bar"></span>
 					    </button>
-						<a class="navbar-brand active" href="/Zpp/page/index.jsp">
+						<a class="navbar-brand " href="/Zpp/page/index.jsp">
 							首页
 						</a>
 					</div>
@@ -60,7 +72,7 @@
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
 
-							<li class="">
+							<li class="active">
 								<a href="#">添加商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
@@ -100,7 +112,7 @@
 			</nav>
 		</div>
 		<div class="container">
-			<form role="form" class="form-horizontal " action="../RegisterServlet" method="post" id="registForm">
+			<form role="form" class="form-horizontal " action="../../UploadProduct" method="post" id="AddMerchandise" enctype="multipart/form-data">
 				<div class="form-group">
 					<label for="productName" class="col-sm-3 control-label">商品名称</label>
 					<div class="col-sm-6">
@@ -108,40 +120,44 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label for="productClass" class="col-sm-3 control-label">商品分类</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="productClass" placeholder="分类名字相同的商品会被分在一起" name="productClass">
+					</div>
+				</div>
+				<div class="form-group">
 					<label for="price" class="col-sm-3 control-label">价格/元</label>
 					<div class="col-sm-6">
 						<input type="text" class="form-control" id="price" placeholder="请输入商品价格" name="price">
-					
+
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="productCount" class="col-sm-3 control-label">数量/件</label>
 					<div class="col-sm-6">
 						<input type="text" class="form-control" id="productCount" placeholder="请输入商品数量" name="productCount">
-					
+
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					<label for="productImg" class="col-sm-3 control-label">商品图片</label>
 					<div class="col-sm-6">
-						<input id="productImg" type="file" class="file" name="productImg" />
+						<input id="productImg" type="file" name="productImg" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label  class="col-sm-3 control-label"></label>
+					<label class="col-sm-3 control-label"></label>
 					<div class="col-sm-6">
-						<img class="img-rounded" width="140px" height="140px" src="../../imgs/icon/douzi.svg" id="spimg"/>
+						<img class="img-rounded" width="140px" height="140px" src="..\..\imgs\icon\douzi.svg" id="spimg" />
 					</div>
-				</div>	
+				</div>
 				<div class="form-group">
 					<label for="productMessage" class="col-sm-3 control-label">商品描述</label>
 					<div class="col-sm-6">
-						
-					<textarea cols="20" rows="5"  class="form-control" id="productMessage"  name="productMessage">
-     
-     				 </textarea>
-     				 <textarea id="J_ItemDesc" data-first="true" class="item-desc-textarea ks-editor-textarea" data-maxlength="25000" data-msgbox-id="J_MsgBoxDesc" name="_fm.i._0.de" style="width: 100%; height: 429px;">							</textarea>
+
+						<textarea cols="20" rows="5" data-first="true" id="productMessage" name="productMessage"></textarea>
+
 					</div>
 				</div>
 				<div class="form-group">

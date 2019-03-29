@@ -33,6 +33,7 @@ public class IsLoginFilter implements Filter {
 
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		//System.out.println("lai ");
 		HttpServletRequest req=(HttpServletRequest) request;
 		HttpServletResponse rep=(HttpServletResponse) response;
 		Cookie [] cookies=req.getCookies();

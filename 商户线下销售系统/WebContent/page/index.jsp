@@ -1,3 +1,8 @@
+<%@page import="com.zpp.utils.CookiesUtils"%>
+<%@page import="com.zpp.domain.User"%>
+<%@page import="net.sf.json.JSONObject"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%@page import="redis.clients.util.JedisURIHelper"%>
 <%@page import="Jedis.JedisPoolUtils"%>
 <%@page import="redis.clients.jedis.Jedis"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -59,7 +64,7 @@
 						<ul class="nav navbar-nav">
 
 							<li class="">
-								<a href="adimn/AddMerchandise.jsp">添加商品 <span class="sr-only">(current)</span></a>
+								<a href="admin/AddMerchandise.jsp">添加商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="#">在售商品 <span class="sr-only">(current)</span></a>
@@ -97,7 +102,17 @@
 				</div>
 			</nav>
 		</div>
+<%
+Jedis jedis=JedisPoolUtils.getJedis();
+String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
+String userJson=jedis.hget("users",sid );
+JSONArray jsonArray= new JSONArray().fromObject(userJson);
+Object o=jsonArray.get(0);
+JSONObject jsonObject2=JSONObject.fromObject(o);
+User user =(User)JSONObject.toBean(jsonObject2, User.class);						
+String depotCount=jedis.hget("depot", String.valueOf(user.getId()));	
 
+%>
 		<div class="container">
 			<table class="table table-striped table-responsive">
 				<tr>
@@ -121,7 +136,7 @@
 					<td>
 						<h3>仓库中的商品/条</h3></td>
 					<td>
-						<h2><strong>0.00</strong></h2></td>
+						<h2><strong><%=depotCount+".00" %></strong></h2></td>
 				</tr>
 				<tr>
 					<td>
