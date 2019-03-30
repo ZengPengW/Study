@@ -60,12 +60,15 @@ public class LoginServlet extends HttpServlet {
 			
 			jedis.close();
 			//System.out.println(jsonstr);
+			request.getSession().removeAttribute("checkcode_session");
 			response.sendRedirect("page/index.jsp");
 		} catch (SQLException e) {
 			request.setAttribute("isSuccess", false);
 			request.getRequestDispatcher("/page/success.jsp").forward(request, response);
 			//	e.printStackTrace();
 		}
+			
+		
 		
 		
 		

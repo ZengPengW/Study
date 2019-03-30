@@ -4,7 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>登陆</title>
+
 <script src="../js/jquery-1.11.3.min.js"></script>
 <link href="../css/bootstrap.css" rel="stylesheet"/>
 <script src="../js/bootstrap.min.js"></script>
@@ -12,6 +16,16 @@
 <link href="../css/style.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="../js/jquery.validate.min.js" ></script>
  <script type="text/javascript" src="../js/messages_zh.js" ></script>
+<style>
+	 label.error {
+			background: url(../imgs/icon/unchecked.gif) no-repeat 10px 3px;
+			padding-left: 30px;
+			font-family: georgia;
+			font-size: 15px;
+			font-style: normal;
+			color: red;
+		}
+</style>
 <script type="text/javascript">
 $(function(){
 	$("#wjmm").mouseleave(function(){

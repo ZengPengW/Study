@@ -4,6 +4,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>重设密码</title>
 	<script type="text/javascript" src="/Zpp/js/jquery-1.11.3.min.js" ></script>
 	<link href="/Zpp/css/bootstrap.css" rel="stylesheet"/>

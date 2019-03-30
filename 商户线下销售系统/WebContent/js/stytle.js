@@ -150,7 +150,9 @@ function getyzmZHMM (biaoqian) {
 	if(checkEmail($("#email").val())){
 		
 		var emailid=$("#email").val();
-		
+		$.post("/Zpp/isNotExisEmail",{email:emailid} ,function(data,status){
+			//alert(data);
+			if(data=="true"){
 				$.post("../GetCode",{email:emailid},function(data,status){});
 				var validCode=true;
 		 				
@@ -171,7 +173,11 @@ function getyzmZHMM (biaoqian) {
 		                        
 		                         }
 		                     },1000)
-		                 }
+		                 }	
+			}
+			
+		});
+				
 	
                   
 	}else{

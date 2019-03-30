@@ -1,11 +1,18 @@
 package com.zpp.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.ArrayHandler;
+import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+
 
 import com.zpp.dao.Sellerdao;
 import com.zpp.domain.Product;
@@ -137,6 +144,24 @@ public class SellerdaoImpl implements Sellerdao {
 		String sql = "SELECT count(*) FROM product WHERE uid=?";
 		Long count =(Long) qr.query(sql, new ScalarHandler(), uid);
 		return count;
+	}
+
+	@Override
+	public List<Object> FindProductClass(int uid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		//System.out.println("SELECT DISTINCT productClass FROM product where uid="+uid);
+		String sql = "SELECT DISTINCT productClass FROM product where uid=?";
+		List<Object[]> ProductClass=qr.query(sql, new ArrayListHandler(),uid);
+		
+		System.out.println();
+		List<Object> al= new ArrayList<Object>();
+		for (Object[] object : ProductClass) {
+			for (Object obj : object) {
+				//System.out.println(obj);
+				al.add(obj);
+			}
+		}
+		return al;
 	}
 
 }

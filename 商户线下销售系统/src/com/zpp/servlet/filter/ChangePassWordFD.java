@@ -37,7 +37,7 @@ public class ChangePassWordFD implements Filter {
 		String email=req.getParameter("email");
 		String yanzhengma=req.getParameter("yanzhengma");
 		
-		if(email==null||yanzhengma==null||!(req.getSession().getAttribute("msg").equals(yanzhengma))) {
+		if(email==null||yanzhengma==null||!(req.getSession().getAttribute("emailmsg").equals(yanzhengma))) {
 			//System.out.println("1233");
 			
 			rep.sendRedirect("/Zpp/page/errorpage.html");

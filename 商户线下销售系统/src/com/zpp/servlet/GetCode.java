@@ -20,7 +20,7 @@ public class GetCode extends HttpServlet {
 		String email=request.getParameter("email"); 
 		String msg=MailUtils.sendMail(email); 
 		if(msg!=null) {
-			request.getSession().setAttribute("msg", msg);
+			request.getSession().setAttribute("emailmsg", msg);
 		}
 	}
 

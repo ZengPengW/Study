@@ -1,6 +1,7 @@
 package com.zpp.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.zpp.dao.Sellerdao;
 import com.zpp.dao.impl.SellerdaoImpl;
@@ -101,6 +102,12 @@ public class SellerServiceImpl implements SellerService {
 	public Long CheckProductCount(int uid) throws SQLException {
 		
 		return dao.CheckProductCount(uid);
+	}
+
+	@Override
+	public List<Object> FindProductClass(int uid) throws SQLException {
+		return dao.FindProductClass(uid);
+		
 	}
 	
 	

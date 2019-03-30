@@ -1,6 +1,7 @@
 package com.zpp.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.zpp.domain.Product;
 import com.zpp.domain.User;
@@ -16,5 +17,6 @@ public interface SellerService {
 	public User getUserBySid(String sid)throws SQLException;
 	public boolean AddProduct(Product product)throws SQLException;
 	public Long CheckProductCount(int uid)throws SQLException;
-
+	public List<Object> FindProductClass(int uid)throws SQLException;
+	
 }

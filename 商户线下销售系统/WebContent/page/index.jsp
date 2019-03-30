@@ -1,3 +1,6 @@
+<%@page import="com.zpp.utils.JsonUtils"%>
+<%@page import="com.zpp.service.SellerServiceImpl"%>
+<%@page import="com.zpp.service.SellerService"%>
 <%@page import="com.zpp.utils.CookiesUtils"%>
 <%@page import="com.zpp.domain.User"%>
 <%@page import="net.sf.json.JSONObject"%>
@@ -70,7 +73,7 @@
 								<a href="#">在售商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
-								<a href="#">商品仓库<span class="sr-only">(current)</span></a>
+								<a href="/Zpp/page/admin/MerchandiseList.jsp">商品仓库<span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="#">商铺设置</a>
@@ -103,15 +106,22 @@
 			</nav>
 		</div>
 <%
-Jedis jedis=JedisPoolUtils.getJedis();
+Jedis jedis=JedisPoolUtils.getJedis();					
 String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
 String userJson=jedis.hget("users",sid );
-JSONArray jsonArray= new JSONArray().fromObject(userJson);
-Object o=jsonArray.get(0);
-JSONObject jsonObject2=JSONObject.fromObject(o);
-User user =(User)JSONObject.toBean(jsonObject2, User.class);						
-String depotCount=jedis.hget("depot", String.valueOf(user.getId()));	
 
+User user =JsonUtils.getUser(userJson);						
+String depotCount=jedis.hget("depot", String.valueOf(user.getId()));	
+if(depotCount==null){
+	SellerService service=new SellerServiceImpl();
+	depotCount=String.valueOf(service.CheckProductCount(user.getId()));
+	jedis.hset("depot", String.valueOf(user.getId()), depotCount);
+	depotCount=String.format("%.2f", Double.valueOf(depotCount));
+	
+}
+else {
+  depotCount=String.format("%.2f", Double.valueOf(depotCount))  ;
+}
 %>
 		<div class="container">
 			<table class="table table-striped table-responsive">
@@ -136,7 +146,7 @@ String depotCount=jedis.hget("depot", String.valueOf(user.getId()));
 					<td>
 						<h3>仓库中的商品/条</h3></td>
 					<td>
-						<h2><strong><%=depotCount+".00" %></strong></h2></td>
+						<h2><strong><%=depotCount %></strong></h2></td>
 				</tr>
 				<tr>
 					<td>

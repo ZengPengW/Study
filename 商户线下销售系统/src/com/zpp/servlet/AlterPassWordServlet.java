@@ -33,7 +33,7 @@ public class AlterPassWordServlet extends HttpServlet {
 			e.printStackTrace();
 		}finally {
 			request.getSession().removeAttribute("changePWemail");
-			request.getSession().removeAttribute("msg");
+			request.getSession().removeAttribute("emailmsg");
 			request.getRequestDispatcher("/page/success.jsp").forward(request, response);
 		}
 	}

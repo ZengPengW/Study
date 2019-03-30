@@ -79,7 +79,7 @@
 								<a href="#">在售商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
-								<a href="#">商品仓库<span class="sr-only">(current)</span></a>
+								<a href="/Zpp/page/admin/MerchandiseList.jsp">商品仓库<span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="#">商铺设置</a>
@@ -149,7 +149,7 @@
 				<div class="form-group">
 					<label class="col-sm-3 control-label"></label>
 					<div class="col-sm-6">
-						<img class="img-rounded" width="140px" height="140px" src="..\..\imgs\icon\douzi.svg" id="spimg" />
+						<img class="img-rounded img-thumbnail" width="140px" height="140px" src="..\..\imgs\icon\douzi.svg" id="spimg" />
 					</div>
 				</div>
 				<div class="form-group">
