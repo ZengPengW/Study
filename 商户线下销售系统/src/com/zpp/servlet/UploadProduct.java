@@ -91,14 +91,15 @@ public class UploadProduct extends HttpServlet {
 			request.setAttribute("isSuccess", true);
 			
 			//仓库条数
-			long count=service.CheckProductCount(user.getId());
+			long count=service.CheckProductCount(user.getId(),"全部");
 			Jedis jedis=JedisPoolUtils.getJedis();
 			jedis.hset("depot",String.valueOf(user.getId()) , String.valueOf(count));
-			
+			jedis.close();
 		} catch (Exception e) {
 			request.setAttribute("isSuccess", false);
 			//e.printStackTrace();
 		}finally {
+			
 			request.getRequestDispatcher("/page/success.jsp").forward(request, response);
 		}
 		

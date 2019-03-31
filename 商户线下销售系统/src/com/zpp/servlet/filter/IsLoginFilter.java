@@ -53,7 +53,7 @@ public class IsLoginFilter implements Filter {
 			Jedis jedis=JedisPoolUtils.getJedis();
 			String userSid=null;
 			userSid=jedis.hget("users", sid);
-			
+			jedis.close();
 			if(userSid==null) {
 				Cookie cookie=new Cookie("sid", "111");
 				cookie.setMaxAge(0);

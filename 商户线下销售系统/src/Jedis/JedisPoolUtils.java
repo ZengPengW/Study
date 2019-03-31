@@ -14,11 +14,12 @@ public class JedisPoolUtils  {
 		
 		static{
 			config=new JedisPoolConfig();
-			config.setMaxTotal(30);
-			config.setMaxIdle(2);
+			config.setMaxTotal(100);
+			config.setMaxIdle(50);
 			
 			//pool=new JedisPool(config, "192.168.204.128", 6379);
-			pool=new JedisPool(config, "192.168.65.128", 6379);
+			//pool=new JedisPool(config, "192.168.65.128", 6379);
+			pool=new JedisPool(config, "192.168.65.128", 6379, 5000, "2836922404");
 		}
 		
 		

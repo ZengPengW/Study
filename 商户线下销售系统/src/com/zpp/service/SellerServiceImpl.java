@@ -42,6 +42,7 @@ public class SellerServiceImpl implements SellerService {
 			Jedis jedis=JedisPoolUtils.getJedis();
 			jedis.hdel("users", user.getSid());
 			String sid=SidUtils.getSid(user.getUsername(), user.getPassword());
+			jedis.close();
 			return dao.alterSid(email, sid);
 		}else {
 			return false;
@@ -79,6 +80,7 @@ public class SellerServiceImpl implements SellerService {
 				String jsonstr=json.toString();
 				jedis.hset("users",user.getSid() , jsonstr);
 			}
+			jedis.close();
 			return user;
 		}else {
 			
@@ -87,6 +89,7 @@ public class SellerServiceImpl implements SellerService {
 			JSONObject jsonObject2=JSONObject.fromObject(o);
 			User user =(User)JSONObject.toBean(jsonObject2, User.class);
 			//System.out.println(user.getEmail()+" "+user.getPassword());
+			jedis.close();
 			return user;
 		}
 	
@@ -99,15 +102,21 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public Long CheckProductCount(int uid) throws SQLException {
+	public Long CheckProductCount(int uid,String productClass) throws SQLException {
 		
-		return dao.CheckProductCount(uid);
+		return dao.CheckProductCount(uid,productClass);
 	}
 
 	@Override
 	public List<Object> FindProductClass(int uid) throws SQLException {
 		return dao.FindProductClass(uid);
 		
+	}
+
+	@Override
+	public List<Product> FindAllProduct(int uid, int currentPage,String productClass) throws SQLException {
+		
+		return dao.FindAllProduct(uid, currentPage, productClass);
 	}
 	
 	

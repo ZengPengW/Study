@@ -79,7 +79,7 @@
 								<a href="#">在售商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
-								<a href="/Zpp/page/admin/MerchandiseList.jsp">商品仓库<span class="sr-only">(current)</span></a>
+								<a href="/Zpp/FindProductAll?currentPage=1&productClass=全部">商品仓库<span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="#">商铺设置</a>
@@ -143,15 +143,24 @@
 				<div class="form-group">
 					<label for="productImg" class="col-sm-3 control-label">商品图片</label>
 					<div class="col-sm-6">
-						<input id="productImg" type="file" name="productImg" />
+						<!--<input id="productImg" type="file" name="productImg" />-->
+						<div class="input-group">
+							<input id='location' class="form-control" onclick="$('#productImg').click();">
+							<label class="input-group-btn">
+               <input type="button" id="i-check" value="浏览文件" class="btn btn-primary" onclick="$('#productImg').click();">
+           </label>
+						</div>
+						<input type="file" name="productImg" id='productImg'  onchange="$('#location').val($('#productImg').val());" style="display: none">
 					</div>
 				</div>
+
 				<div class="form-group">
 					<label class="col-sm-3 control-label"></label>
 					<div class="col-sm-6">
 						<img class="img-rounded img-thumbnail" width="140px" height="140px" src="..\..\imgs\icon\douzi.svg" id="spimg" />
 					</div>
 				</div>
+
 				<div class="form-group">
 					<label for="productMessage" class="col-sm-3 control-label">商品描述</label>
 					<div class="col-sm-6">

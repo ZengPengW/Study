@@ -73,7 +73,7 @@
 								<a href="#">在售商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
-								<a href="/Zpp/page/admin/MerchandiseList.jsp">商品仓库<span class="sr-only">(current)</span></a>
+								<a href="/Zpp/FindProductAll?currentPage=1&productClass=全部">商品仓库<span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="#">商铺设置</a>
@@ -109,12 +109,12 @@
 Jedis jedis=JedisPoolUtils.getJedis();					
 String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
 String userJson=jedis.hget("users",sid );
-
+jedis.close();
 User user =JsonUtils.getUser(userJson);						
 String depotCount=jedis.hget("depot", String.valueOf(user.getId()));	
 if(depotCount==null){
 	SellerService service=new SellerServiceImpl();
-	depotCount=String.valueOf(service.CheckProductCount(user.getId()));
+	depotCount=String.valueOf(service.CheckProductCount(user.getId(),"全部"));
 	jedis.hset("depot", String.valueOf(user.getId()), depotCount);
 	depotCount=String.format("%.2f", Double.valueOf(depotCount));
 	

@@ -19,7 +19,9 @@ public interface Sellerdao {
 	public boolean isExisProductName(String productname,int uid)throws SQLException;
 	public User getUserBySid(String sid)throws SQLException;
 	public boolean AddProduct(Product product)throws SQLException;
-	public Long CheckProductCount(int uid)throws SQLException;
+	public Long CheckProductCount(int uid,String productClass)throws SQLException;
 	public List<Object> FindProductClass(int uid)throws SQLException;
+	public List<Product> FindAllProduct(int uid,int currentPage,String productClass)throws SQLException;
+	
 	
 }

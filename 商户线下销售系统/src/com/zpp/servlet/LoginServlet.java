@@ -38,8 +38,10 @@ public class LoginServlet extends HttpServlet {
 		try {
 			User user=service.getUserByName(name);
 			if(user==null) {
-				request.setAttribute("isSuccess", false);
-				request.getRequestDispatcher("/page/success.jsp").forward(request, response);
+//				request.setAttribute("isSuccess", false);
+//				request.getRequestDispatcher("/page/success.jsp").forward(request, response);
+				throw new RuntimeException("Î´ÖªµÄµÇÂ¼Òì³£");
+				
 			}
 			Cookie sid=new Cookie("sid", user.getSid());
 			if("on".equals(auto_login)){

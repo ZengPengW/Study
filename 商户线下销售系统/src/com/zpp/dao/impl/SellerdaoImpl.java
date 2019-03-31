@@ -2,15 +2,14 @@ package com.zpp.dao.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.ResultSetHandler;
-import org.apache.commons.dbutils.handlers.ArrayHandler;
+
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 
@@ -139,10 +138,16 @@ public class SellerdaoImpl implements Sellerdao {
 	}
 
 	@Override
-	public Long CheckProductCount(int uid) throws SQLException {
+	public Long CheckProductCount(int uid,String productClass) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
 		String sql = "SELECT count(*) FROM product WHERE uid=?";
-		Long count =(Long) qr.query(sql, new ScalarHandler(), uid);
+		Long count=0l ;
+		if("全部".equals(productClass)){
+		 count =(Long) qr.query(sql, new ScalarHandler(), uid);
+		}else {
+			sql+=" and productClass=?";
+			count =(Long) qr.query(sql, new ScalarHandler(), uid,productClass);
+		}
 		return count;
 	}
 
@@ -162,6 +167,23 @@ public class SellerdaoImpl implements Sellerdao {
 			}
 		}
 		return al;
+	}
+
+	public static final int pageSize=5;
+	@Override
+	public List<Product> FindAllProduct(int uid, int currentPage,String productClass) throws SQLException {
+		
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		List<Product> list=null;
+		if("全部".equals(productClass)){
+			String sql="select * from product where uid=? limit ? offset ?";
+		    list = qr.query(sql, new BeanListHandler<Product>(Product.class),uid,pageSize,pageSize*(currentPage-1));
+		}else {
+			String sql="select * from product where uid=? and productClass=? limit ? offset ?";
+			list = qr.query(sql, new BeanListHandler<Product>(Product.class),uid,productClass,pageSize,pageSize*(currentPage-1));
+		}
+		
+		return list;
 	}
 
 }
