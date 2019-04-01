@@ -118,6 +118,46 @@ public class SellerServiceImpl implements SellerService {
 		
 		return dao.FindAllProduct(uid, currentPage, productClass);
 	}
+
+	@Override
+	public List<Product> GetProductByName(String likeName, int uid) throws SQLException {
+		return dao.GetProductByName(likeName, uid);
+	}
+
+	@Override
+	public List<Product> OnSaleProductByID(int uid, int currentPage, String productClass) throws SQLException {
+		return dao.OnSaleProductByID(uid, currentPage, productClass);
+	}
+
+	@Override
+	public List<Product> GetOnSaleByName(String likeName, int uid) throws SQLException {
+		return dao.GetOnSaleByName(likeName, uid);
+	}
+
+	@Override
+	public List<Object> FindOnSaleProductClass(int uid) throws SQLException {
+		return dao.FindOnSaleProductClass(uid);
+	}
+
+	@Override
+	public Long CheckOnsaleProductCount(int uid, String productClass) throws SQLException {
+		return dao.CheckOnsaleProductCount(uid, productClass);
+	}
+
+	@Override
+	public boolean DeleteProduct(int uid, int pid) throws SQLException {
+		return dao.DeleteProduct(uid, pid);
+	}
+
+	@Override
+	public Product GetProductByPid(int uid, int pid) throws SQLException {
+		return dao.GetProductByPid(uid, pid);
+	}
+
+	@Override
+	public boolean alterProduct(Product product) throws SQLException {
+		return dao.alterProduct(product);
+	}
 	
 	
 

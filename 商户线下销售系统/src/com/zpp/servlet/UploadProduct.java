@@ -17,6 +17,7 @@ import com.zpp.domain.User;
 import com.zpp.service.SellerService;
 import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.CookiesUtils;
+import com.zpp.utils.JsonUtils;
 import com.zpp.utils.UploadUtils;
 
 import Jedis.JedisPoolUtils;
@@ -81,18 +82,20 @@ public class UploadProduct extends HttpServlet {
 			}
 			fileName=savePath + dir +fileName;
 			part.write(fileName);
+			
+
+			Jedis jedis=JedisPoolUtils.getJedis();
+			String jsonstr=jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid"));
+			User user=JsonUtils.getUser(jsonstr);
+			
 			SellerService service=new SellerServiceImpl();
-			User user=service.getUserBySid(CookiesUtils.getCookie(request.getCookies(), "sid"));
-//			System.out.println(fileName);
-//			System.out.println(this.getServletContext().getContextPath().replace("/", "\\"));
-//			System.out.println(fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))));
 			Product product=new Product(user.getId(), productName, price, productCount, fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))), productMessage, productClass);
 			service.AddProduct(product);
 			request.setAttribute("isSuccess", true);
 			
 			//仓库条数
 			long count=service.CheckProductCount(user.getId(),"全部");
-			Jedis jedis=JedisPoolUtils.getJedis();
+			
 			jedis.hset("depot",String.valueOf(user.getId()) , String.valueOf(count));
 			jedis.close();
 		} catch (Exception e) {

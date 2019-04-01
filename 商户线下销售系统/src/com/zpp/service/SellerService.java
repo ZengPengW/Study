@@ -19,5 +19,13 @@ public interface SellerService {
 	public Long CheckProductCount(int uid,String productClass)throws SQLException;
 	public List<Object> FindProductClass(int uid)throws SQLException;
 	public List<Product> FindAllProduct(int uid,int currentPage,String productClass)throws SQLException;
+	public List<Product> GetProductByName(String likeName,int uid)throws SQLException;
+	public List<Product> OnSaleProductByID(int uid,int currentPage,String productClass)throws SQLException;
+	public List<Product> GetOnSaleByName(String likeName,int uid)throws SQLException;
+	public List<Object> FindOnSaleProductClass(int uid)throws SQLException;
+	public Long CheckOnsaleProductCount(int uid,String productClass)throws SQLException;
+	public boolean DeleteProduct(int uid ,int pid)throws SQLException;
+	public Product GetProductByPid(int uid ,int pid)throws SQLException;
+	public boolean alterProduct(Product product)throws SQLException;
 	
 }

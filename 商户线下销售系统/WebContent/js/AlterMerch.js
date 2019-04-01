@@ -1,0 +1,109 @@
+$(function() {
+	$("#productImg").change(function() {
+		
+		var filePath = $(this).val();
+		if(filePath != "" && filePath != null && filePath != undefined){
+			var fileformat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+			if(!fileformat.match(/.png|.jpg|jpeg|.gif/)) {
+				alert('上传错误,文件格式必须为：png/jpg/jpeg/gif');
+				return;
+			}
+			var src = window.URL.createObjectURL(this.files[0]);
+			$("#spimg").prop("src", src);
+		}
+		
+
+	});
+
+	$("#AlterMerchandise").validate({
+
+		rules: {
+
+			productName: {
+				required: true,
+				remote: {
+					type: "POST",
+					url: "/Zpp/CheckAlterProductName", // 请求地址
+					data: {
+						productName: function() {
+							return $("#productName").val();
+						},
+						pid:function() {
+							return $("#pid").val();
+						}
+					}
+
+				}
+			},
+			productClass: {
+				required: true
+			},
+			price: {
+				required: true,
+				number: true,
+				min: 0.01,
+				max: 2000000000
+			},
+			productCount: {
+				required: true,
+				digits: true,
+				min: 0,
+				max: 2000000000
+			},
+			
+			productMessage: {
+				required: true,
+			}
+		},
+
+		messages: {
+			productName: {
+				required: "请输入商品名称",
+				remote: "该商品已存在"
+			},
+			productClass: {
+				required: "请输入分类名称",
+			},
+			price: {
+				required: "请输入商品价格",
+				number: "请输入正确到价格",
+				min: "价格不能小于0.01",
+				max: "价格越界了，你个黑心商家"
+
+			},
+			productCount: {
+				required: "请输入商品数量",
+				digits: "请输入整数数量",
+				min: "商品数量最小为0",
+				max: "写那么多货干嘛你有吗？"
+			},
+			
+			productMessage: {
+				required: "商品信息不能为空"
+			}
+
+		},
+		submitHandler: function(form) {
+			var filePath = $("#productImg").val();
+			//alert(filePath);
+			if(filePath != "" && filePath != null && filePath != undefined){
+				var fileformat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+				if(!fileformat.match(/.png|.jpg|jpeg|.gif|.svg/)) {
+					alert('上传错误,文件格式必须为：.png|.jpg|.jpeg|.gif|.svg');
+				} else {
+					form.submit();
+				}
+				
+			}else{
+				form.submit();
+			}
+			
+		},
+		onfocus: true,
+		　　　
+		onkeyup: false,
+		　　　
+		focusCleanup: true
+
+	});
+});

@@ -70,7 +70,7 @@
 								<a href="admin/AddMerchandise.jsp">添加商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
-								<a href="#">在售商品 <span class="sr-only">(current)</span></a>
+								<a href="/Zpp/OnSaleProductList?currentPage=1&productClass=全部 " >在售商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="/Zpp/FindProductAll?currentPage=1&productClass=全部">商品仓库<span class="sr-only">(current)</span></a>
