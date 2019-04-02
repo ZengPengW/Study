@@ -1,3 +1,8 @@
+<%@page import="com.zpp.utils.JsonUtils"%>
+<%@page import="com.zpp.domain.User"%>
+<%@page import="com.zpp.utils.CookiesUtils"%>
+<%@page import="Jedis.JedisPoolUtils"%>
+<%@page import="redis.clients.jedis.Jedis"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -32,7 +37,12 @@
 			color: red;
 		}
 	</style>
+<%
 
+String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
+User user=CookiesUtils.getUser(sid);
+request.setAttribute("user", user);
+%>
 	<body>
 
 		<!--头部-->
@@ -41,13 +51,11 @@
 				<div class="col-lg-4 col-md-4 col-sm-6">
 					<h4><small>Welcome to Zpp</small></h4>
 				</div>
-				<div class="col-lg-5 col-md-4 hidden-xs col-sm-6">
+				<div class="col-lg-5 col-md-5 hidden-xs col-sm-6">
 
 				</div>
-				<div class="col-lg-3 col-md-4 col-sm-12" style="padding-top: 15px;">
-					<a href="#">登录</a>
-					<a href="#">注册</a>
-					<a href="#">购物车</a>
+				<div class="col-lg-3 col-md-3 col-sm-12" style="padding-top: 15px;">
+				<h4><img src="/Zpp/imgs/icon/me.svg" witch="20px" height="20px">${user.username} <a class="label label-danger" href="/Zpp/SignOut">退出</a></h4>
 				</div>
 			</div>
 		</div>
@@ -116,7 +124,7 @@
 				<div class="form-group">
 					<label for="productName" class="col-sm-3 control-label">商品名称</label>
 					<div class="col-sm-6">
-						<input type="text" style="display: none" value="${product.pid}" id="pid">
+						<input type="text" style="display: none" value="${product.pid}" id="pid" name="pid">
 						<input type="text" class="form-control" id="productName" placeholder="请输入商品名称" name="productName" value="${product.productName }">
 					</div>
 				</div>
@@ -166,7 +174,7 @@
 					<label for="productMessage" class="col-sm-3 control-label">商品描述</label>
 					<div class="col-sm-6">
 
-						<textarea cols="20" rows="5" data-first="true" id="productMessage" name="productMessage" value="${product.productMessage }"></textarea>
+						<textarea cols="20" rows="5" data-first="true" id="productMessage" name="productMessage" >${product.productMessage }</textarea>
 
 					</div>
 				</div>

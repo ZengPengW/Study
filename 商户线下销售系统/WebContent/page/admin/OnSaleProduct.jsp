@@ -27,9 +27,28 @@
 <script src="/Zpp/js/jquery-1.11.3.min.js"></script>
 <script src="/Zpp/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/Zpp/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/Zpp/js/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/Zpp/css/sweet-alert.css">
 <script type="text/javascript" src="/Zpp/js/SearchProduct.js"></script>
+<script type="text/javascript" src="/Zpp/js/CRUD.js"></script>
 </head>
-
+<%
+		try {
+			String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
+			Jedis jedis = JedisPoolUtils.getJedis();
+			String jsonstr = jedis.hget("users", sid);
+			User user = JsonUtils.getUser(jsonstr);
+			int uid = user.getId();
+			SellerService service = new SellerServiceImpl();
+			List<Object> productClass = service.FindOnSaleProductClass(uid);
+			request.setAttribute("user", user);
+			request.setAttribute("productClassList", productClass);
+			jedis.close();
+		} catch (SQLException e) {
+			request.setAttribute("isSuccess", false);
+			request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
+		}
+	%>
 <body>
 	<div class="container">
 		<div class="row">
@@ -38,9 +57,9 @@
 					<small>Welcome to Zpp</small>
 				</h4>
 			</div>
-			<div class="col-lg-5 col-md-4 hidden-xs col-sm-6"></div>
-			<div class="col-lg-3 col-md-4 col-sm-12" style="padding-top: 15px;">
-				<a href="#">登录</a> <a href="#">注册</a> <a href="#">购物车</a>
+			<div class="col-lg-5 col-md-5 hidden-xs col-sm-6"></div>
+			<div class="col-lg-3 col-md-3 col-sm-12" style="padding-top: 15px;">
+				<h4><img src="/Zpp/imgs/icon/me.svg" witch="20px" height="20px">${user.username} <a class="label label-danger" href="/Zpp/SignOut">退出</a></h4>
 			</div>
 		</div>
 	</div>
@@ -91,22 +110,7 @@
 		</div>
 		</nav>
 	</div>
-	<%
-		try {
-			String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
-			Jedis jedis = JedisPoolUtils.getJedis();
-			String jsonstr = jedis.hget("users", sid);
-			User user = JsonUtils.getUser(jsonstr);
-			int uid = user.getId();
-			SellerService service = new SellerServiceImpl();
-			List<Object> productClass = service.FindOnSaleProductClass(uid);
-			request.setAttribute("productClassList", productClass);
-			jedis.close();
-		} catch (SQLException e) {
-			request.setAttribute("isSuccess", false);
-			request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
-		}
-	%>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1 ">
@@ -221,11 +225,10 @@
 									class="form-control">${item.productMessage}</textarea></td>
 							<td class="text-center">
 								<div class="btn-group " style="margin: 10% auto auto auto;">
-									<button type="button" class="btn btn-info" value="${item.pid}">修改</button>
+									
 									<button type="button" class="btn btn-danger"
-										value="${item.pid}">删除</button>
-									<button type="button" class="btn btn-success"
-										value="${item.pid}">发布</button>
+										value="${item.pid}" onclick="cancel(this)">下架</button>
+									
 								</div>
 							</td>
 						</tr>

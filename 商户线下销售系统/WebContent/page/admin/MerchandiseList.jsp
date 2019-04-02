@@ -12,6 +12,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -28,10 +29,32 @@
 <script src="/Zpp/js/jquery-1.11.3.min.js"></script>
 <script src="/Zpp/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/Zpp/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/Zpp/js/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/Zpp/css/sweet-alert.css">
 <script type="text/javascript" src="/Zpp/js/SearchProduct.js"></script>
 <script type="text/javascript" src="/Zpp/js/CRUD.js"></script>
-</head>
 
+</head>
+<%
+	List<Object> onsalePid=null;
+		try {
+			String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
+			Jedis jedis = JedisPoolUtils.getJedis();
+			String jsonstr = jedis.hget("users", sid);
+			User user = JsonUtils.getUser(jsonstr);
+			int uid = user.getId();
+			SellerService service = new SellerServiceImpl();
+			List<Object> productClass = service.FindProductClass(uid);
+			onsalePid=service.GetOnSalePid(uid);
+			request.setAttribute("user", user);
+			request.setAttribute("productClassList", productClass);
+			request.setAttribute("onsalePid", onsalePid);
+			jedis.close();
+		} catch (SQLException e) {
+			request.setAttribute("isSuccess", false);
+			request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
+		}
+	%>
 <body>
 	<div class="container">
 		<div class="row">
@@ -40,9 +63,9 @@
 					<small>Welcome to Zpp</small>
 				</h4>
 			</div>
-			<div class="col-lg-5 col-md-4 hidden-xs col-sm-6"></div>
-			<div class="col-lg-3 col-md-4 col-sm-12" style="padding-top: 15px;">
-				<a href="#">登录</a> <a href="#">注册</a> <a href="#">购物车</a>
+			<div class="col-lg-5 col-md-5 hidden-xs col-sm-6"></div>
+			<div class="col-lg-3 col-md-3 col-sm-12" style="padding-top: 15px;">
+				<h4><img src="/Zpp/imgs/icon/me.svg" witch="20px" height="20px">${user.username} <a class="label label-danger" href="/Zpp/SignOut">退出</a></h4>
 			</div>
 		</div>
 	</div>
@@ -93,22 +116,16 @@
 		</div>
 		</nav>
 	</div>
-	<%
-		try {
-			String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
-			Jedis jedis = JedisPoolUtils.getJedis();
-			String jsonstr = jedis.hget("users", sid);
-			User user = JsonUtils.getUser(jsonstr);
-			int uid = user.getId();
-			SellerService service = new SellerServiceImpl();
-			List<Object> productClass = service.FindProductClass(uid);
-			request.setAttribute("productClassList", productClass);
-			jedis.close();
-		} catch (SQLException e) {
-			request.setAttribute("isSuccess", false);
-			request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
-		}
-	%>
+	
+	<script type="text/javascript">
+	var list=new Array();
+	</script>
+	<c:forEach items="${onsalePid}" var="x">
+	<script type="text/javascript">
+	 list.push("${x}");
+	</script>
+	</c:forEach>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1 ">
@@ -221,13 +238,36 @@
 							</td>
 							<td><textarea cols="20" rows="5" readonly
 									class="form-control">${item.productMessage}</textarea></td>
+							
+							
+							
+							
 							<td class="text-center">
 								<div class="btn-group " style="margin: 10% auto auto auto;">
 									<button type="button" class="btn btn-info" value="${item.pid}" onclick="alterProdcut(this)">修改</button>
+									
 									<button type="button" class="btn btn-danger"
 										value="${item.pid}" onclick="deleteProdcut(this)">删除</button>
-									<button type="button" class="btn btn-success"
-										value="${item.pid}">发布</button>
+									
+										
+									<c:set var="flag" value="${fn:length(onsalePid)}"></c:set>	
+									
+									<c:forEach items="${onsalePid}" var="i" begin="0" end="${flag}">
+										
+										<c:if test="${i==item.pid}">
+										<c:set var="flag" value="-1"></c:set>	
+										<button type="button" class="btn btn-warning " disabled="disabled"
+										value="${item.pid}" onclick="publish(this)">已发布</button>
+										</c:if>
+									</c:forEach>
+									
+									<c:if test="${flag!=-1}">
+									<button type="button" class="btn btn-success " 
+										value="${item.pid}" onclick="publish(this)">发布</button>
+									</c:if>
+									
+									
+									
 								</div>
 							</td>
 						</tr>

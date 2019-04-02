@@ -27,6 +27,33 @@
 
 	</head>
 
+<%
+Jedis jedis=JedisPoolUtils.getJedis();					
+String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
+String userJson=jedis.hget("users",sid );
+User user =JsonUtils.getUser(userJson);	
+request.setAttribute("user", user);
+String depotCount=jedis.hget("depot", String.valueOf(user.getId()));
+
+SellerService service=new SellerServiceImpl();
+if(depotCount==null){
+	depotCount=String.valueOf(service.CheckProductCount(user.getId(),"全部"));
+	jedis.hset("depot", String.valueOf(user.getId()), depotCount);
+	depotCount=String.format("%.2f", Double.valueOf(depotCount));
+}
+else {
+  depotCount=String.format("%.2f", Double.valueOf(depotCount))  ;
+}
+
+String onsale=jedis.hget("onsale", String.valueOf(user.getId()));
+if(onsale==null){
+	onsale=String.valueOf(service.CheckOnsaleProductCount(user.getId(), "全部"));
+	jedis.hset("onsale", String.valueOf(user.getId()), onsale);
+}
+onsale=String.format("%.2f", Double.valueOf(onsale));
+
+jedis.close();
+%>
 	<body>
 
 		<!--头部-->
@@ -35,13 +62,11 @@
 				<div class="col-lg-4 col-md-4 col-sm-6">
 					<h4><small>Welcome to Zpp</small></h4>
 				</div>
-				<div class="col-lg-5 col-md-4 hidden-xs col-sm-6">
+				<div class="col-lg-5 col-md-5 hidden-xs col-sm-6">
 
 				</div>
-				<div class="col-lg-3 col-md-4 col-sm-12" style="padding-top: 15px;">
-					<a href="#">登录</a>
-					<a href="#">注册</a>
-					<a href="#">购物车</a>
+				<div class="col-lg-3 col-md-3 col-sm-12" style="padding-top: 15px;">
+				<h4><img src="/Zpp/imgs/icon/me.svg" witch="20px" height="20px">${user.username} <a class="label label-danger" href="/Zpp/SignOut">退出</a></h4>
 				</div>
 			</div>
 		</div>
@@ -105,24 +130,7 @@
 				</div>
 			</nav>
 		</div>
-<%
-Jedis jedis=JedisPoolUtils.getJedis();					
-String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
-String userJson=jedis.hget("users",sid );
-jedis.close();
-User user =JsonUtils.getUser(userJson);						
-String depotCount=jedis.hget("depot", String.valueOf(user.getId()));	
-if(depotCount==null){
-	SellerService service=new SellerServiceImpl();
-	depotCount=String.valueOf(service.CheckProductCount(user.getId(),"全部"));
-	jedis.hset("depot", String.valueOf(user.getId()), depotCount);
-	depotCount=String.format("%.2f", Double.valueOf(depotCount));
-	
-}
-else {
-  depotCount=String.format("%.2f", Double.valueOf(depotCount))  ;
-}
-%>
+
 		<div class="container">
 			<table class="table table-striped table-responsive">
 				<tr>
@@ -138,9 +146,9 @@ else {
 				</tr>
 				<tr>
 					<td>
-						<h3>在售商品/条</h3></td>
+						<h3>出售中/条</h3></td>
 					<td>
-						<h2><strong>0.00</strong></h2></td>
+						<h2><strong><%=onsale %></strong></h2></td>
 				</tr>
 				<tr class="warning">
 					<td>
@@ -150,7 +158,7 @@ else {
 				</tr>
 				<tr>
 					<td>
-						<h3>总售出/件</h3></td>
+						<h3>已售出/件</h3></td>
 					<td>
 						<h2><strong>1.00</strong></h2></td>
 				</tr>

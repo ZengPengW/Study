@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
-
+import org.apache.commons.dbutils.handlers.ArrayHandler;
 import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -251,10 +251,10 @@ public class SellerdaoImpl implements Sellerdao {
 		conn.setAutoCommit(false);
 		//depot
 		try {
-			String sql1="delete from product where pid=?";
-			String sql2="delete from onse where pid=?";
-			qr.update(conn, sql1,pid);
-			qr.update(conn, sql1,pid);
+			String sql1="delete from product where pid=? and uid=?";
+			String sql2="delete from onse where pid=? and uid=?";
+			qr.update(conn, sql1,pid,uid);
+			qr.update(conn, sql2,pid,uid);
 			
 		} catch (Exception e) {
 			conn.rollback();
@@ -317,7 +317,7 @@ public class SellerdaoImpl implements Sellerdao {
 		String sql1="delete from onse where pid=? and uid=?";
 		String sql2="update  product set productName=?,price=?,productCount=?,";
 		boolean flag=false;
-		if(!product.getProductImg().isEmpty()) {
+		if(product.getProductImg()!=null&&!product.getProductImg().isEmpty()) {
 			sql2+="productImg=?,";
 			flag=true;
 		}
@@ -344,6 +344,79 @@ public class SellerdaoImpl implements Sellerdao {
 	
 		return true;
 		
+	}
+
+	@Override
+	public boolean isExisOnSale(int uid, int pid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from onse where uid=? and pid=?";
+		Product product =qr.query(sql, new BeanHandler<Product>(Product.class),uid,pid);
+		if(product==null) {
+			return false;
+		}else {
+			return true;
+		}
+		
+	}
+
+	@Override
+	public boolean publishProduct(int uid, int pid) throws SQLException {
+		QueryRunner qr = new QueryRunner();
+		Connection conn=DataSourceUtils.getConnection();
+		conn.setTransactionIsolation(conn.TRANSACTION_READ_COMMITTED);
+		conn.setAutoCommit(false);
+		try {
+			String sql1="select * from product where uid=? and pid=?";
+			String sql2="insert into onse(uid,productName,price,productCount,productImg,productMessage,productClass,pid,version) values(?,?,?,?,?,?,?,?,?)";
+			
+			Product product =qr.query(conn, sql1, new BeanHandler<Product>(Product.class),uid,pid);
+			int is=qr.update(conn, sql2,product.getUid(),product.getProductName(),product.getPrice(),product.getProductCount(),product.getProductImg(),product.getProductMessage(),product.getProductClass(),product.getPid(),1);
+			if(is!=1)throw new RuntimeException("ÉÏ¼ÜÊ§°Ü");
+		} catch (Exception e) {
+			conn.rollback();
+			conn.setAutoCommit(true);
+			conn.close();
+			return false;
+		}
+		
+		conn.commit();
+		conn.setAutoCommit(true);
+		conn.close();
+		
+		Jedis jedis=JedisPoolUtils.getJedis();
+		int count=Integer.parseInt(jedis.hget("onsale", ""+uid))+1;
+		jedis.hset("onsale", ""+uid, ""+count);
+		jedis.close();
+		return true;
+	}
+
+	@Override
+	public boolean onSaleDelete(int uid, int pid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="delete from onse where uid=? and pid=?";
+		int is=qr.update(sql,uid,pid);
+		if(is>=1) {
+			Jedis jedis=JedisPoolUtils.getJedis();
+			int count=Integer.parseInt(jedis.hget("onsale", ""+uid))-1;
+			if(count<=0)count=0;
+			jedis.hset("onsale", ""+uid, ""+count);
+			jedis.close();
+			return true;
+		}
+		else return false;
+	}
+
+	@Override
+	public ArrayList<Object> GetOnSalePid(int uid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select pid from onse where uid=?";
+		List<Object[]> obj=qr.query(sql, new ArrayListHandler(),uid);
+		
+		ArrayList<Object> al=new ArrayList<Object>();
+		for (Object[] i : obj) {
+			al.add(i[0]);
+		}
+		return al;
 	}
 
 }

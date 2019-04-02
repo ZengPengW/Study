@@ -18,7 +18,7 @@
 	</style>
 	<script type="text/javascript">
 		function countDown(){
-		setTimeout("location.href='/Zpp/page/login.jsp'",3000);
+		setTimeout("location.href='/Zpp/page/login.jsp'",1000);
              
 	}
 	countDown();

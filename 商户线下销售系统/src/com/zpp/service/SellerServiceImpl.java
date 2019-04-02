@@ -1,6 +1,7 @@
 package com.zpp.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.zpp.dao.Sellerdao;
@@ -157,6 +158,26 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public boolean alterProduct(Product product) throws SQLException {
 		return dao.alterProduct(product);
+	}
+
+	@Override
+	public boolean isExisOnSale(int uid, int pid) throws SQLException {
+		return dao.isExisOnSale(uid, pid);
+	}
+
+	@Override
+	public boolean publishProduct(int uid, int pid) throws SQLException {
+		return dao.publishProduct(uid, pid);
+	}
+
+	@Override
+	public boolean onSaleDelete(int uid, int pid) throws SQLException {
+		return dao.onSaleDelete(uid, pid);
+	}
+
+	@Override
+	public ArrayList<Object> GetOnSalePid(int uid) throws SQLException {
+		return dao.GetOnSalePid(uid);
 	}
 	
 	

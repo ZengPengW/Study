@@ -1,6 +1,7 @@
 package com.zpp.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.zpp.domain.Product;
@@ -27,5 +28,9 @@ public interface SellerService {
 	public boolean DeleteProduct(int uid ,int pid)throws SQLException;
 	public Product GetProductByPid(int uid ,int pid)throws SQLException;
 	public boolean alterProduct(Product product)throws SQLException;
+	public boolean isExisOnSale(int uid,int pid)throws SQLException;
+	public boolean publishProduct(int uid,int pid)throws SQLException;
+	public boolean onSaleDelete(int uid,int pid)throws SQLException;
+	public ArrayList<Object> GetOnSalePid(int uid)throws SQLException;
 	
 }

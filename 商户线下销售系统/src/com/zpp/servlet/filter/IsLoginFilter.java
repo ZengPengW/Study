@@ -48,7 +48,7 @@ public class IsLoginFilter implements Filter {
 		    }
 		}
 		
-		if(sid==null)rep.sendRedirect("/Zpp/page/login.jsp");
+		if(sid==null||sid.isEmpty())rep.sendRedirect("/Zpp/page/login.jsp");
 		else  {
 			Jedis jedis=JedisPoolUtils.getJedis();
 			String userSid=null;

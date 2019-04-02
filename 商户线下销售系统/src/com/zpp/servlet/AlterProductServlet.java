@@ -35,7 +35,7 @@ public class AlterProductServlet extends HttpServlet {
 		
 		
 		try {
-			int pid=Integer.parseInt(request.getParameter("pid"));//pid错误
+			int pid=Integer.parseInt(request.getParameter("pid"));
 			String productName = request.getParameter("productName");
 			String productClass = request.getParameter("productClass");
 			double price = Double.parseDouble(request.getParameter("price"));
@@ -43,7 +43,7 @@ public class AlterProductServlet extends HttpServlet {
 			String productMessage=request.getParameter("productMessage");
 			
 			String savePath = request.getServletContext().getRealPath("/productImg");
-			String fileName = null;
+			
 			
 			
 			Jedis jedis=JedisPoolUtils.getJedis();
@@ -53,24 +53,23 @@ public class AlterProductServlet extends HttpServlet {
 			
 			boolean flag=false;
 			
-			
+			String fileName = null;
 			// 上传单个文件
 			Part part = request.getPart("productImg");// 通过表单file控件(<input type="file" name="file">)的名字直接获取Part对象
-			if(part!=null) {
+			// 获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
+			String header = part.getHeader("Content-Disposition");
+			// 获取文件名
+			fileName = UploadUtils.getFileName(header);
+		
+			//校验格式
+			String form=fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
+			if(form!=null&&!form.isEmpty()) {
 
-				// 获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
-				String header = part.getHeader("Content-Disposition");
-				// 获取文件名
-				
-				fileName = UploadUtils.getFileName(header);
-				
-				//校验格式
-				String form=fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
-				//System.out.println(form);
 				if(!form.equals("png")&&!form.equals("jpg")&&!form.equals("jpeg")&&!form.equals("gif")&&!form.equals("svg")) {
-					System.out.println("返回");
+					
 					request.setAttribute("isSuccess", false);
 					throw new RuntimeException("格式错误");
+					
 				}
 				
 				String dir=UploadUtils.getDir(fileName);
@@ -89,11 +88,13 @@ public class AlterProductServlet extends HttpServlet {
 				SellerService service=new SellerServiceImpl();
 				//User user=service.getUserBySid(CookiesUtils.getCookie(request.getCookies(), "sid"));
 				Product product=new Product(user.getId(), productName, price, productCount, fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))), productMessage, productClass);
+				product.setPid(pid);
 				flag=service.alterProduct(product);
 				
 			}else {
 				SellerService service=new SellerServiceImpl();
 				Product product=new Product(user.getId(), productName, price, productCount, null, productMessage, productClass);
+				product.setPid(pid);
 				flag=service.alterProduct(product);
 			}
 			
@@ -102,7 +103,7 @@ public class AlterProductServlet extends HttpServlet {
 			request.setAttribute("isSuccess", flag);
 		} catch (Exception e) {
 			request.setAttribute("isSuccess", false);
-			e.printStackTrace();
+			//e.printStackTrace();
 		}finally {
 			
 			request.getRequestDispatcher("/page/success.jsp").forward(request, response);

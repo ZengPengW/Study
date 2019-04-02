@@ -30,6 +30,9 @@ public interface Sellerdao {
 	public boolean DeleteProduct(int uid ,int pid)throws SQLException;
 	public Product GetProductByPid(int uid ,int pid)throws SQLException;
 	public boolean alterProduct(Product product)throws SQLException;
-	
+	public boolean isExisOnSale(int uid,int pid)throws SQLException;
+	public boolean publishProduct(int uid,int pid)throws SQLException;
+	public boolean onSaleDelete(int uid,int pid)throws SQLException;
+	public ArrayList<Object> GetOnSalePid(int uid)throws SQLException;
 	
 }

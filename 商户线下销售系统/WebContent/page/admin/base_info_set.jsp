@@ -1,49 +1,31 @@
+<%@page import="com.zpp.utils.JsonUtils"%>
 <%@page import="com.zpp.domain.User"%>
 <%@page import="com.zpp.utils.CookiesUtils"%>
+<%@page import="Jedis.JedisPoolUtils"%>
+<%@page import="redis.clients.jedis.Jedis"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
-
-	<head>
+<head>
 		<meta charset="utf-8">
 		<!--声明文档兼容模式，表示使用IE浏览器的最新模式-->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>添加商品</title>
+		<title>首页</title>
 		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
 		<script src="../../js/jquery-1.11.3.min.js"></script>
 		<script src="../../js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../../js/jquery.validate.min.js"></script>
-		
 
-		<script type="text/javascript" src="../../js/AddMer.js"></script>
-	</head>
-	<style>
-		a {
-			text-decoration: none;
-		}
-		
-		label.error {
-			background: url(../../imgs/icon/unchecked.gif) no-repeat 10px 3px;
-			padding-left: 30px;
-			font-family: georgia;
-			font-size: 15px;
-			font-style: normal;
-			color: red;
-		}
-	</style>
-
+</head>
 <%
-
 String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
 User user=CookiesUtils.getUser(sid);
 request.setAttribute("user", user);
 %>
-	<body>
-
-		<!--头部-->
+<body>
+<!--头部-->
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-6">
@@ -57,8 +39,9 @@ request.setAttribute("user", user);
 				</div>
 			</div>
 		</div>
-
-		<!--导航栏-->
+		
+		
+	<!--导航栏-->
 		<div class="container" style="margin-top: 10px;">
 			<nav class="navbar navbar-inverse">
 				<div class="container-fluid">
@@ -70,7 +53,7 @@ request.setAttribute("user", user);
 					        <span class="icon-bar"></span>
 					        <span class="icon-bar"></span>
 					    </button>
-						<a class="navbar-brand " href="/Zpp/page/index.jsp">
+						<a class="navbar-brand active" href="/Zpp/page/index.jsp">
 							首页
 						</a>
 					</div>
@@ -78,11 +61,11 @@ request.setAttribute("user", user);
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
 
-							<li class="active">
-								<a href="#">添加商品 </a>
+							<li class="">
+								<a href="admin/AddMerchandise.jsp">添加商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
-								<a href="/Zpp/OnSaleProductList?currentPage=1&productClass=全部"">在售商品 <span class="sr-only">(current)</span></a>
+								<a href="/Zpp/OnSaleProductList?currentPage=1&productClass=全部 " >在售商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="/Zpp/FindProductAll?currentPage=1&productClass=全部">商品仓库<span class="sr-only">(current)</span></a>
@@ -116,68 +99,55 @@ request.setAttribute("user", user);
 					</div>
 				</div>
 			</nav>
-		</div>
+		</div>	
+		
 		<div class="container">
-			<form role="form" class="form-horizontal " action="../../UploadProduct" method="post" id="AddMerchandise" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-md-2">
+					<img src="../../imgs/icon/me.svg" width="100px" height="100px" />
+				</div>
+				<div class="col-md-3">
+					
+				</div>
+				<div class="col-md-5">
+				<h1><span class="label label-danger">商铺资料</span></h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="container">
+			<form role="form" class="form-horizontal " action="/Zpp/AlterProductServlet" method="post" id="AlterMerchandise" enctype="multipart/form-data">
 				<div class="form-group">
-					<label for="productName" class="col-sm-3 control-label">商品名称</label>
+					<label for="productName" class="col-sm-3 control-label">商铺名称</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" id="productName" placeholder="请输入商品名称" name="productName">
+						<input type="text" style="display: none" value="${product.pid}" id="pid" name="pid">
+						<input type="text" class="form-control" id="productName" placeholder="请输入你要修改商铺名称" name="productName" value="sdad" disabled="disabled">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="productClass" class="col-sm-3 control-label">商品分类</label>
+					<label for="username" class="col-sm-3 control-label">用户名</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" id="productClass" placeholder="分类名字相同的商品会被分在一起" name="productClass">
+						<input type="text" class="form-control" id="username"  placeholder="请输入你要修改的用户名" name="username" value="" disabled="disabled">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="price" class="col-sm-3 control-label">价格/元</label>
+					<label for="email" class="col-sm-3 control-label">邮箱</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" id="price" placeholder="请输入商品价格" name="price">
-
+					<!--
+                    	<input type="text" class="form-control" id="price" name="email" value="" disabled="disabled">
+                    -->	
+					zp***********@qq.com
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="productCount" class="col-sm-3 control-label">数量/件</label>
+					<label for="payment" class="col-sm-3 control-label">支付宝</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" id="productCount" placeholder="请输入商品数量" name="productCount">
-
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="productImg" class="col-sm-3 control-label">商品图片</label>
-					<div class="col-sm-6">
-						<!--<input id="productImg" type="file" name="productImg" />-->
-						<div class="input-group">
-							<input id='location' class="form-control" onclick="$('#productImg').click();">
-							<label class="input-group-btn">
-               <input type="button" id="i-check" value="浏览文件" class="btn btn-primary" onclick="$('#productImg').click();">
-           </label>
-						</div>
-						<input type="file" name="productImg" id='productImg'  onchange="$('#location').val($('#productImg').val());" style="display: none">
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-3 control-label"></label>
-					<div class="col-sm-6">
-						<img class="img-rounded img-thumbnail" width="140px" height="140px" src="..\..\imgs\icon\douzi.svg" id="spimg" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="productMessage" class="col-sm-3 control-label">商品描述</label>
-					<div class="col-sm-6">
-
-						<textarea cols="20" rows="5" data-first="true" id="productMessage" name="productMessage"></textarea>
+						<input type="text" class="form-control" id="payment" placeholder="请输入你要绑定的支付宝账户" name="payment" value="" disabled="disabled">
 
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-xs-offset-2 col-sm-10 ">
-						<button type="submit" style=" width: 80%;   height: 40px; background-color: red; font-size: 20px; color: white;" class="btn btn-default">添加到仓库</button>
+						<button type="submit" style=" width: 80%;   height: 40px; background-color: red; font-size: 20px; color: white;" class="btn btn-default">保存</button>
 					</div>
 				</div>
 				<br />
@@ -185,7 +155,10 @@ request.setAttribute("user", user);
 			</form>
 
 		</div>
-
-	</body>
-
+				
+			</div>
+			
+		</div>
+		
+</body>
 </html>

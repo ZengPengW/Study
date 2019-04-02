@@ -2,6 +2,11 @@ package com.zpp.utils;
 
 import javax.servlet.http.Cookie;
 
+import com.zpp.domain.User;
+
+import Jedis.JedisPoolUtils;
+import redis.clients.jedis.Jedis;
+
 public class CookiesUtils {
 
 	public static String getCookie(Cookie[] cookies,String name) {
@@ -11,5 +16,11 @@ public class CookiesUtils {
 			}
 		}
 		return null;
+	}
+	public static User getUser(String sid) {
+		Jedis jedis=JedisPoolUtils.getJedis();
+		User user=JsonUtils.getUser(jedis.hget("users", sid));
+		jedis.close();
+		return user;
 	}
 }
