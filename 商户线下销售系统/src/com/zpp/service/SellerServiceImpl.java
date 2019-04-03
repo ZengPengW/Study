@@ -6,8 +6,11 @@ import java.util.List;
 
 import com.zpp.dao.Sellerdao;
 import com.zpp.dao.impl.SellerdaoImpl;
+import com.zpp.domain.Finance;
 import com.zpp.domain.Product;
 import com.zpp.domain.User;
+import com.zpp.utils.CookiesUtils;
+import com.zpp.utils.JsonUtils;
 import com.zpp.utils.SidUtils;
 
 import Jedis.JedisPoolUtils;
@@ -178,6 +181,27 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public ArrayList<Object> GetOnSalePid(int uid) throws SQLException {
 		return dao.GetOnSalePid(uid);
+	}
+
+	@Override
+	public Finance GetFinanceByUid(int uid) throws SQLException {
+		return dao.GetFinanceByUid(uid);
+	}
+
+	@Override
+	public boolean alterUserNameByUid(int uid, String username) throws SQLException {
+		return dao.alterUserNameByUid(uid, username);
+	}
+
+	@Override
+	public boolean alterUserShopNameByUid(int uid, String shopname) throws SQLException {
+		return dao.alterUserShopNameByUid(uid, shopname);
+	}
+
+	@Override
+	public boolean alterFinancePayByUid(int uid, String pay) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.alterFinancePayByUid(uid, pay);
 	}
 	
 	

@@ -1,3 +1,4 @@
+<%@page import="com.zpp.domain.Finance"%>
 <%@page import="com.zpp.utils.JsonUtils"%>
 <%@page import="com.zpp.service.SellerServiceImpl"%>
 <%@page import="com.zpp.service.SellerService"%>
@@ -52,6 +53,13 @@ if(onsale==null){
 }
 onsale=String.format("%.2f", Double.valueOf(onsale));
 
+Finance finance=service.GetFinanceByUid(user.getId());
+if(finance==null){
+	finance.setBalance(0);
+	finance.setSoldout(0);
+	finance.setTotal(0);
+}
+
 jedis.close();
 %>
 	<body>
@@ -92,7 +100,7 @@ jedis.close();
 						<ul class="nav navbar-nav">
 
 							<li class="">
-								<a href="admin/AddMerchandise.jsp">添加商品 <span class="sr-only">(current)</span></a>
+								<a href="/Zpp/page/admin/AddMerchandise.jsp">添加商品 <span class="sr-only">(current)</span></a>
 							</li>
 							<li>
 								<a href="/Zpp/OnSaleProductList?currentPage=1&productClass=全部 " >在售商品 <span class="sr-only">(current)</span></a>
@@ -101,7 +109,7 @@ jedis.close();
 								<a href="/Zpp/FindProductAll?currentPage=1&productClass=全部">商品仓库<span class="sr-only">(current)</span></a>
 							</li>
 							<li>
-								<a href="#">商铺设置</a>
+								<a href="/Zpp/page/admin/base_info_set.jsp">商铺设置</a>
 							</li>
 
 							<li class="dropdown">
@@ -142,7 +150,7 @@ jedis.close();
 					<td>
 						<h3>余额/元</h3></td>
 					<td>
-						<h2><strong>0.00</strong></h2></td>
+						<h2><strong><%=String.format("%.2f", Double.valueOf(finance.getBalance())) %></strong></h2></td>
 				</tr>
 				<tr>
 					<td>
@@ -160,14 +168,14 @@ jedis.close();
 					<td>
 						<h3>已售出/件</h3></td>
 					<td>
-						<h2><strong>1.00</strong></h2></td>
+						<h2><strong><%=String.format("%.2f", Double.valueOf(finance.getSoldout())) %></strong></h2></td>
 				</tr>
 
 				<tr class="danger">
 					<td>
 						<h3>总盈利/元</h3></td>
 					<td>
-						<h2><strong>0.00</strong></h2></td>
+						<h2><strong><%=String.format("%.2f", Double.valueOf(finance.getTotal())) %></strong></h2></td>
 				</tr>
 
 			</table>

@@ -14,16 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 public class CheckMsg extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	//	request.setCharacterEncoding("utf-8");
+
 		String mymsg=request.getParameter("msg");
 		String msg=(String) request.getSession().getAttribute("emailmsg");
-	//	System.out.println(mymsg+" "+msg);
+	
 		if(msg==null||!msg.equals(mymsg)) {
 			response.getWriter().print(false);
-		//	System.out.println(false);
+		
 		}else {
 			response.getWriter().print(true);
-		//	System.out.println(true);
 		}
 	}
 

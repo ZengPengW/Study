@@ -90,7 +90,7 @@
 					</li>
 					<li ><a href="/Zpp/FindProductAll?currentPage=1&productClass=全部">商品仓库</a>
 					</li>
-					<li><a href="#">商铺设置</a></li>
+					<li><a href="/Zpp/page/admin/base_info_set.jsp">商铺设置</a></li>
 
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"

@@ -136,7 +136,7 @@ $(function(){
 							<label for="username" class="col-sm-3 control-label">用户名</label>
 							<div class="col-sm-6">
 								<input type="text" class="form-control" id="username" name="username"
-									placeholder="请输入用户名/邮箱">
+									placeholder="请输入用户名/邮箱" style="border-radius: 15px;">
 							</div>
 						</div>
 						
@@ -144,14 +144,14 @@ $(function(){
 							<label for="password" class="col-sm-3 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
 							<div class="col-sm-6">
 								<input type="password" class="form-control" id="password" name="password"
-									placeholder="请输入密码">
+									placeholder="请输入密码" style="border-radius: 15px;">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="yanzhengma" class="col-sm-3 control-label">验证码</label>
 							<div class="col-sm-5">
 								<input type="text" class="form-control" id="yanzhengma" name="yanzhengma"
-									placeholder="请输入验证码">
+									placeholder="请输入验证码" style="border-radius: 15px;">
 							</div>
 							
 							<div class="col-sm-3 col-md-offset-3">

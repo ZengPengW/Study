@@ -21,6 +21,7 @@ public class GetCode extends HttpServlet {
 		String msg=MailUtils.sendMail(email); 
 		if(msg!=null) {
 			request.getSession().setAttribute("emailmsg", msg);
+			request.getSession().setAttribute("currEmail", email);
 		}
 	}
 

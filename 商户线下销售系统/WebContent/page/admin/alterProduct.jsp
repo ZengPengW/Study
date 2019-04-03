@@ -90,7 +90,7 @@ request.setAttribute("user", user);
 								<a href="/Zpp/FindProductAll?currentPage=1&productClass=全部">商品仓库<span class="sr-only">(current)</span></a>
 							</li>
 							<li>
-								<a href="#">商铺设置</a>
+								<a href="/Zpp/page/admin/base_info_set.jsp">商铺设置</a>
 							</li>
 
 							<li class="dropdown">

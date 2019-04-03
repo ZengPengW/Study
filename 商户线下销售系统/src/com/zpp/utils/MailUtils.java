@@ -82,9 +82,8 @@ private static final String myemail="zpzydsxzqf@qq.com";
 		int min=100000;
 		int ems=(int) (Math.random()*(max-min)+min);
 		String emailMsg=String.valueOf(ems);
-		//System.out.println(emailMsg);
 		try {
-			MailUtils.sendMail(myemail, emailMsg);
+			MailUtils.sendMail(email, emailMsg);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}

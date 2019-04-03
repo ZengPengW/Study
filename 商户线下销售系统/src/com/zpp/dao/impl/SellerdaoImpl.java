@@ -12,9 +12,8 @@ import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-
-
 import com.zpp.dao.Sellerdao;
+import com.zpp.domain.Finance;
 import com.zpp.domain.Product;
 import com.zpp.domain.User;
 import com.zpp.utils.DataSourceUtils;
@@ -418,5 +417,67 @@ public class SellerdaoImpl implements Sellerdao {
 		}
 		return al;
 	}
+
+	@Override
+	public Finance GetFinanceByUid(int uid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from finance where uid=?";
+		Finance finance=qr.query(sql,new BeanHandler<Finance>(Finance.class),uid);
+		return finance;
+	}
+
+	@Override
+	public boolean alterUserNameByUid(int uid,String username) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		//System.out.println("update users set username="+username+" where id="+uid+"");
+		try {
+			String sql="update users set username=? where id=?";
+			qr.update(sql, username,uid);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
+
+	@Override
+	public boolean alterUserShopNameByUid(int uid, String shopname) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		//System.out.println("update users set shopname="+shopname+" where id="+uid+"");
+		try {
+			String sql="update users set shopname=? where id=?";
+			qr.update(sql, shopname,uid);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean alterFinancePayByUid(int uid, String pay) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		
+		if(pay!=null&&!pay.isEmpty()) {
+			try {
+				//System.out.println("update finance set pay="+pay+" where uid="+uid+"");
+				String sql="update finance set pay=? where uid=?";
+				qr.update(sql, pay,uid);
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public String getUserSid(int uid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select sid from users where id=?";
+		String sid=qr.query(sql, new ScalarHandler<String>(),uid);
+		return sid;
+	}
+
+	
 
 }

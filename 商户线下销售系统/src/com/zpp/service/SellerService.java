@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zpp.domain.Finance;
 import com.zpp.domain.Product;
 import com.zpp.domain.User;
 
@@ -32,5 +33,9 @@ public interface SellerService {
 	public boolean publishProduct(int uid,int pid)throws SQLException;
 	public boolean onSaleDelete(int uid,int pid)throws SQLException;
 	public ArrayList<Object> GetOnSalePid(int uid)throws SQLException;
+	public Finance GetFinanceByUid(int uid)throws SQLException;
 	
+	public boolean alterUserNameByUid(int uid,String username)throws SQLException;
+	public boolean alterUserShopNameByUid(int uid,String shopname)throws SQLException;
+	public boolean alterFinancePayByUid(int uid,String pay)throws SQLException;
 }

@@ -24,11 +24,8 @@ public class CheckUserName extends HttpServlet {
 		SellerService service=new SellerServiceImpl();
 		try {
 			boolean isexist=service.isExistName(username);
-			if(isexist) {
-				response.getWriter().print(false);
-			}else {
-				response.getWriter().print(true);
-			}
+			response.getWriter().print(!isexist);
+			
 		} catch (SQLException e) {
 			response.getWriter().print(false);
 			e.printStackTrace();
