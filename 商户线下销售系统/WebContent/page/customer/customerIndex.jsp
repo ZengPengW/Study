@@ -8,7 +8,7 @@
 		<!--声明文档兼容模式，表示使用IE浏览器的最新模式-->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maxinum-scale=1,user-scalable=no">
 		<title>欢迎光临</title>
 		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
 		<script src="../../js/jquery-1.11.3.min.js"></script>
@@ -39,26 +39,13 @@
 			background-color: rgba(255, 255, 255, 0.4);
 		}
 	</style>
-	<script type="application/javascript">
-//		$(function() {
-//			var maxheight = $(window).height();
-//			var h = document.getElementById("#mybox").offsetTop;
-//			var t = setInterval(function() {
-//
-//				document.getElementById("#mybox").offsetTop = h;
-//				h--;
-//				if(h == matchMedia / 2 + 90) {
-//					clearInterval(t);
-//				}
-//			}, 1000)
-//
-//		});
-	</script>
+
 
 	<body>
-		<div class="container">
-			<div style="margin-top: 50%;" id="mybox">
-<div class="row col-md-offset-3 col-md-3">
+		
+		<div id="mybox" class="container text-center col-lg-offset-2 " style=" position: relative; left: -110%; transform:translateY(140%); ">
+
+			<div class="row col-md-offset-3 col-md-3">
 
 				<form class="form-horizontal " method="post" action="">
 
@@ -70,23 +57,32 @@
 
 						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="inputPassword3" placeholder="你的手机号">
 					</div>
-					
-						
-						
-					
-			</div>
-<div class="form-group text-center ">
-						
-						<button type="submit" style=" width: 110px;   height: 40px;  font-size: 20px; border-radius: 20px; color: darkgoldenrod;" class="btn btn-default">进入</button>
-						
-					
-					</div>
-			</div>
-			
-			</form>
 
-		</div>
+			</div>
+
+			<div class="form-group text-center ">
+				<div class=" col-lg-offset-1  col-md-9 col-lg-7">
+					<button type="submit" style=" width: 110px;   height: 40px;  font-size: 20px; border-radius: 20px; color: darkgoldenrod;" class="btn btn-default">进入</button>
+				</div>
+			</div>
+			</form>
 		</div>
 	</body>
+	<script type="application/javascript">
+		var box = document.getElementById("mybox");
+		var aa = -110;
+	
+		function piaoyi() {
+			box.style.left = aa + "%";
+			aa = aa + 5;
 
+			if(aa >=5) {
+				clearInterval(ds);
+				//im2.style.left=79+"%";
+			}
+
+		}
+
+		var ds = setInterval("piaoyi()", 100);
+	</script>
 </html>
