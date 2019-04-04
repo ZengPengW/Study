@@ -32,9 +32,13 @@ public class SellerdaoImpl implements Sellerdao {
 
 			sql = "select * from users where username=? ";
 			User us = qr.query(sql, new BeanHandler<User>(User.class), user.getUsername());
-
-			if (us != null)
+			
+			if (us != null) {
+				String sql2="insert into finance(uid)values (?)";
+				qr.update(sql2, us.getId());
 				return true;
+			}
+				
 
 		} catch (Exception e) {
 			return false;

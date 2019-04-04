@@ -38,8 +38,6 @@ public class LoginServlet extends HttpServlet {
 		try {
 			User user=service.getUserByName(name);
 			if(user==null) {
-//				request.setAttribute("isSuccess", false);
-//				request.getRequestDispatcher("/page/success.jsp").forward(request, response);
 				throw new RuntimeException("Î´ÖªµÄµÇÂ¼Òì³£");
 				
 			}
@@ -64,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 			//System.out.println(jsonstr);
 			request.getSession().removeAttribute("checkcode_session");
 			response.sendRedirect("page/index.jsp");
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			request.setAttribute("isSuccess", false);
 			request.getRequestDispatcher("/page/success.jsp").forward(request, response);
 			//	e.printStackTrace();

@@ -1,5 +1,6 @@
-<!--<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>-->
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -13,6 +14,9 @@
 		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
 		<script src="../../js/jquery-1.11.3.min.js"></script>
 		<script src="../../js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="../../js/messages_zh.js"></script>
+		<script type="text/javascript" src="../../js/welcome.js" ></script>
 
 	</head>
 	<style>
@@ -38,24 +42,31 @@
 			width: 374px;
 			background-color: rgba(255, 255, 255, 0.4);
 		}
+		label.error {
+			font-family: georgia;
+			font-style: normal;
+			color: red;
+		}
 	</style>
 
 
 	<body>
 		
-		<div id="mybox" class="container text-center col-lg-offset-2 " style=" position: relative; left: -110%; transform:translateY(140%); ">
-
-			<div class="row col-md-offset-3 col-md-3">
-
-				<form class="form-horizontal " method="post" action="">
-
+		<div id="mybox" class="container text-center col-lg-offset-2 " style=" position: relative; left: -110%; transform:translateY(50%); ">
+			
+			<div class="row col-md-offset-3 col-md-3" >
+			<img  src="/Zpp/imgs/icon/hi.svg" width=30% height=30%  class="img-rounded" style="display: ">
+				<form class="form-horizontal " method="post" action="#" id="welcome" role="form">
+					<input type="text" style=" display: none;" value="${CurrentUid}" name="curUid" />
+				<label for="username" class="col-sm-3 control-label"></label>
+				<label for="phone" class="col-sm-3 control-label"></label>
+				
 					<div class="form-group text-center ">
-
-						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="inputEmail3" placeholder="输入你的姓名">
+						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="username" name="username" placeholder="输入你的姓名">
 					</div>
 					<div class="form-group text-center ">
 
-						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="inputPassword3" placeholder="你的手机号">
+						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="phone" name="phone" placeholder="你的手机号">
 					</div>
 
 			</div>
