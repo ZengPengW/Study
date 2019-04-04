@@ -30,6 +30,7 @@ public class QrCodeCreateUtil {
 		graphics.setColor(Color.white);
 		graphics.fillRect(0, 0, matrixWidth, matrixWidth);
 		graphics.setColor(Color.BLACK);
+		return false;
 		
 	}
 	
