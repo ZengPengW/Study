@@ -54,7 +54,7 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public boolean isExistUser(String name, String password) throws SQLException {
+	public User isExistUser(String name, String password) throws SQLException {
 		
 		return dao.isExistUser(name, password);
 	}
@@ -74,28 +74,22 @@ public class SellerServiceImpl implements SellerService {
 	@Override
 	public User getUserBySid(String sid) throws SQLException {
 		
-		Jedis jedis=JedisPoolUtils.getJedis();
-		String userJson=jedis.hget("users", sid);
-		if(userJson==null) {
+		
+		User user=CookiesUtils.getUser(sid);
+		if(user==null) {
 			
-			User user=dao.getUserBySid(sid);
+			user=dao.getUserBySid(sid);
 			if(user!=null) {
+				Jedis jedis=JedisPoolUtils.getJedis();
 				JSONArray json=JSONArray.fromObject(user);
 				String jsonstr=json.toString();
-				jedis.hset("users",user.getSid() , jsonstr);
+				jedis.hset("users",sid , jsonstr);
+				jedis.close();
 			}
-			jedis.close();
-			return user;
-		}else {
-			
-			JSONArray jsonArray= new JSONArray().fromObject(userJson);
-			Object o=jsonArray.get(0);
-			JSONObject jsonObject2=JSONObject.fromObject(o);
-			User user =(User)JSONObject.toBean(jsonObject2, User.class);
-			//System.out.println(user.getEmail()+" "+user.getPassword());
-			jedis.close();
-			return user;
+		
 		}
+			return user;
+		
 	
 	}
 
@@ -195,13 +189,28 @@ public class SellerServiceImpl implements SellerService {
 
 	@Override
 	public boolean alterUserShopNameByUid(int uid, String shopname) throws SQLException {
-		return dao.alterUserShopNameByUid(uid, shopname);
+		if(dao.alterUserShopNameByUid(uid, shopname)){
+			Jedis jedis=JedisPoolUtils.getJedis();
+			User user=dao.getUserById(uid);
+			
+			String jsonstr=JsonUtils.toJsonString(user);
+			jedis.hdel("users", user.getSid());
+			jedis.hset("users", user.getSid(), jsonstr);
+			jedis.close();
+			return true;
+		}else
+			return false;
 	}
 
 	@Override
 	public boolean alterFinancePayByUid(int uid, String pay) throws SQLException {
 		// TODO Auto-generated method stub
 		return dao.alterFinancePayByUid(uid, pay);
+	}
+
+	@Override
+	public User getUserById(int uid) throws SQLException {
+		return dao.getUserById(uid);
 	}
 	
 	

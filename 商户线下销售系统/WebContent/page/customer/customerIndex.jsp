@@ -11,17 +11,17 @@
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maxinum-scale=1,user-scalable=no">
 		<title>欢迎光临</title>
-		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
-		<script src="../../js/jquery-1.11.3.min.js"></script>
-		<script src="../../js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../../js/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="../../js/messages_zh.js"></script>
-		<script type="text/javascript" src="../../js/welcome.js" ></script>
+		<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
+		<script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+		<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/messages_zh.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/welcome.js" ></script>
 
 	</head>
 	<style>
 		body {
-			background-image: url(../../imgs/icon/bg.jpg);
+			background-image: url(${pageContext.request.contextPath }/imgs/icon/bg.jpg);
 			background-position: center 0;
 			background-repeat: no-repeat;
 			background-attachment: fixed;
@@ -56,8 +56,10 @@
 			
 			<div class="row col-md-offset-3 col-md-3" >
 			<img  src="/Zpp/imgs/icon/hi.svg" width=30% height=30%  class="img-rounded" style="display: ">
-				<form class="form-horizontal " method="post" action="#" id="welcome" role="form">
-					<input type="text" style=" display: none;" value="${CurrentUid}" name="curUid" />
+				<form class="form-horizontal " method="post" action="${pageContext.request.contextPath }/ClientInit" id="welcome" role="form" >
+					<input type="text" style=" display: none;" value="${uid}" name="curUid" />
+					<input type="text" style=" display: none;" value="1" name="currentPage" />
+					<input type="text" style=" display: none;" value="5YWo6YOo" name="productClass" />
 				<label for="username" class="col-sm-3 control-label"></label>
 				<label for="phone" class="col-sm-3 control-label"></label>
 				
@@ -65,7 +67,6 @@
 						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="username" name="username" placeholder="输入你的姓名">
 					</div>
 					<div class="form-group text-center ">
-
 						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="phone" name="phone" placeholder="你的手机号">
 					</div>
 

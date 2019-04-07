@@ -36,7 +36,7 @@
 	</style>
 
 <%
-
+request.setAttribute("currpage", "addmer");
 String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
 User user=CookiesUtils.getUser(sid);
 request.setAttribute("user", user);

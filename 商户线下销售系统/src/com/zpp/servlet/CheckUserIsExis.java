@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zpp.domain.User;
 import com.zpp.service.SellerService;
 import com.zpp.service.SellerServiceImpl;
 
@@ -30,7 +31,8 @@ public class CheckUserIsExis extends HttpServlet {
 		try {
 			//System.out.println(name+" "+password);
 			SellerService service=new SellerServiceImpl();
-			 bl=service.isExistUser(name, password);
+			User user=service.isExistUser(name, password);
+			if(user!=null)bl=true;
 			response.getWriter().print(bl);
 		} catch (SQLException e) {
 			response.getWriter().print(false);

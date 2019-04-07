@@ -17,7 +17,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>首页</title>
+		<title>商铺设置</title>
 		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
 		<script src="../../js/jquery-1.11.3.min.js"></script>
 		<script src="../../js/bootstrap.min.js"></script>
@@ -26,18 +26,19 @@
 		<script type="text/javascript" src="../../js/base_info.js"></script>
 	</head>
 	<%
-	String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
-	User user = CookiesUtils.getUser(sid);
-	String email = user.getEmail();
-	int index = email.indexOf("@");
-	email = email.substring(0, 2) + "********" + email.substring(index);
-	request.setAttribute("user", user);
-	SellerService service = new SellerServiceImpl();
-	Finance finance = service.GetFinanceByUid(user.getId());
-	if(finance==null){
-		finance=new Finance();
-	}
-%>
+		request.setAttribute("currpage", "base_info");
+		String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
+		User user = CookiesUtils.getUser(sid);
+		String email = user.getEmail();
+		int index = email.indexOf("@");
+		email = email.substring(0, 2) + "********" + email.substring(index);
+		request.setAttribute("user", user);
+		SellerService service = new SellerServiceImpl();
+		Finance finance = service.GetFinanceByUid(user.getId());
+		if (finance == null) {
+			finance = new Finance();
+		}
+	%>
 <style>
 		
 		

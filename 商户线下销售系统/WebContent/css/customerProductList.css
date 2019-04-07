@@ -1,0 +1,123 @@
+.fooddetails-desc_3tvBJ {
+	font-size: 1rem;
+	color: #999;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
+	width: 42.666667vw;
+}
+
+.tab-p {
+	font-size: 15px;
+}
+.mysvg{
+width: 5.866667vw;
+height:5.866667vw;
+}
+.but1{
+	overflow: hidden;
+    margin: 0 10% auto auto;
+    
+    width: 80%;
+    border: 2px solid #444444;
+    border-radius: 10px;
+}
+.but1 a {
+
+    font-size: 17px;
+position: relative;
+    float: left;
+    line-height: 30px;
+    width: 100%;
+    color: #555;
+    text-align: center;
+    text-shadow: 2px 2px rgba(255,255,255,.3);
+}
+.fooddetails-logo_2Q0S7 {
+    
+    width: 30.333333vw;
+   
+    height: 30.333333vw;
+    -webkit-flex: none;
+    flex: none;
+    margin-right: .266667rem;
+    margin-right: 2.666667vw;
+    position: relative;
+}
+.fooddetails-root_2HoY2 {
+    padding: .266667rem 0;
+    padding: 2.666667vw 0;
+    margin-bottom: .013333rem;
+    margin-bottom: .133333vw;
+    display: -webkit-flex;
+    display: flex;
+    min-height: 2.746667rem;
+    min-height: 27.466667vw;
+    position: relative;
+}
+.fooddetails-logo_2Q0S7 img {
+    width: 100%;
+    height: 99%;
+    border-radius: .053333rem;
+    border-radius: .533333vw;
+}
+
+
+.footer {
+    background-color: #555;
+    width: 98%;
+    height: 46px;
+    line-height: 46px;
+    bottom: 0;
+    position: fixed;
+    font-size: 45px;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+  
+}
+
+.footer i {
+    color: #fff;
+}
+.footer .total {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -20%;
+    left: 40px;
+    color: #fff;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 10px;
+    background-color:red;
+    font-size: 10px;
+   
+}
+
+.footer .settlement{
+	height: 100%;
+    width: 2.8rem;
+    width: 28vw;
+    background-color: #38ca73;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.6rem;
+    font-weight: 700;
+    -webkit-user-select: none;
+    user-select: none;
+   
+}
+.footer .fa-shopping-cart img{
+	height: 100%;
+    width: 6rem;
+    margin-left: -20%;
+    margin-top: -40%;
+    z-index: 4;
+    
+}
+tbody tr td{
+	border:0px solid transparent;
+}

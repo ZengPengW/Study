@@ -102,14 +102,11 @@ public class SellerdaoImpl implements Sellerdao {
 	}
 
 	@Override
-	public boolean isExistUser(String name, String password) throws SQLException {
+	public User isExistUser(String name, String password) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
 		String sql = "SELECT * FROM users WHERE (email=? or username=?) and password=?";
 		User user = qr.query(sql, new BeanHandler<User>(User.class), name, name, password);
-		if (user == null)
-			return false;
-		else
-			return true;
+		return user;
 	}
 
 	@Override
@@ -339,9 +336,14 @@ public class SellerdaoImpl implements Sellerdao {
 			conn.close();
 			return false;
 		}
-			
+		
 		conn.commit();
 		conn.setAutoCommit(true);
+		Jedis jedis=JedisPoolUtils.getJedis();
+		Long count =this.CheckOnsaleProductCount(product.getUid(),"È«²¿");
+		
+		jedis.hset("onsale", ""+product.getUid(), String.valueOf(count));
+		jedis.close();
 		conn.close();
 			
 	
@@ -401,7 +403,7 @@ public class SellerdaoImpl implements Sellerdao {
 		if(is>=1) {
 			Jedis jedis=JedisPoolUtils.getJedis();
 			int count=Integer.parseInt(jedis.hget("onsale", ""+uid))-1;
-			if(count<=0)count=0;
+			if(count<0)count=0;
 			jedis.hset("onsale", ""+uid, ""+count);
 			jedis.close();
 			return true;
@@ -453,6 +455,7 @@ public class SellerdaoImpl implements Sellerdao {
 			qr.update(sql, shopname,uid);
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -460,10 +463,10 @@ public class SellerdaoImpl implements Sellerdao {
 	@Override
 	public boolean alterFinancePayByUid(int uid, String pay) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
-		
+		//System.out.println("update finance set pay="+pay+" where uid="+uid+"");
 		if(pay!=null&&!pay.isEmpty()) {
 			try {
-				//System.out.println("update finance set pay="+pay+" where uid="+uid+"");
+				
 				String sql="update finance set pay=? where uid=?";
 				qr.update(sql, pay,uid);
 				return true;
@@ -480,6 +483,14 @@ public class SellerdaoImpl implements Sellerdao {
 		String sql="select sid from users where id=?";
 		String sid=qr.query(sql, new ScalarHandler<String>(),uid);
 		return sid;
+	}
+
+	@Override
+	public User getUserById(int uid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from users where id=?";
+		User user=qr.query(sql, new BeanHandler<User>(User.class),uid);
+		return user;
 	}
 
 	

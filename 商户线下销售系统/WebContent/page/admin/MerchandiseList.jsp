@@ -1,3 +1,5 @@
+<%@page import="com.zpp.utils.URLcodeUtils"%>
+<%@page import="com.zpp.utils.Base64Utils"%>
 <%@page import="com.sun.net.httpserver.Authenticator.Success"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.util.List"%>
@@ -12,7 +14,7 @@
 	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -36,37 +38,39 @@
 
 </head>
 <%
-	List<Object> onsalePid=null;
-		try {
-			String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
-			Jedis jedis = JedisPoolUtils.getJedis();
-			String jsonstr = jedis.hget("users", sid);
-			User user = JsonUtils.getUser(jsonstr);
-			int uid = user.getId();
-			SellerService service = new SellerServiceImpl();
-			List<Object> productClass = service.FindProductClass(uid);
-			onsalePid=service.GetOnSalePid(uid);
-			request.setAttribute("user", user);
-			request.setAttribute("productClassList", productClass);
-			request.setAttribute("onsalePid", onsalePid);
-			jedis.close();
-		} catch (SQLException e) {
-			request.setAttribute("isSuccess", false);
-			request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
-		}
-	%>
+	request.setAttribute("currpage", "mer");
+	List<Object> onsalePid = null;
+	List<Object> productClass = null;
+	try {
+		String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
+		Jedis jedis = JedisPoolUtils.getJedis();
+		String jsonstr = jedis.hget("users", sid);
+		User user = JsonUtils.getUser(jsonstr);
+		int uid = user.getId();
+		SellerService service = new SellerServiceImpl();
+		productClass = service.FindProductClass(uid);
+		onsalePid = service.GetOnSalePid(uid);
+		request.setAttribute("user", user);
+		request.setAttribute("productClassList", productClass);
+		request.setAttribute("onsalePid", onsalePid);
+		jedis.close();
+	} catch (SQLException e) {
+		request.setAttribute("isSuccess", false);
+		request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
+	}
+%>
 <body>
 	<jsp:include page="/page/head.jsp" flush="true"></jsp:include>
-	
+
 	<script type="text/javascript">
-	var list=new Array();
+		var list = new Array();
 	</script>
 	<c:forEach items="${onsalePid}" var="x">
-	<script type="text/javascript">
-	 list.push("${x}");
-	</script>
+		<script type="text/javascript">
+			list.push("${x}");
+		</script>
 	</c:forEach>
-	
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1 ">
@@ -78,15 +82,19 @@
 					<ul class="dropdown-menu">
 
 						<li><a
-							href="/Zpp/FindProductAll?currentPage=1&productClass=全部">全部</a></li>
+							href="/Zpp/FindProductAll?currentPage=1&productClass=5YWo6YOo">全部</a></li>
 						<li role="presentation" class="divider"></li>
 
+						<%
+							for (int i = 0; i < productClass.size(); i++) {
+								out.write("<li>");
+								out.write("<a href='/Zpp/FindProductAll?currentPage=1&productClass="
+										+ URLcodeUtils.encoder(Base64Utils.encoder(String.valueOf(productClass.get(i)))) + "'>");
+								out.write(productClass.get(i) + "</a></li>");
+								out.write("<li role='presentation' class='divider'></li>");
+							}
+						%>
 
-						<c:forEach items="${productClassList}" var="ls">
-							<li><a
-								href="/Zpp/FindProductAll?currentPage=1&productClass=${ls}">${ls}</a></li>
-							<li role="presentation" class="divider"></li>
-						</c:forEach>
 
 
 					</ul>
@@ -98,9 +106,9 @@
 
 			<div class="col-md-4 col-md-offset-7">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="请输入你要搜索的商品名称关键字"
-						id="likeName" name="likeName"> <span
-						class="input-group-btn">
+					<input type="text" class="form-control"
+						placeholder="请输入你要搜索的商品名称关键字" id="likeName" name="likeName">
+					<span class="input-group-btn">
 						<button class="btn btn-warning" type="button" id="search">搜索商品</button>
 					</span>
 				</div>
@@ -179,36 +187,38 @@
 							</td>
 							<td><textarea cols="20" rows="5" readonly
 									class="form-control">${item.productMessage}</textarea></td>
-							
-							
-							
-							
+
+
+
+
 							<td class="text-center">
 								<div class="btn-group " style="margin: 10% auto auto auto;">
-									<button type="button" class="btn btn-info" value="${item.pid}" onclick="alterProdcut(this)">修改</button>
-									
+									<button type="button" class="btn btn-info" value="${item.pid}"
+										onclick="alterProdcut(this)">修改</button>
+
 									<button type="button" class="btn btn-danger"
 										value="${item.pid}" onclick="deleteProdcut(this)">删除</button>
-									
-										
-									<c:set var="flag" value="${fn:length(onsalePid)}"></c:set>	
-									
+
+
+									<c:set var="flag" value="${fn:length(onsalePid)}"></c:set>
+
 									<c:forEach items="${onsalePid}" var="i" begin="0" end="${flag}">
-										
+
 										<c:if test="${i==item.pid}">
-										<c:set var="flag" value="-1"></c:set>	
-										<button type="button" class="btn btn-warning " disabled="disabled"
-										value="${item.pid}" onclick="publish(this)">已发布</button>
+											<c:set var="flag" value="-1"></c:set>
+											<button type="button" class="btn btn-warning "
+												disabled="disabled" value="${item.pid}"
+												onclick="publish(this)">已发布</button>
 										</c:if>
 									</c:forEach>
-									
+
 									<c:if test="${flag!=-1}">
-									<button type="button" class="btn btn-success " 
-										value="${item.pid}" onclick="publish(this)">发布</button>
+										<button type="button" class="btn btn-success "
+											value="${item.pid}" onclick="publish(this)">发布</button>
 									</c:if>
-									
-									
-									
+
+
+
 								</div>
 							</td>
 						</tr>

@@ -35,6 +35,7 @@ public class AlterBaseInfo extends HttpServlet implements Servlet {
 		String emailmsg=String.valueOf(request.getSession().getAttribute("emailmsg"));
 		request.getSession().removeAttribute("emailmsg");
 		User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
+		String oldusername=user.getUsername();
 		int uid=user.getId();
 		String oldsid=user.getSid();
 		try {
@@ -43,25 +44,29 @@ public class AlterBaseInfo extends HttpServlet implements Servlet {
 				throw new RuntimeException("ÑéÖ¤Âë´íÎó");
 			}else {
 				SellerService service=new SellerServiceImpl();
-				if((username!=null&&!username.isEmpty())&&service.alterUserNameByUid(uid, username)) {
+				if(payment!=null&&!payment.isEmpty())service.alterFinancePayByUid(uid, payment);
+				if(!user.getShopname().equals(shopname)){
+					service.alterUserShopNameByUid(uid, shopname);
+					user.setShopname(shopname);
+				}
+				
+				
+				if((username!=null&&!username.isEmpty())&&!oldusername.equals(username)&&service.alterUserNameByUid(uid, username)) {
+					
 					user.setUsername(username);
 					Jedis jedis=JedisPoolUtils.getJedis();
 					String newsid= SidUtils.getSid(username, user.getPassword());
 					user.setSid(newsid);
-					service.alterFinancePayByUid(uid, payment);
-					service.alterUserShopNameByUid(uid, shopname);
-					user.setShopname(shopname);
+					
 					JSONArray jsonArray=JSONArray.fromObject(user);
 					jedis.hdel("users", oldsid);
 					jedis.hset("users", newsid, jsonArray.toString());
 					jedis.close();
 					Cookie cookie=new Cookie("sid", newsid);
+					cookie.setMaxAge(24*60*60*30);
 					response.addCookie(cookie);
-				}else if ((username==null||username.isEmpty())) {
-					service.alterFinancePayByUid(uid, payment);
-					service.alterUserShopNameByUid(uid, shopname);
-					user.setShopname(shopname);
 				}
+				
 				request.setAttribute("isSuccess", true);
 			}
 			

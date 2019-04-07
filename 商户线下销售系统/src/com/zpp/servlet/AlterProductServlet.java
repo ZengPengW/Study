@@ -56,6 +56,11 @@ public class AlterProductServlet extends HttpServlet {
 			String fileName = null;
 			// 上传单个文件
 			Part part = request.getPart("productImg");// 通过表单file控件(<input type="file" name="file">)的名字直接获取Part对象
+			//限制大小
+			if (part.getSize() > 1024 * 1024 * 3) {
+				request.setAttribute("isSuccess", false);
+				throw new RuntimeException("格式错误");
+			}
 			// 获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
 			String header = part.getHeader("Content-Disposition");
 			// 获取文件名

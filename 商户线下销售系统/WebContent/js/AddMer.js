@@ -1,11 +1,21 @@
 $(function() {
 	$("#productImg").change(function() {
+		
 		var filePath = $(this).val();
 		var fileformat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
 		if(!fileformat.match(/.png|.jpg|jpeg|.gif/)) {
 			alert('上传错误,文件格式必须为：png/jpg/jpeg/gif');
 			return;
 		}
+		
+		if(((this.files[0].size).toFixed(2))>=(1024*1024*3)){
+   
+	          alert("请上传小于3M的图片");
+	          $("#productImg").val("");
+	          $("#location").val("");
+	          return;
+	        }
+		
 		var src = window.URL.createObjectURL(this.files[0]);
 		$("#spimg").prop("src", src);
 
@@ -45,6 +55,7 @@ $(function() {
 			},
 			productImg: {
 				required: true
+				
 			},
 
 			productMessage: {
@@ -74,7 +85,8 @@ $(function() {
 				max: "写那么多货干嘛你有吗？"
 			},
 			productImg: {
-				required: "请选择商品图片"
+				required: "请选择商品图片",
+				
 			},
 
 			productMessage: {
@@ -85,6 +97,8 @@ $(function() {
 		submitHandler: function(form) {
 			var filePath = $("#productImg").val();
 			var fileformat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+			
+			
 			if(!fileformat.match(/.png|.jpg|jpeg|.gif|.svg/)) {
 				alert('上传错误,文件格式必须为：.png|.jpg|.jpeg|.gif|.svg');
 			} else {
@@ -99,3 +113,4 @@ $(function() {
 
 	});
 });
+

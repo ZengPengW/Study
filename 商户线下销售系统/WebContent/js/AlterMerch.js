@@ -8,6 +8,15 @@ $(function() {
 				alert('上传错误,文件格式必须为：png/jpg/jpeg/gif');
 				return;
 			}
+			
+			if(((this.files[0].size).toFixed(2))>=(1024*1024*3)){
+	   
+		          alert("请上传小于3M的图片");
+		          $("#productImg").val("");
+		          $("#location").val("");
+		          return;
+		        }
+			
 			var src = window.URL.createObjectURL(this.files[0]);
 			$("#spimg").prop("src", src);
 		}

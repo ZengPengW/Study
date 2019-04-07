@@ -31,37 +31,40 @@ public class LoginServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name=request.getParameter("username");
+		String password=request.getParameter("password");
 		String auto_login=request.getParameter("auto_login");
 	//	System.out.println(name+auto_login);
 		SellerService service=new SellerServiceImpl();
 		
 		try {
-			User user=service.getUserByName(name);
+			User user=service.isExistUser(name, password);
 			if(user==null) {
 				throw new RuntimeException("Î´ÖªµÄµÇÂ¼Òì³£");
 				
-			}
-			Cookie sid=new Cookie("sid", user.getSid());
-			if("on".equals(auto_login)){
-				sid.setMaxAge(24*60*60*365);
-				response.addCookie(sid);
 			}else {
-				sid.setMaxAge(20*60*60);
-				response.addCookie(sid);
+				Cookie sid=new Cookie("sid", user.getSid());
+				if("on".equals(auto_login)){
+					sid.setMaxAge(24*60*60*365);
+					response.addCookie(sid);
+				}else {
+					sid.setMaxAge(20*60*60);
+					response.addCookie(sid);
+				}
+				
+				Jedis jedis=JedisPoolUtils.getJedis();
+				boolean hexists=jedis.hexists("users",user.getSid());
+				if(!hexists) {
+					JSONArray json=JSONArray.fromObject(user);
+					String jsonstr=json.toString();
+					jedis.hset("users",user.getSid() , jsonstr);
+				}
+				
+				jedis.close();
+				//System.out.println(jsonstr);
+				request.getSession().removeAttribute("checkcode_session");
+				response.sendRedirect("page/index.jsp");
 			}
 			
-			Jedis jedis=JedisPoolUtils.getJedis();
-			boolean hexists=jedis.hexists("users",user.getSid());
-			if(!hexists) {
-				JSONArray json=JSONArray.fromObject(user);
-				String jsonstr=json.toString();
-				jedis.hset("users",user.getSid() , jsonstr);
-			}
-			
-			jedis.close();
-			//System.out.println(jsonstr);
-			request.getSession().removeAttribute("checkcode_session");
-			response.sendRedirect("page/index.jsp");
 		} catch (Exception e) {
 			request.setAttribute("isSuccess", false);
 			request.getRequestDispatcher("/page/success.jsp").forward(request, response);

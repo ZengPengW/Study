@@ -16,7 +16,7 @@ public interface Sellerdao {
 	public boolean upPassWord(String email,String newPassWord) throws SQLException; 
 	public User getUser(String name)throws SQLException;
 	public boolean alterSid(String email,String sid)throws SQLException;
-	public boolean isExistUser (String name,String password)throws SQLException;
+	public User isExistUser (String name,String password)throws SQLException;
 	public boolean isExisProductName(String productname,int uid)throws SQLException;
 	public User getUserBySid(String sid)throws SQLException;
 	public boolean AddProduct(Product product)throws SQLException;
@@ -38,6 +38,7 @@ public interface Sellerdao {
 	public Finance GetFinanceByUid(int uid)throws SQLException;
 	
 	public String getUserSid(int uid)throws SQLException;
+	public User getUserById(int uid)throws SQLException;
 	public boolean alterUserNameByUid(int uid,String username)throws SQLException;
 	public boolean alterUserShopNameByUid(int uid,String shopname)throws SQLException;
 	public boolean alterFinancePayByUid(int uid,String pay)throws SQLException;

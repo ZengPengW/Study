@@ -3,7 +3,6 @@ package com.zpp.servlet;
 import java.io.File;
 import java.io.IOException;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -35,79 +34,79 @@ public class UploadProduct extends HttpServlet {
 			throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
-
-		String productName = request.getParameter("productName");
-	
-		String productClass = request.getParameter("productClass");
-		double price = Double.parseDouble(request.getParameter("price"));
-		int productCount = Integer.parseInt(request.getParameter("productCount"));
-		String productMessage=request.getParameter("productMessage");
-		
-
-		String savePath = request.getServletContext().getRealPath("/productImg");
-
-		String fileName = null;
-
-		
-		
 		try {
+
+			String productName = request.getParameter("productName");
+
+			String productClass = request.getParameter("productClass");
+			double price = Double.parseDouble(request.getParameter("price"));
+			int productCount = Integer.parseInt(request.getParameter("productCount"));
+			String productMessage = request.getParameter("productMessage");
+
+			String savePath = request.getServletContext().getRealPath("/imgs/productImg");
+
+			String fileName = null;
+
 			// 上传单个文件
 
-			
-			Part part = request.getPart("productImg");// 通过表单file控件(<input type="file" name="file">)的名字直接获取Part对象
-			
-			// 获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
-			String header = part.getHeader("Content-Disposition");
-			// 获取文件名
-			
-			fileName = UploadUtils.getFileName(header);
-			
-			//校验格式
-			String form=fileName.substring(fileName.lastIndexOf(".")+1).toLowerCase();
-			//System.out.println(form);
-			if(!form.equals("png")&&!form.equals("jpg")&&!form.equals("jpeg")&&!form.equals("gif")&&!form.equals("svg")) {
-				System.out.println("返回");
+			Part part = request.getPart("productImg");// 通过表单file控件(<input
+														// type="file"
+														// name="file">)的名字直接获取Part对象
+			if (part.getSize() > 1024 * 1024 * 3) {
 				request.setAttribute("isSuccess", false);
 				throw new RuntimeException("格式错误");
 			}
-			
-			String dir=UploadUtils.getDir(fileName);
-			fileName = UploadUtils.getUUIDName(fileName);
-			
-			// 把文件写到指定路径
-			File file=new File(savePath + dir);
-			
-			if(!file.exists()&&!file.isDirectory()) {
-				file.mkdirs();    
-			}
-			fileName=savePath + dir +fileName;
-			part.write(fileName);
-			
+			// 获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
+			String header = part.getHeader("Content-Disposition");
+			// 获取文件名
 
-			Jedis jedis=JedisPoolUtils.getJedis();
-			String jsonstr=jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid"));
-			User user=JsonUtils.getUser(jsonstr);
-			
-			SellerService service=new SellerServiceImpl();
-			Product product=new Product(user.getId(), productName, price, productCount, fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))), productMessage, productClass);
+			fileName = UploadUtils.getFileName(header);
+
+			// 校验格式
+			String form = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+			// System.out.println(form);
+			if (!form.equals("png") && !form.equals("jpg") && !form.equals("jpeg") && !form.equals("gif")
+					&& !form.equals("svg")) {
+
+				request.setAttribute("isSuccess", false);
+				throw new RuntimeException("格式错误");
+			}
+
+			String dir = UploadUtils.getDir(fileName);
+			fileName = UploadUtils.getUUIDName(fileName);
+
+			// 把文件写到指定路径
+			File file = new File(savePath + dir);
+
+			if (!file.exists() && !file.isDirectory()) {
+				file.mkdirs();
+			}
+			fileName = savePath + dir + fileName;
+			part.write(fileName);
+
+			Jedis jedis = JedisPoolUtils.getJedis();
+			String jsonstr = jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid"));
+			User user = JsonUtils.getUser(jsonstr);
+
+			SellerService service = new SellerServiceImpl();
+			Product product = new Product(user.getId(), productName, price, productCount,
+					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))),
+					productMessage, productClass);
 			service.AddProduct(product);
 			request.setAttribute("isSuccess", true);
-			
-			//仓库条数
-			long count=service.CheckProductCount(user.getId(),"全部");
-			
-			jedis.hset("depot",String.valueOf(user.getId()) , String.valueOf(count));
+
+			// 仓库条数
+			long count = service.CheckProductCount(user.getId(), "全部");
+
+			jedis.hset("depot", String.valueOf(user.getId()), String.valueOf(count));
 			jedis.close();
 		} catch (Exception e) {
 			request.setAttribute("isSuccess", false);
-			//e.printStackTrace();
-		}finally {
-			
+			e.printStackTrace();
+		} finally {
+
 			request.getRequestDispatcher("/page/success.jsp").forward(request, response);
 		}
-		
-		
-		
 
 	}
 

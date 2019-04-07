@@ -13,7 +13,7 @@ public interface SellerService {
 	public boolean isExistName(String username)throws SQLException; 
 	public boolean isExistEmail(String email)throws SQLException; 
 	public boolean upPassWord(String email,String newPassWord) throws SQLException; 
-	public boolean isExistUser (String name,String password)throws SQLException;
+	public User isExistUser (String name,String password)throws SQLException;
 	public User getUserByName(String name)throws SQLException;
 	public boolean isExisProductName(String productname,int uid)throws SQLException;
 	public User getUserBySid(String sid)throws SQLException;
@@ -38,4 +38,6 @@ public interface SellerService {
 	public boolean alterUserNameByUid(int uid,String username)throws SQLException;
 	public boolean alterUserShopNameByUid(int uid,String shopname)throws SQLException;
 	public boolean alterFinancePayByUid(int uid,String pay)throws SQLException;
+	
+	public User getUserById(int uid)throws SQLException;
 }

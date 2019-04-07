@@ -1,3 +1,5 @@
+<%@page import="com.zpp.utils.URLcodeUtils"%>
+<%@page import="com.zpp.utils.Base64Utils"%>
 <%@page import="com.sun.net.httpserver.Authenticator.Success"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="java.util.List"%>
@@ -33,25 +35,27 @@
 <script type="text/javascript" src="/Zpp/js/CRUD.js"></script>
 </head>
 <%
-		try {
-			String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
-			Jedis jedis = JedisPoolUtils.getJedis();
-			String jsonstr = jedis.hget("users", sid);
-			User user = JsonUtils.getUser(jsonstr);
-			int uid = user.getId();
-			SellerService service = new SellerServiceImpl();
-			List<Object> productClass = service.FindOnSaleProductClass(uid);
-			request.setAttribute("user", user);
-			request.setAttribute("productClassList", productClass);
-			jedis.close();
-		} catch (SQLException e) {
-			request.setAttribute("isSuccess", false);
-			request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
-		}
-	%>
+	request.setAttribute("currpage", "onsale");
+	List<Object> productClass = null;
+	try {
+		String sid = CookiesUtils.getCookie(request.getCookies(), "sid");
+		Jedis jedis = JedisPoolUtils.getJedis();
+		String jsonstr = jedis.hget("users", sid);
+		User user = JsonUtils.getUser(jsonstr);
+		int uid = user.getId();
+		SellerService service = new SellerServiceImpl();
+		productClass = service.FindOnSaleProductClass(uid);
+		request.setAttribute("user", user);
+		request.setAttribute("productClassList", productClass);
+		jedis.close();
+	} catch (SQLException e) {
+		request.setAttribute("isSuccess", false);
+		request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
+	}
+%>
 <body>
 	<jsp:include page="/page/head.jsp" flush="true"></jsp:include>
-	
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-1 ">
@@ -63,15 +67,24 @@
 					<ul class="dropdown-menu">
 
 						<li><a
-							href="/Zpp/OnSaleProductList?currentPage=1&productClass=全部">全部</a></li>
+							href="/Zpp/OnSaleProductList?currentPage=1&productClass=5YWo6YOo">全部</a></li>
 						<li role="presentation" class="divider"></li>
 
 
-						<c:forEach items="${productClassList}" var="ls">
+						<%
+							for (int i = 0; i < productClass.size(); i++) {
+								out.write("<li>");
+								out.write("<a href='/Zpp/OnSaleProductList?currentPage=1&productClass="
+										+ URLcodeUtils.encoder(Base64Utils.encoder(String.valueOf(productClass.get(i)))) + "'>");
+								out.write(productClass.get(i) + "</a></li>");
+								out.write("<li role='presentation' class='divider'></li>");
+							}
+						%>
+						<!--<c:forEach items="${productClassList}" var="ls">
 							<li><a
 								href="/Zpp/OnSaleProductList?currentPage=1&productClass=${ls}">${ls}</a></li>
 							<li role="presentation" class="divider"></li>
-						</c:forEach>
+						</c:forEach>-->
 
 
 					</ul>
@@ -83,9 +96,9 @@
 
 			<div class="col-md-4 col-md-offset-7">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="请输入你要搜索的商品名称关键字"
-						id="likeName" name="likeName"> <span
-						class="input-group-btn">
+					<input type="text" class="form-control"
+						placeholder="请输入你要搜索的商品名称关键字" id="likeName" name="likeName">
+					<span class="input-group-btn">
 						<button class="btn btn-warning" type="button" id="search2">搜索商品</button>
 					</span>
 				</div>
@@ -166,10 +179,10 @@
 									class="form-control">${item.productMessage}</textarea></td>
 							<td class="text-center">
 								<div class="btn-group " style="margin: 10% auto auto auto;">
-									
+
 									<button type="button" class="btn btn-danger"
 										value="${item.pid}" onclick="cancel(this)">下架</button>
-									
+
 								</div>
 							</td>
 						</tr>
@@ -183,34 +196,34 @@
 		</div>
 		<div class="row" id="limt">
 			<nav style="text-align: center">
-			<ul class="pagination">
-				<c:if test="${pageBean.currentPage==1}">
-					<li class="disabled"><a href="#">&laquo;</a></li>
-				</c:if>
-				<c:if test="${pageBean.currentPage!=1}">
-					<li><a
-						href="/Zpp/OnSaleProductList?currentPage=${(pageBean.currentPage-1)<=0?1:(pageBean.currentPage-1)}&productClass=${pageBean.productClass}">&laquo;</a></li>
-				</c:if>
-
-				<c:forEach begin="1" end="${pageBean.totalPage }" var="i">
-					<c:if test="${i!=pageBean.currentPage}">
+				<ul class="pagination">
+					<c:if test="${pageBean.currentPage==1}">
+						<li class="disabled"><a href="#">&laquo;</a></li>
+					</c:if>
+					<c:if test="${pageBean.currentPage!=1}">
 						<li><a
-							href="/Zpp/OnSaleProductList?currentPage=${i}&productClass=${pageBean.productClass}">${i}</a></li>
+							href="/Zpp/OnSaleProductList?currentPage=${(pageBean.currentPage-1)<=0?1:(pageBean.currentPage-1)}&productClass=${pageBean.productClass}">&laquo;</a></li>
 					</c:if>
-					<c:if test="${i==pageBean.currentPage}">
-						<li class=" active"><a href="#">${i}</a></li>
-					</c:if>
-				</c:forEach>
-				
-				<c:if test="${pageBean.currentPage==pageBean.totalPage}">
-					<li class="disabled"><a href="#">&raquo;</a></li>
-				</c:if>
-				<c:if test="${pageBean.currentPage!=pageBean.totalPage}">
-					<li><a
-						href="/Zpp/OnSaleProductList?currentPage=${(pageBean.currentPage+1)>pageBean.totalPage?pageBean.totalPage:(pageBean.currentPage+1)}&productClass=${pageBean.productClass}">&raquo;</a></li>
-				</c:if>
 
-			</ul>
+					<c:forEach begin="1" end="${pageBean.totalPage }" var="i">
+						<c:if test="${i!=pageBean.currentPage}">
+							<li><a
+								href="/Zpp/OnSaleProductList?currentPage=${i}&productClass=${pageBean.productClass}">${i}</a></li>
+						</c:if>
+						<c:if test="${i==pageBean.currentPage}">
+							<li class=" active"><a href="#">${i}</a></li>
+						</c:if>
+					</c:forEach>
+
+					<c:if test="${pageBean.currentPage==pageBean.totalPage}">
+						<li class="disabled"><a href="#">&raquo;</a></li>
+					</c:if>
+					<c:if test="${pageBean.currentPage!=pageBean.totalPage}">
+						<li><a
+							href="/Zpp/OnSaleProductList?currentPage=${(pageBean.currentPage+1)>pageBean.totalPage?pageBean.totalPage:(pageBean.currentPage+1)}&productClass=${pageBean.productClass}">&raquo;</a></li>
+					</c:if>
+
+				</ul>
 			</nav>
 		</div>
 	</div>

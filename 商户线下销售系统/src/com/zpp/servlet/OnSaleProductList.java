@@ -15,6 +15,7 @@ import com.zpp.domain.Product;
 import com.zpp.domain.User;
 import com.zpp.service.SellerService;
 import com.zpp.service.SellerServiceImpl;
+import com.zpp.utils.Base64Utils;
 import com.zpp.utils.CookiesUtils;
 import com.zpp.utils.JsonUtils;
 
@@ -32,7 +33,8 @@ public class OnSaleProductList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int currentPage=Integer.parseInt(request.getParameter("currentPage"));
 		String productClass=request.getParameter("productClass");
-		
+		String base64ProductClass=new String(productClass);
+		productClass=Base64Utils.decoder(productClass);
 		try {
 			String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
 			
@@ -49,11 +51,11 @@ public class OnSaleProductList extends HttpServlet {
 			long totalPage=totalSize/SellerdaoImpl.pageSize;//×ÜÒ³Êý
 			if(totalSize%SellerdaoImpl.pageSize!=0)totalPage++;
 			
-			PageBean<Product> pageBean=new PageBean<Product>(currentPage,totalSize,totalPage,list,productClass);
+			PageBean<Product> pageBean=new PageBean<Product>(currentPage,totalSize,totalPage,list,base64ProductClass);
 			
 			request.setAttribute("pageBean", pageBean);
 			
-			request.setAttribute("productClass",productClass );
+		//	request.setAttribute("productClass",productClass );
 			request.getRequestDispatcher("/page/admin/OnSaleProduct.jsp").forward(request, response);
 			
 			
