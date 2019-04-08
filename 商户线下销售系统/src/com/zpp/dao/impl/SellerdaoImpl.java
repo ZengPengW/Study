@@ -141,16 +141,17 @@ public class SellerdaoImpl implements Sellerdao {
 		return false;
 	}
 
+	
 	@Override
 	public Long CheckProductCount(int uid,String productClass) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
 		String sql = "SELECT count(*) FROM product WHERE uid=?";
 		Long count=0l ;
 		if("全部".equals(productClass)){
-		 count =(Long) qr.query(sql, new ScalarHandler(), uid);
+		 count =(Long) qr.query(sql, new ScalarHandler<Long>(), uid);
 		}else {
 			sql+=" and productClass=?";
-			count =(Long) qr.query(sql, new ScalarHandler(), uid,productClass);
+			count =(Long) qr.query(sql, new ScalarHandler<Long>(), uid,productClass);
 		}
 		return count;
 	}
@@ -282,10 +283,10 @@ public class SellerdaoImpl implements Sellerdao {
 		String sql = "SELECT count(*) FROM onse WHERE uid=?";
 		Long count=0l ;
 		if("全部".equals(productClass)){
-		 count =(Long) qr.query(sql, new ScalarHandler(), uid);
+		 count =(Long) qr.query(sql, new ScalarHandler<Long>(), uid);
 		}else {
 			sql+=" and productClass=?";
-			count =(Long) qr.query(sql, new ScalarHandler(), uid,productClass);
+			count =(Long) qr.query(sql, new ScalarHandler<Long>(), uid,productClass);
 		}
 		return count;
 	}
@@ -311,7 +312,7 @@ public class SellerdaoImpl implements Sellerdao {
 	public boolean alterProduct(Product product) throws SQLException {
 		QueryRunner qr = new QueryRunner();
 		Connection conn=DataSourceUtils.getConnection();
-		conn.setTransactionIsolation(conn.TRANSACTION_READ_COMMITTED);
+		conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		conn.setAutoCommit(false);
 		
 		String sql1="delete from onse where pid=? and uid=?";
@@ -368,7 +369,7 @@ public class SellerdaoImpl implements Sellerdao {
 	public boolean publishProduct(int uid, int pid) throws SQLException {
 		QueryRunner qr = new QueryRunner();
 		Connection conn=DataSourceUtils.getConnection();
-		conn.setTransactionIsolation(conn.TRANSACTION_READ_COMMITTED);
+		conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		conn.setAutoCommit(false);
 		try {
 			String sql1="select * from product where uid=? and pid=?";

@@ -1,0 +1,170 @@
+.footer {
+    height: 46px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #3c3c3c;
+     padding-left: 10px;
+    z-index: 2;
+  display: flex;
+   justify-content: space-between;
+    box-sizing: border-box;
+  font-size: 45px;
+   line-height: 46px;
+   
+
+}
+
+
+
+.footer .settlement{
+	text-align:center;
+	position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #00e067;
+    min-width: 2.8rem;
+    min-width: 28vw;
+    padding: 0 .133333rem;
+    padding: 0 1.333333vw;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 550;
+}
+
+.header{
+	height: 46px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #2395ff;
+     padding-left: 10px;
+    z-index: 2;
+  display: flex;
+   justify-content: space-between;
+    box-sizing: border-box;
+  
+   line-height: 46px;
+}
+
+.header .fon{
+	font-size: 1.1em;
+	color: white;
+	margin-left: 37%;
+	font-weight: 700;
+	
+}
+
+
+.fooddetails-logo_2Q0S7 img {
+    width:100%;
+    height: 100%;
+    border-radius: .053333rem;
+    border-radius: .533333vw;
+}
+.shopname{
+
+}
+
+p {
+   
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+.cart-group-253X- {
+    margin-top: .066667rem;
+    margin-top: .666667vw;
+    color: #333;
+    font-size: .346667rem;
+}
+.cart-group-31C83.cart-group-2EEJb {
+    color: #ff4a07;
+}
+.cart-group-253X- li {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 100%;
+    padding: .32rem 0;
+    padding: 3.2vw 0;
+    border-bottom: 1px dotted #eee;
+    font-size: .373333rem;
+    color: inherit;
+}
+.cart-group-2U2FI {
+    width: .96rem;
+    width: 9.6vw;
+    height: .96rem;
+    height: 9.6vw;
+     text-align: left;
+}
+.cart-group-253X- li .cart-group-OgNfZ {
+    margin-left: .213333rem;
+    margin-left: 2.133333vw;
+    overflow: hidden;
+    -webkit-flex: 9;
+    flex: 9;
+}
+.cart-group-253X- li .cart-group-2_GET {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.cart-group-253X- li .cart-group-1vF9L {
+    -webkit-flex: 1;
+    flex: 1;
+    text-align: right;
+    font-size: .32rem;
+}
+.cart-group-253X- li .cart-group-3GWE2 {
+    min-width: 1.6rem;
+    min-width: 16vw;
+    color: #bbb;
+    font-size: .426667rem;
+    text-decoration: line-through;
+    text-align: right;
+}
+
+.cart-group-253X- li .cart-group-31C83 {
+    font-size: .426667rem;
+    -webkit-flex: 3;
+    flex: 3;
+    text-align: right;
+}
+.cart-group-12n-9 {
+    font-size: .32rem;
+}
+img {
+    max-width: 100%;
+}
+
+
+ol, ul ,li {
+    list-style: none;
+}
+
+body, button, dd, dl, ol, ul {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+

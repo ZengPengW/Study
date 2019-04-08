@@ -13,8 +13,8 @@ public class PageBean<T> {
 	private long currentPage;//当前页
 	private long totalPage;//总页数
 	private long totalSize;//总记录数
-	String productClass;
-	private List<T> list;
+	String productClass;//当前商品类
+	private List<T> list;//商品
 	
 	public PageBean() {
 	

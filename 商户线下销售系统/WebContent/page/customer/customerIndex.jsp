@@ -64,10 +64,10 @@
 				<label for="phone" class="col-sm-3 control-label"></label>
 				
 					<div class="form-group text-center ">
-						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="username" name="username" placeholder="输入你的姓名">
+						<input type="text" class="form-control input-group-addon " style="border-radius: 20px; color:#666666;" id="username" name="username" placeholder="输入你的姓名">
 					</div>
 					<div class="form-group text-center ">
-						<input type="text" class="form-control input-group-addon " style="border-radius: 20px;" id="phone" name="phone" placeholder="你的手机号">
+						<input type="text" class="form-control input-group-addon " style="border-radius: 20px; color:#666666;" id="phone" name="phone" placeholder="你的手机号">
 					</div>
 
 			</div>

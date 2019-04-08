@@ -1,3 +1,6 @@
+<%@page import="net.sf.json.JsonConfig"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%@page import="com.zpp.domain.ShopCart"%>
 <%@page import="com.zpp.utils.URLcodeUtils"%>
 <%@page import="com.zpp.utils.CookiesUtils"%>
 <%@page import="com.zpp.utils.Base64Utils"%>
@@ -5,6 +8,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 
@@ -25,7 +30,7 @@
 <link href="${pageContext.request.contextPath }/css/customerProductList.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
+<body >
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-4 col-md-4 col-sm-6">
@@ -119,15 +124,16 @@
 							</h5>
 						</div>
 						<div class="row " style="margin-top: 15%;">
-							<div style="color: red;">￥${pro.price}</div>
+							<div style="color: red;">￥<fmt:formatNumber value="${pro.price}"
+											type="number" pattern="0.00" maxFractionDigits="2" /></div>
 
 						</div>
 						<p ></p>
 						<div class="row">
 							<div>
-								<a href="javascript:" onclick="subpro(this)" pid="${pro.pid}" sum="${pro.productCount}"><img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/></a>
-								<span id="ans"  >0</span>
-								<a href="javascript:" onclick="addpro(this)" pid="${pro.pid}" sum="${pro.productCount}"><img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/></a>
+								<a href="javascript:" onclick="subpro(this)" pid="${pro.pid}" sum="${pro.productCount}" shopname="${pro.productName}" shopprice="${pro.price}"><img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/></a>
+								<span id="${pro.pid}" name='selected' >0</span>
+								<a href="javascript:" onclick="addpro(this)" pid="${pro.pid}" sum="${pro.productCount}" shopname="${pro.productName}" shopprice="${pro.price}"><img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/></a>
 
 							</div>
 						
@@ -180,164 +186,56 @@
 	
 	
 </script>
+<%
+String cart=CookiesUtils.getCookie(request.getCookies(), "cart");
+List<ShopCart> shopCarts=null;
+if(cart!=null&&!cart.isEmpty()){
+JSONArray jsonArray=JSONArray.fromObject(cart);
+shopCarts=jsonArray.toList(jsonArray, ShopCart.class,new JsonConfig());	
+}
 
-<div id="shoping" style="width: 98%; height: 43%; background-color: white; position: fixed;  top: 100%; overflow:auto;">
+%>
+<div id="shoping" style="width: 99%; height: 43%; background-color: white; position: fixed;  top: 100%; overflow:auto;">
 	<table class="table" style="position: fixed; width: 98%;">
 	<tr bgcolor="#eceff1">
 		<th><font color="#666">已选商品</font></th>
-		<th colspan="2" class="text-right"><img src="${pageContext.request.contextPath }/imgs/icon/clean.svg" width="20vw" height="20vw" />
+		<th colspan="2" class="text-right" id="clean"><img src="${pageContext.request.contextPath }/imgs/icon/clean.svg" width="20vw" height="20vw" />
 		<font color="#666">清空</font>
 		</th>
 	</tr>
 	</table>
 	
-	<table class="table" style="margin-top: 12%; width: 98%; " id="myshoplist">
-	
-	<tr>
-	<td>商品名称1</td>
-	<td><strong><font color="red">￥100</font></strong></td>
-	
-	
-	<td class="text-right">
-	<a href="javascript:" onclick="subpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/>
-	</a>
-	<span id="ans" pid="${pro.pid}" sum="" >0</span>
-	<a href="javascript:" onclick="addpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/>
-	</a>
-	</td>
-	</tr>
-	
-		<tr>
-	<td >商品名称</td>
-	<td><strong><font color="red">￥100</font></strong></td>
-	
-	
-	<td class="text-right">
-	<a href="javascript:" onclick="subpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/>
-	</a>
-	<span id="ans" pid="${pro.pid}" sum="" >0</span>
-	<a href="javascript:" onclick="addpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/>
-	</a>
-	</td>
-	</tr>
-	
-		<tr>
-	<td >商品名称</td>
-	<td><strong><font color="red">￥100</font></strong></td>
-	
-	
-	<td class="text-right">
-	<a href="javascript:" onclick="subpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/>
-	</a>
-	<span id="ans" pid="${pro.pid}" sum="" >0</span>
-	<a href="javascript:" onclick="addpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/>
-	</a>
-	</td>
-	</tr>
-	
-		<tr>
-	<td >商品名称</td>
-	<td><strong><font color="red">￥100</font></strong></td>
-	
-	
-	<td class="text-right">
-	<a href="javascript:" onclick="subpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/>
-	</a>
-	<span id="ans" pid="${pro.pid}" sum="" >0</span>
-	<a href="javascript:" onclick="addpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/>
-	</a>
-	</td>
-	</tr>
-	
-		<tr>
-	<td >商品名称</td>
-	<td><strong><font color="red">￥100</font></strong></td>
-	
-	
-	<td class="text-right">
-	<a href="javascript:" onclick="subpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/>
-	</a>
-	<span id="ans" pid="${pro.pid}" sum="" >0</span>
-	<a href="javascript:" onclick="addpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/>
-	</a>
-	</td>
-	</tr>
-	
-		<tr>
-	<td >商品名称</td>
-	<td><strong><font color="red">￥100</font></strong></td>
-	
-	
-	<td class="text-right">
-	<a href="javascript:" onclick="subpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/>
-	</a>
-	<span id="ans" pid="${pro.pid}" sum="" >0</span>
-	<a href="javascript:" onclick="addpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/>
-	</a>
-	</td>
-	</tr>
-	
-		<tr>
-	<td >商品名称</td>
-	<td><strong><font color="red">￥100</font></strong></td>
-	
-	
-	<td class="text-right">
-	<a href="javascript:" onclick="subpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/>
-	</a>
-	<span id="ans" pid="${pro.pid}" sum="" >0</span>
-	<a href="javascript:" onclick="addpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/>
-	</a>
-	</td>
-	</tr>
-	
-		<tr>
-	<td >商品名称last</td>
-	<td><strong><font color="red">￥100</font></strong></td>
-	
-	
-	<td class="text-right">
-	<a href="javascript:" onclick="subpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/sub.svg" class="mysvg"/>
-	</a>
-	<span id="ans" pid="${pro.pid}" sum="" >0</span>
-	<a href="javascript:" onclick="addpro(this)">
-	<img src="${pageContext.request.contextPath }/imgs/icon/add.svg" class="mysvg"/>
-	</a>
-	</td>
-	</tr>
+	<table class="table" style="margin-top: 12%; width: 99%; " id="myshoplist">
+		<c:forEach items=""></c:forEach>
 	
 	
 	</table>
 </div>
 	
  <div class="footer">
-       
+     
          <div class="fa-shopping-cart" onclick="showshop()" >
                 <img alt="购物车" src="${pageContext.request.contextPath}/imgs/icon/ShoppingCart.svg" id="cart">
           </div>
+          
             <div onclick="showshop()">              
                 <!--记录订单总数  -->
                 <div class="total" id="total" style=" display: none;" >0</div>
             </div>
+            <div id="paybox" style="position: absolute; left: 27%;  font-size: 2rem; color: white; display:none ;">
+            
+            <span id="paymoney" >￥0</span>
+            </div>
+          
         
-            <div class="settlement" id="settlement">去结算</div>
+            <div class="settlement" id="settlement" >去结算</div>
   </div>
 
+<script>
+	$("#settlement").click(function(){
+		window.location.href="${pageContext.request.contextPath}/page/customer/order.jsp";
+	});
+</script>
 </body>
 
 
