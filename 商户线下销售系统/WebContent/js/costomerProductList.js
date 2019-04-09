@@ -1,4 +1,3 @@
-
 var srcsub="/Zpp/imgs/icon/sub.svg";
 var srcadd="/Zpp/imgs/icon/add.svg";
 var myloc="/Zpp";
@@ -36,7 +35,11 @@ function addpro(item){
 		$("#paymoney").text("￥"+no);
 		
 		
-		$.post(myloc+"/ShoppingCart",{pid:pid},function(data){});
+		$.post(myloc+"/ShoppingCart",
+		{
+			pid:pid,
+			count:temp
+		},function(data){});
 	
 	}
 }
@@ -69,6 +72,12 @@ function subpro(item){
 		if(no<=0)$("#paybox").hide();
 		$("#paymoney").text("￥"+no);
 		
+		
+		$.post(myloc+"/ShoppingCart",
+		{
+			pid:pid,
+			count:count
+		},function(data){});
 	}
 }
 
@@ -90,11 +99,20 @@ function addpro2(item){
 		setTimeout(function(){$("#cart").css({"margin-top":"-40%"}); }, 100);
 		var shopname=$(item).attr("shopname");
 		var shopprice=parseFloat($(item).attr("shopprice"));
+		
 		var no =parseFloat($("#paymoney").text().substr(1));
+		//alert(shopprice+" "+no);
 		no=no+shopprice;
 		no=no.toFixed(1);
 		if(no>0)$("#paybox").show();
 		$("#paymoney").text("￥"+no);
+		
+		$.post(myloc+"/ShoppingCart",
+		{
+			pid:pid,
+			count:temp
+		},function(data){});
+	
 	}
 }
 function subpro2(item){
@@ -122,7 +140,11 @@ function subpro2(item){
 		if(no<=0)$("#paybox").hide();
 		$("#paymoney").text("￥"+no);
 		
-		
+		$.post(myloc+"/ShoppingCart",
+		{
+			pid:pid,
+			count:count
+		},function(data){});
 	}
 }
 
@@ -181,6 +203,14 @@ $(function(){
 		$("#tb span[name='selected']").text(0);
 		$("#total").text(0);
 		$("#total").hide();
+		
+		$.post(myloc+"/ShoppingCart",
+		{
+			pid:1,
+			count:1,
+			clean:"yes"
+		},function(data){});
+	
 	})
 	
 });

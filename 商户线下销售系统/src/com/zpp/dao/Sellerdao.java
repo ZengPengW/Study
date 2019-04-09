@@ -43,4 +43,5 @@ public interface Sellerdao {
 	public boolean alterUserShopNameByUid(int uid,String shopname)throws SQLException;
 	public boolean alterFinancePayByUid(int uid,String pay)throws SQLException;
 	
+	
 }

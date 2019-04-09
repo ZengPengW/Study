@@ -243,12 +243,12 @@ public class SellerdaoImpl implements Sellerdao {
 		return al;
 	}
 
-	@SuppressWarnings("static-access")
+	
 	@Override
 	public boolean DeleteProduct(int uid, int pid) throws SQLException {
 		QueryRunner qr = new QueryRunner();
 		Connection conn=DataSourceUtils.getConnection();
-		conn.setTransactionIsolation(conn.TRANSACTION_READ_COMMITTED);
+		conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		conn.setAutoCommit(false);
 		//depot
 		try {

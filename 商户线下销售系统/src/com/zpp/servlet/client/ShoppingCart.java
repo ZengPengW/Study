@@ -28,14 +28,25 @@ public class ShoppingCart extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			int pid=Integer.parseInt(request.getParameter("pid"));
-		//	int count =Integer.parseInt(request.getParameter("count"));
+			int count =Integer.parseInt(request.getParameter("count"));
+			
+			String clean=request.getParameter("clean");
+			if(clean!=null&&!clean.isEmpty()&&clean.equals("yes")) {
+				Cookie cookie=new Cookie("cart", null);
+				cookie.setMaxAge(0);
+				response.addCookie(cookie);
+				response.getWriter().print(true);
+				return;
+			}
+				
+			
+			
 			String cart=CookiesUtils.getCookie(request.getCookies(), "cart");
-			String shopname=request.getParameter("shopname");
-			double shopprice=Double.valueOf(request.getParameter("shopprice"));
+			
 			
 			if (cart==null||cart.isEmpty()) {
 				List<ShopCart> shopCarts=new ArrayList<ShopCart>();
-				shopCarts.add(new ShopCart(pid,1));
+				shopCarts.add(new ShopCart(pid,count));
 				JSONArray jsonArray=JSONArray.fromObject(shopCarts);
 				String json=jsonArray.toString();
 				Cookie cookie=new Cookie("cart", json);
@@ -44,20 +55,33 @@ public class ShoppingCart extends HttpServlet {
 				
 			}else {
 				JSONArray jsonArray=JSONArray.fromObject(cart);
-				List<ShopCart> shopCarts=jsonArray.toList(jsonArray, ShopCart.class,new JsonConfig());
-
+				List<ShopCart> shopCarts=jsonArray.toList(jsonArray, ShopCart.class);
+				boolean flag=true;
+				List<ShopCart> newshopCarts=new ArrayList<ShopCart>();
 				for (ShopCart shopCart : shopCarts) {
 					if(shopCart.getPid()==pid) {
-						shopCart.setCount(shopCart.getCount()+1);
-						break;
+						if(count>0) {
+							shopCart.setCount(count);
+							newshopCarts.add(shopCart);
+						}
+						
+						flag=false;
+						
+					}else {
+						newshopCarts.add(shopCart);
 					}
 				}
+				if(flag) {
+					newshopCarts.add(new ShopCart(pid,count));
+				}
 				
-				JSONArray jsonarr=jsonArray.fromObject(shopCarts);
+				JSONArray jsonarr=jsonArray.fromObject(newshopCarts);
 				Cookie cookie=new Cookie("cart", jsonarr.toString());
 				cookie.setMaxAge(24*60*60*1);
 				response.addCookie(cookie);
+				
 			}
+			
 			response.getWriter().print(true);
 			
 		} catch (Exception e) {

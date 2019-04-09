@@ -14,6 +14,7 @@ import com.zpp.domain.User;
 import com.zpp.service.SellerService;
 import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.Base64Utils;
+import com.zpp.utils.CookiesUtils;
 
 /**
  * Servlet implementation class ClientInit
@@ -35,6 +36,17 @@ public class ClientInit extends HttpServlet {
 			String shopname=user.getShopname();
 			username=Base64Utils.encoder(username);
 			shopname=Base64Utils.encoder(shopname);
+			
+			
+			
+			String equipment=CookiesUtils.getCookie(request.getCookies(), "equipment");
+			if(equipment==null||equipment.isEmpty()) {
+				equipment=request.getSession().getId();
+				Cookie cookie5 =new Cookie("equipment", equipment);
+				cookie5.setMaxAge(24*30*30*365);
+				response.addCookie(cookie5);
+			}
+			
 			
 			Cookie cookie=new Cookie("username", username);
 			Cookie cookie2=new Cookie("phone", phone);

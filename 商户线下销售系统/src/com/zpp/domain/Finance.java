@@ -2,10 +2,10 @@ package com.zpp.domain;
 
 public class Finance {
 	int uid;
-	String pay;
-	int soldout;
-	double balance;
-	int total;
+	String pay;//支付宝
+	int soldout;//总售出
+	double balance;//余额
+	double total;//总盈利
 	int version;
 	public int getUid() {
 		return uid;
@@ -31,10 +31,10 @@ public class Finance {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	public int getTotal() {
+	public double getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(double total) {
 		this.total = total;
 	}
 	public int getVersion() {

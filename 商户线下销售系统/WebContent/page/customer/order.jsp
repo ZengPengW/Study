@@ -1,5 +1,15 @@
+<%@page import="com.zpp.service.SellerServiceImpl"%>
+<%@page import="com.zpp.service.SellerService"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.zpp.domain.Product"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%@page import="com.zpp.domain.ShopCart"%>
+<%@page import="java.util.List"%>
+<%@page import="com.zpp.utils.CookiesUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +29,37 @@
 	type="text/css" rel="stylesheet">
 
 </head>
-<body>
+<body style="padding-top: 13%">
+<% 
+String cart = CookiesUtils.getCookie(request.getCookies(), "cart");
+List<ShopCart> shopCarts = null;
+if (cart != null) {
+	JSONArray jsonArray = JSONArray.fromObject(cart);
+	shopCarts = jsonArray.toList(jsonArray, ShopCart.class);
+}
+List<Product> cartList = new ArrayList<Product>();
+HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
+if (shopCarts != null) {
+	SellerService service = new SellerServiceImpl();
+	int uid = Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
+	Product p = null;
+	
+
+	int shoppingCount = 0;
+	double sumPrice = 0;
+	for (ShopCart sp : shopCarts) {
+		p = service.GetProductByPid(uid, sp.getPid());
+		cartList.add(p);
+		hm.put(sp.getPid(), sp.getCount());
+		sumPrice += (p.getPrice() * sp.getCount());
+	}
+	
+	request.setAttribute("cartlist", cartList);
+	request.setAttribute("hm", hm);
+	request.setAttribute("sumPrice", sumPrice);		
+}
+%>
+
 	<div class="container">
 
 
@@ -29,20 +69,10 @@
 			</h1>
 		</header>
 
-
-
-
-		<div style="margin-top: 20%"></div>
-
-
-
-
-
-
 		<div class="footer">
 			<div id="paybox"
 				style="position: absolute; left: 0; font-size: 2rem; color: white;">
-				<span id="paymoney">￥100000</span>
+				<span id="paymoney"> ￥${sumPrice}</span>
 			</div>
 			<div class="settlement" id="settlement">去支付</div>
 		</div>
@@ -52,35 +82,20 @@
 	<div class="container">
 		<div class="row ">
 			<ul class="cart-group-253X-" style="padding: 10px; margin: 0">
-				<li><img alt="" class="cart-group-2U2FI"
-					src="https://fuss10.elemecdn.com/5/e1/e9545b21f87096bbd86949f006108jpeg.jpeg?imageMogr/format/webp/thumbnail/!72x72r/gravity/Center/crop/72x72/">
-
-					<div class="cart-group-OgNfZ">
-
-						<p class="cart-group-2_GET">清火白粥</p>
-
-					</div> <span class="cart-group-1vF9L">×&nbsp;4</span> <span
-					class="cart-group-3GWE2"><span><span
-							class="cart-group-12n-9"></span> </span></span> <span
-					class="cart-group-31C83 cart-group-2EEJb"><span
-						class="cart-group-12n-9">¥</span>2000000007.2 </span></li>
-			
-			<li><img alt="" class="cart-group-2U2FI"
-					src="https://fuss10.elemecdn.com/5/e1/e9545b21f87096bbd86949f006108jpeg.jpeg?imageMogr/format/webp/thumbnail/!72x72r/gravity/Center/crop/72x72/">
-
-					<div class="cart-group-OgNfZ">
-
-						<p class="cart-group-2_GET">清火白粥</p>
-
-					</div> <span class="cart-group-1vF9L">×&nbsp;4</span> <span
-					class="cart-group-3GWE2"><span><span
-							class="cart-group-12n-9"></span> </span></span> <span
-					class="cart-group-31C83 cart-group-2EEJb"><span
-						class="cart-group-12n-9">¥</span>2000000007.2 </span></li>			
+				<c:forEach items="${cartlist}" var="ls">
+				<li><img  class='cart-group-2U2FI' src='${ls.productImg}'><div class='cart-group-OgNfZ'><p class='cart-group-2_GET'>${ls.productName}</p></div> <span class='cart-group-1vF9L'>×&nbsp;${hm.get(ls.pid)}</span> <span class='cart-group-3GWE2'><span><span class='cart-group-12n-9'></span></span></span> <span class='cart-group-31C83 cart-group-2EEJb'><span class='cart-group-12n-9'>¥</span>${ls.price}</span></li>	
+				
+				</c:forEach>	
 			</ul>
 		</div>
 
 	</div>
+<script type="text/javascript">
+$("#settlement").click(function(){
+	window.location.href="${pageContext.request.contextPath }/PaymentServlet";
+	
+});
 
+</script>
 </body>
 </html>

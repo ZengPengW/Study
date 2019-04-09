@@ -110,7 +110,7 @@
 			</tr>
 			<tr>
 				<td>
-					<h3>已售出/件</h3>
+					<h3>已售出/单</h3>
 				</td>
 				<td>
 					<h2>
@@ -125,7 +125,7 @@
 				</td>
 				<td>
 					<h2>
-						<strong><%=String.format("%.2f", Double.valueOf(finance.getTotal()))%></strong>
+						<strong><%=String.format("%.2f", finance.getTotal()) %></strong>
 					</h2>
 				</td>
 			</tr>

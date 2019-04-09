@@ -43,13 +43,13 @@ public class OnSaleProductList extends HttpServlet {
 			if(productClass==null||productClass.isEmpty())
 				productClass="5YWo6YOo";
 			
-			String curUid=request.getParameter("curUid");
+			//String curUid=request.getParameter("curUid");
 			int uid=0;
-			if(curUid==null||curUid.isEmpty()){
+			//if(curUid==null||curUid.isEmpty()){
 				 uid=Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
-			}else{
-				uid=Integer.parseInt(curUid);
-			}
+//			}else{
+//				uid=Integer.parseInt(curUid);
+//			}
 			
 			
 			SellerService service=new SellerServiceImpl();
