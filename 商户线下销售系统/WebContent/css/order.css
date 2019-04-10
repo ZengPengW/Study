@@ -52,11 +52,12 @@
 }
 
 .header .fon{
+
 	font-size: 1.1em;
 	color: white;
-	margin-left: 37%;
+	position:absolute;
+	left:40%;
 	font-weight: 700;
-	
 }
 
 

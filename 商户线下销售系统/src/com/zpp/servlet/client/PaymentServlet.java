@@ -21,6 +21,7 @@ import com.zpp.service.PayService;
 import com.zpp.service.PayServiceImpl;
 import com.zpp.service.SellerService;
 import com.zpp.service.SellerServiceImpl;
+import com.zpp.utils.Base64Utils;
 import com.zpp.utils.CookiesUtils;
 
 import net.sf.json.JSONArray;
@@ -43,14 +44,14 @@ public class PaymentServlet extends HttpServlet {
 			JSONArray jsonArray=JSONArray.fromObject(shopcart);
 			List<ShopCart> list=jsonArray.toList(jsonArray, ShopCart.class);
 			
-			List<Product> buyProduct=new ArrayList<Product>();
+			//List<Product> buyProduct=new ArrayList<Product>();
 			//计算支付金额
 			SellerService service=new SellerServiceImpl();
 			Product p=null;
 			double  payMoney=0;
 			for (ShopCart ls : list) {
 				p=service.GetProductByPid(uid, ls.getPid());
-				buyProduct.add(p);
+				//buyProduct.add(p);
 				payMoney+=(ls.getCount()*p.getPrice());
 			}
 			
@@ -78,6 +79,7 @@ public class PaymentServlet extends HttpServlet {
 			}
 			
 			String username=CookiesUtils.getCookie(request.getCookies(), "username");
+			username=Base64Utils.decoder(username);
 			String phone=CookiesUtils.getCookie(request.getCookies(), "phone");
 			String shopMessage=shopcart;
 			String equipment=CookiesUtils.getCookie(request.getCookies(), "equipment");
@@ -87,7 +89,7 @@ public class PaymentServlet extends HttpServlet {
 				cookie5.setMaxAge(24*30*30*365);
 				response.addCookie(cookie5);
 			}
-			Order order=new Order(uid, time, gid, username, phone, shopMessage,equipment);
+			Order order=new Order(uid, time, gid, username, phone, shopMessage,equipment,payMoney);
 			
 			payService.addOrderOnPay(order);
 			
@@ -96,10 +98,9 @@ public class PaymentServlet extends HttpServlet {
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 			
-			
-			response.setContentType("text/html;charset=utf-8");
-			response.getWriter().write("支付成功！");
-			
+			request.setAttribute("message", "支付成功。。。正在跳转");
+			request.setAttribute("status", 1);
+			request.getRequestDispatcher("/page/customer/paySuccess.jsp").forward(request, response);
 			
 			
 		} catch (Exception e) {

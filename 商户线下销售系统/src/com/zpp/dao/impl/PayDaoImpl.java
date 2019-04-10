@@ -2,9 +2,12 @@ package com.zpp.dao.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import com.zpp.dao.PayDao;
 import com.zpp.domain.Finance;
@@ -56,9 +59,9 @@ public class PayDaoImpl implements PayDao {
 	public boolean addOrderOnPay(Order order) throws SQLException {
 		try {
 			QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
-			String sql="insert into `order`(uid,`time`,gid,username,phone,shopMessage,isteke,equipment) values(?,?,?,?,?,?,?,?)";
+			String sql="insert into `order`(uid,`time`,gid,username,phone,shopMessage,isteke,equipment,money) values(?,?,?,?,?,?,?,?,?)";
 			
-			int status=qr.update(sql,order.getUid(),order.getTime(),order.getGid(),order.getUsername(),order.getPhone(),order.getShopMessage(),0,order.getEquipment());
+			int status=qr.update(sql,order.getUid(),order.getTime(),order.getGid(),order.getUsername(),order.getPhone(),order.getShopMessage(),0,order.getEquipment(),order.getMoney());
 			
 			if(status==1)return true;
 		} catch (Exception e) {
@@ -77,6 +80,68 @@ public class PayDaoImpl implements PayDao {
 		
 		if(order!=null)return true;
 		return false;
+	}
+
+	@Override
+	public List<Order> GetOrderByEquipment(int uid, String equipment) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from `order` where uid=? and equipment=? ORDER BY `time` DESC";
+		List<Order> order=qr.query(sql, new BeanListHandler<Order>(Order.class),uid,equipment);
+		return order;
+		
+	}
+
+	@Override
+	public Order GetOrderByOid(int uid, String equipment, int oid) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from `order` where uid=? and equipment=? and oid=?";
+		Order order=qr.query(sql, new BeanHandler<Order>(Order.class),uid,equipment,oid);
+		return order;
+	}
+
+	@Override
+	public boolean tekeOrder(int uid, String equipment, int oid) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="update `order` set isteke=? where uid=? and equipment=? and oid=?";
+		int status=qr.update(sql,1,uid,equipment,oid);
+		if(status==1)return true;
+		else return false;
+	}
+
+	public static int pageSize=12;
+	@Override
+	public List<Order> getAllOrderByUid(int uid,int currentPage,String orderClass) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		List<Order> allOrder=null;
+		if(orderClass.equals("全部")) {
+			String sql="select * from `order` where uid=? ORDER BY `time` DESC LIMIT ? OFFSET ? ";
+			allOrder=qr.query(sql, new BeanListHandler<Order>(Order.class),uid,pageSize,pageSize*(currentPage-1));
+		}else if (orderClass.equals("已取货")) {
+			String sql="select * from `order` where uid=? and isteke=?  ORDER BY `time` DESC LIMIT ? OFFSET ?";
+			allOrder=qr.query(sql, new BeanListHandler<Order>(Order.class),uid,1,pageSize,pageSize*(currentPage-1));
+		}else if (orderClass.equals("未取货")) {
+			String sql="select * from `order` where uid=? and isteke=? ORDER BY `time` DESC LIMIT ? OFFSET ?";
+			allOrder=qr.query(sql, new BeanListHandler<Order>(Order.class),uid,0,pageSize,pageSize*(currentPage-1));
+		}
+		
+		return allOrder;
+	}
+
+	@Override
+	public Long getAllOrderCountByUid(int uid, int currentPage, String orderClass) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		Long allOrder = 0l;
+		if(orderClass.equals("全部")) {
+			String sql="select count(*) from `order` where uid=?  ";
+			allOrder=qr.query(sql, new ScalarHandler<Long>(),uid);
+		}else if (orderClass.equals("已取货")) {
+			String sql="select count(*) from `order` where uid=? and isteke=?  ";
+			allOrder=qr.query(sql, new ScalarHandler<Long>(),uid,1);
+		}else if (orderClass.equals("未取货")) {
+			String sql="select count(*) from `order` where uid=? and isteke=? ";
+			allOrder=qr.query(sql, new ScalarHandler<Long>(),uid,0);
+		}
+		return allOrder;
 	}
 
 }

@@ -68,9 +68,9 @@ request.setAttribute("user", user);
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="productCount" class="col-sm-3 control-label">数量/件</label>
+					<label for="productCount" class="col-sm-3 control-label">可买数量/件</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" id="productCount" placeholder="请输入商品数量" name="productCount">
+						<input type="text" class="form-control" id="productCount" placeholder="可买数量指的是一个人一次最多购买的数量" name="productCount">
 
 					</div>
 				</div>

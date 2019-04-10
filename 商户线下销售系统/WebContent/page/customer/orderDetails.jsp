@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>确认订单</title>
+<title>订单详情</title>
 <!--声明文档兼容模式，表示使用IE浏览器的最新模式-->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
@@ -27,55 +27,25 @@
 <script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
 <link href="${pageContext.request.contextPath }/css/order.css"
 	type="text/css" rel="stylesheet">
-
 </head>
 <body style="padding-top: 13%">
-<% 
-String cart = CookiesUtils.getCookie(request.getCookies(), "cart");
-List<ShopCart> shopCarts = null;
-if (cart != null) {
-	JSONArray jsonArray = JSONArray.fromObject(cart);
-	shopCarts = jsonArray.toList(jsonArray, ShopCart.class);
-}
-List<Product> cartList = new ArrayList<Product>();
-HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
-if (shopCarts != null) {
-	SellerService service = new SellerServiceImpl();
-	int uid = Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
-	Product p = null;
-	
 
-	int shoppingCount = 0;
-	double sumPrice = 0;
-	for (ShopCart sp : shopCarts) {
-		p = service.GetProductByPid(uid, sp.getPid());
-		cartList.add(p);
-		hm.put(sp.getPid(), sp.getCount());
-		sumPrice += (p.getPrice() * sp.getCount());
-	}
-	
-	request.setAttribute("cartlist", cartList);
-	request.setAttribute("hm", hm);
-	request.setAttribute("sumPrice", sumPrice);		
-}
-%>
 
 	<div class="container">
 
 
 		<header class="header">
-			<span ><a href="${pageContext.request.contextPath }/OnSaleProductListClient?currentPage=1&productClass=5YWo6YOo"><img src="${pageContext.request.contextPath }/imgs/icon/index.svg" width="50%" height="100%" alt="首页"></a></span>
-			<h1 class="fon" >
-				<strong>我的订单</strong>
+			<h1 class="fon">
+				<strong>订单详情</strong>
 			</h1>
 		</header>
 
 		<div class="footer">
 			<div id="paybox"
 				style="position: absolute; left: 0; font-size: 2rem; color: white;">
-				<span id="paymoney"> ￥${sumPrice}</span>
+				<span id="paymoney">共计： ￥${sumPrice}</span>
 			</div>
-			<div class="settlement" id="settlement">去支付</div>
+			
 		</div>
 	</div>
 
@@ -91,12 +61,6 @@ if (shopCarts != null) {
 		</div>
 
 	</div>
-<script type="text/javascript">
-$("#settlement").click(function(){
-	window.location.href="${pageContext.request.contextPath }/PaymentServlet";
-	
-});
 
-</script>
 </body>
 </html>

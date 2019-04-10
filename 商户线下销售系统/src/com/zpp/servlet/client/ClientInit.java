@@ -26,10 +26,12 @@ public class ClientInit extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			int uid=Integer.parseInt(request.getParameter("curUid"));
-			SellerService service=new SellerServiceImpl();
-			User user=service.getUserById(uid);
+			String curuid=request.getParameter("curUid");
 			
+			int uid=Integer.parseInt(curuid);
+			
+			SellerService service=new SellerServiceImpl();
+			User user=service.getUserById(uid);			
 			//…Ë÷√”√ªßcookie
 			String username=request.getParameter("username");
 			String phone=request.getParameter("phone");

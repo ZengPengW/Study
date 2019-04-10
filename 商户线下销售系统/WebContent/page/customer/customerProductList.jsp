@@ -81,7 +81,7 @@
 				</h4>
 				<h4>
 					<img src="/Zpp/imgs/icon/me.svg" witch="20px" height="20px"><%=Base64Utils.decoder(CookiesUtils.getCookie(request.getCookies(), "username"))%>
-					<a class="label label-danger" href="">我的订单</a>
+					<a class="label label-danger" href="${pageContext.request.contextPath }/MyOrderCheck">我的订单</a>
 				</h4>
 			</div>
 		</div>

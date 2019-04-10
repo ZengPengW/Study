@@ -247,7 +247,7 @@
 							href="/Zpp/FindProductAll?currentPage=${i}&productClass=${pageBean.productClass}">${i}</a></li>
 					</c:if>
 					<c:if test="${i==pageBean.currentPage}">
-						<li class=" active"><a href="#">${i}</a></li>
+						<li class=" active "><a href="#">${i}</a></li>
 					</c:if>
 				</c:forEach>
 				<c:if test="${pageBean.currentPage==pageBean.totalPage}">
