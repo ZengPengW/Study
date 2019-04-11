@@ -1,13 +1,19 @@
+jQuery.validator.addMethod("notblank", function(value, element) {
+	       var pwdblank = /^\s*$/;
+	       return this.optional(element) ||(value.indexOf(" ")==-1);
+	   }, "不可包含空格");
 $(function() {
 	$("#welcome").validate({
 
 		rules: {
 
 			username: {
-				required: true
+				required: true,
+				notblank:true
 			},
 			phone: {
 				required: true,
+				notblank:true,
 				isMobile: true
 			}
 		},
@@ -16,11 +22,12 @@ $(function() {
 
 			username: {
 				required: "名字不能为空 &",
-
+				notblank:"名字不能有空格"
 			},
 			phone: {
 				required: "手机不能为空",
-				isMobile: "手机号码错误"
+				isMobile: "手机号码错误",
+				notblank:"名字不能有空格"
 			}
 
 		},

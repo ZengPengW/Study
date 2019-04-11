@@ -42,5 +42,17 @@ public class PayServiceImpl implements PayService{
 	public Long getAllOrderCountByUid(int uid, int currentPage, String orderClass) throws SQLException {
 		return dao.getAllOrderCountByUid(uid, currentPage, orderClass);
 	}
+	@Override
+	public boolean orderOptionByUid(int uid, int oid, int isOption) throws SQLException {
+		return dao.orderOptionByUid(uid, oid, isOption);
+	}
+	@Override
+	public Order getOrderByOid(int uid, int oid) throws SQLException {
+		return dao.getOrderByOid(uid, oid);
+	}
+	@Override
+	public List<Order> OrderSearchLike(int uid, String info) throws SQLException {
+		return dao.OrderSearchLike(uid, info);
+	}
 	
 }

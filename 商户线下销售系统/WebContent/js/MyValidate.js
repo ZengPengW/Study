@@ -1,3 +1,7 @@
+jQuery.validator.addMethod("notblank", function(value, element) {
+	       var pwdblank = /^\s*$/;
+	       return this.optional(element) ||(value.indexOf(" ")==-1);
+	   }, "不可包含空格");
 $(function(){
 	 $("#changepassword").validate({
 			  
@@ -6,6 +10,7 @@ $(function(){
 				 password:{
 					 required:true,
 					 rangelength:[6,18],
+					 notblank:true
 					 },
 				 repassword:{
 					required:true,

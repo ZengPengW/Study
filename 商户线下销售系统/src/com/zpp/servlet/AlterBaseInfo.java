@@ -43,6 +43,14 @@ public class AlterBaseInfo extends HttpServlet implements Servlet {
 			if(!emailmsg.equals(yanzhengma)) {
 				throw new RuntimeException("验证码错误");
 			}else {
+				if(username.indexOf(" ")!=-1||shopname.indexOf(" ")!=-1||payment.indexOf(" ")!=-1) {
+					throw new RuntimeException("参数有空格");
+				}
+				
+				if(username.length()<3||username.length()>20) {
+					throw new RuntimeException("用户名长度错误");
+				}
+				
 				SellerService service=new SellerServiceImpl();
 				if(payment!=null&&!payment.isEmpty())service.alterFinancePayByUid(uid, payment);
 				if(!user.getShopname().equals(shopname)){

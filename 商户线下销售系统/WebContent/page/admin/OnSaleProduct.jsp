@@ -29,8 +29,10 @@
 <script src="/Zpp/js/jquery-1.11.3.min.js"></script>
 <script src="/Zpp/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/Zpp/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/Zpp/js/sweet-alert.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/Zpp/css/sweet-alert.css">
+<!--  <script type="text/javascript" src="/Zpp/js/sweet-alert.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/Zpp/css/sweet-alert.css">-->
+<script src="${pageContext.request.contextPath }/js/sweetalert2.all.min.js"></script>
+<link href="${pageContext.request.contextPath }/css/checkDetails.css" rel="stylesheet" type="text/css" >
 <script type="text/javascript" src="/Zpp/js/SearchProduct.js"></script>
 <script type="text/javascript" src="/Zpp/js/CRUD.js"></script>
 </head>

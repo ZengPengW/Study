@@ -21,10 +21,17 @@ public class AlterPassWordServlet extends HttpServlet {
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String newPassWord=request.getParameter("password");
+		
 		String email=(String) request.getSession().getAttribute("changePWemail");
 		//System.out.println(email+" "+newPassWord);
 		SellerService service=new SellerServiceImpl();
 		try {
+			if(newPassWord.indexOf(" ")!=-1) {
+				throw new RuntimeException("密码不能有空格");
+			}
+			if(newPassWord.length()<6||newPassWord.length()>18) {
+				throw new RuntimeException("密码长度错误");
+			}
 			boolean bl=service.upPassWord(email, newPassWord);
 			request.setAttribute("isSuccess", bl);
 			

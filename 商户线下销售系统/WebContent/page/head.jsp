@@ -56,10 +56,10 @@
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">订单中心 <span class="caret"></span></a>
 						<ul class="dropdown-menu ">
-							<li class="${currpage eq 'allOrder'?'active':'' }"><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5YWo6YOo&currentPage=1">全部订单</a></li>
+							<li class="${orderClass eq '5YWo6YOo'?'active':'' }"><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5YWo6YOo&currentPage=1">全部订单</a></li>
 							<li role="separator" class="divider"></li>
-							<li><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5pyq5Y%2BW6LSn&currentPage=1">未取货订单</a></li>
-							<li><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5bey5Y%2BW6LSn&currentPage=1">已取货订单</a></li>
+							<li class="${orderClass eq '5pyq5Y%2BW6LSn'?'active':'' }"><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5pyq5Y%2BW6LSn&currentPage=1">未取货订单</a></li>
+							<li class="${orderClass eq '5bey5Y%2BW6LSn'?'active':'' }"><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5bey5Y%2BW6LSn&currentPage=1">已取货订单</a></li>
 							<li role="separator" class="divider"></li>
 							<li><a href="#">展示未取货编号</a></li>
 

@@ -23,4 +23,10 @@ public interface PayDao {
 	
 	public Long getAllOrderCountByUid(int uid,int currentPage,String orderClass)throws SQLException;
 	
+	public boolean orderOptionByUid(int uid,int oid,int isOption)throws SQLException;
+	public Order getOrderByOid(int uid,int oid)throws SQLException;
+	
+	public List<Order> OrderSearchLike(int uid, String info)throws SQLException;
+	
+	
 }

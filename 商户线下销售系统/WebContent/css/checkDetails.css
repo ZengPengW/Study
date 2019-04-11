@@ -1,0 +1,67 @@
+.cart-group-253X- {
+    margin-top: .066667rem;
+    margin-top: .666667vw;
+    color: #333;
+    font-size: .346667rem;
+}
+.cart-group-31C83.cart-group-2EEJb {
+    color: #ff4a07;
+}
+.cart-group-253X- li {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    width: 10%;
+    padding: .32rem 0;
+    padding: 3.2vw 0;
+    border-bottom: 1px dotted #eee;
+    font-size: .373333rem;
+    color: inherit;
+}
+.cart-group-2U2FI {
+    
+    width: 1.6vw;
+    
+    height: 1.6vw;
+     text-align: left;
+}
+ol, ul ,li {
+    list-style: none;
+}
+.cart-group-253X- li .cart-group-OgNfZ {
+    margin-left: .213333rem;
+    margin-left: 0.133333vw;
+    overflow: hidden;
+    -webkit-flex: 9;
+    flex: 9;
+}
+.cart-group-253X- li .cart-group-2_GET {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.cart-group-253X- li .cart-group-1vF9L {
+    -webkit-flex: 1;
+    flex: 1;
+    text-align: right;
+    font-size: .32rem;
+}
+.cart-group-253X- li .cart-group-3GWE2 {
+    min-width: 1.6rem;
+    min-width: 16vw;
+    color: #bbb;
+    font-size: .426667rem;
+    text-decoration: line-through;
+    text-align: right;
+}
+
+.cart-group-253X- li .cart-group-31C83 {
+    font-size: .426667rem;
+    -webkit-flex: 3;
+    flex: 3;
+    text-align: right;
+}
+.cart-group-12n-9 {
+    font-size: .32rem;
+}

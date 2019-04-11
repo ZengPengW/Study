@@ -27,6 +27,7 @@ $(function() {
 
 			productName: {
 				required: true,
+				notblank:true,
 				remote: {
 					type: "POST",
 					url: "/Zpp/CheckProductName", // 请求地址
@@ -39,7 +40,8 @@ $(function() {
 				}
 			},
 			productClass: {
-				required: true
+				required: true,
+				notblank:true
 			},
 			price: {
 				required: true,
@@ -114,3 +116,7 @@ $(function() {
 	});
 });
 
+jQuery.validator.addMethod("notblank", function(value, element) {
+    var pwdblank = /^\s*$/;
+    return this.optional(element) ||(value.indexOf(" ")==-1);
+}, "不可包含空格");

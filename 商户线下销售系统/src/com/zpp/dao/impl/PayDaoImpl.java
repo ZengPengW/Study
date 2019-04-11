@@ -102,8 +102,8 @@ public class PayDaoImpl implements PayDao {
 	@Override
 	public boolean tekeOrder(int uid, String equipment, int oid) throws SQLException {
 		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
-		String sql="update `order` set isteke=? where uid=? and equipment=? and oid=?";
-		int status=qr.update(sql,1,uid,equipment,oid);
+		String sql="update `order` set isteke=? ,statu=? where uid=? and equipment=? and oid=?";
+		int status=qr.update(sql,1,2,uid,equipment,oid);
 		if(status==1)return true;
 		else return false;
 	}
@@ -142,6 +142,48 @@ public class PayDaoImpl implements PayDao {
 			allOrder=qr.query(sql, new ScalarHandler<Long>(),uid,0);
 		}
 		return allOrder;
+	}
+
+	@Override
+	public boolean orderOptionByUid(int uid, int oid, int isOption) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select statu from `order` where uid=? and oid=?";
+		Integer i=qr.query(sql, new ScalarHandler<Integer>(),uid,oid);
+		if(isOption==1&&i<1){
+			//确认操作	
+			sql="update  `order`  set statu=?  where uid=? and oid=?";
+			int v=qr.update(sql,1,uid,oid);
+			if(v==1)return true;
+		}else if(isOption==2&&i<2){
+			//备货操作
+			 sql="update  `order`  set statu=?  where uid=? and oid=?";
+			 int v=qr.update(sql,2,uid,oid);
+			 if(v==1)return true;
+		}else{
+			//取货操作
+			 sql="update  `order`  set isteke=?,statu=?  where uid=? and oid=?";
+			 int v=qr.update(sql,1,2,uid,oid);
+			 if(v==1)return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public Order getOrderByOid(int uid, int oid) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from `order` where uid=?  and oid=?";
+		Order order=qr.query(sql, new BeanHandler<Order>(Order.class),uid,oid);
+		return order;
+	}
+
+	@Override
+	public List<Order> OrderSearchLike(int uid,String info ) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from `order` where uid=?  and (gid like ? or username like ? or phone like ?)";
+		info="%"+info+"%";
+		List<Order> list=qr.query(sql, new BeanListHandler<Order>(Order.class),uid,info,info,info);
+		return list;
 	}
 
 }

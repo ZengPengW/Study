@@ -9,13 +9,13 @@ function deleteProdcut(item){
 		  cancelButtonText:"取消",
 		  confirmButtonText: "确认删除!",
 		  closeOnConfirm: true
-		}, function(){
+		}).then(function(){
 			var pid=$(item).val();
 			$.post("/Zpp/DeleteProduct",{pid:pid},function(data){
 				if(data=="true"){
 					$(item).parent().parent().parent().remove();
 				}else{
-					alert("未知异常,删除失败");
+					swal({text:"未知异常删除失败!", type:'error'});
 				}
 			});
 		});
@@ -44,7 +44,7 @@ function alterProdcut(item){
 		  cancelButtonText:"取消",
 		  confirmButtonText: "继续修改!",
 		  closeOnConfirm: true
-		}, function(){
+		}).then(function(){
 			var pid=$(item).val();
 			window.location.href="AlterProduct?pid="+pid;
 		});
@@ -67,17 +67,17 @@ function publish(item){
 		  confirmButtonText: "确认!",
 		  //timer:1000,
 		  closeOnConfirm: false
-		}, function(){
+		}).then(function(){
 			var pid=$(item).val();
 			$.post("/Zpp/PublishServlet",{pid:pid},function(data){
 				if(data=="true"){
-					swal("上架成功!");
+					swal({text:"上架成功!", type:'success'});
 					list.push(pid);
 					$(item).text("已发布");
 					$(item).removeClass("btn-success").addClass("btn-warning");
 					$(item).prop("disabled","disabled");
 				}else{
-					swal("上架失败!");
+					swal({text:"上架失败!", type:'error'});
 				}
 			})
 		//	swal("上架成功");
@@ -97,14 +97,14 @@ function cancel(item) {
 		  confirmButtonText: "确认!",
 		  //timer:1000,
 		  closeOnConfirm: true
-		}, function(){
+		} ).then(function(){
 			var pid=$(item).val();
 			$.post("/Zpp/OnSaleDelete",{pid:pid},function(data){
 				if(data=="true"){
 					$(item).parent().parent().parent().remove();
 					
 				}else{
-					swal("下架失败! ");
+					swal({text:"下架失败!", type:'error'});
 				}
 			})
 		

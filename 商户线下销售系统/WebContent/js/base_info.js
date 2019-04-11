@@ -1,3 +1,7 @@
+jQuery.validator.addMethod("notblank", function(value, element) {
+	       var pwdblank = /^\s*$/;
+	       return this.optional(element) ||(value.indexOf(" ")==-1);
+	   }, "不可包含空格");
 $(function() {
 
 	$("#base_info").validate({
@@ -5,11 +9,13 @@ $(function() {
 		rules: {
 
 			shopname: {
-				required: true
+				required: true,
+				notblank:true
 			},
 			username: {
 				required: true,
 				rangelength: [3, 20],
+				notblank:true,
 				remote: {
 					type: "POST",
 					url: "/Zpp/CheckAlterUserNameInfo", // 请求地址
@@ -44,10 +50,7 @@ $(function() {
 				required: "请输入店铺名称"
 			},
 
-			repassword: {
-				required: "确认密码不能为空",
-				equalTo: "两次密码不一致"
-			},
+			
 			username: {
 				required: "用户名不能为空",
 				rangelength: "用户名不能少于3位且不能大于20位",

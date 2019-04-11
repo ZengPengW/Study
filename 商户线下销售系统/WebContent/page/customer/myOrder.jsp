@@ -104,7 +104,7 @@
 							<c:if test="${ls.statu==1}">
 							待备货
 							</c:if>
-							<c:if test="${ls.statu==3}">
+							<c:if test="${ls.statu==2}">
 							已备货
 							</c:if>
 							</font>

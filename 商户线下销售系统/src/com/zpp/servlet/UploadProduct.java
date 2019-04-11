@@ -37,12 +37,14 @@ public class UploadProduct extends HttpServlet {
 		try {
 
 			String productName = request.getParameter("productName");
-
+			
 			String productClass = request.getParameter("productClass");
 			double price = Double.parseDouble(request.getParameter("price"));
 			int productCount = Integer.parseInt(request.getParameter("productCount"));
 			String productMessage = request.getParameter("productMessage");
-
+			if(productClass.indexOf(" ")!=-1||productName.indexOf(" ")!=-1) {
+				throw new RuntimeException("商品名字或分类有空格");
+			}
 			String savePath = request.getServletContext().getRealPath("/imgs/productImg");
 
 			String fileName = null;
@@ -61,9 +63,10 @@ public class UploadProduct extends HttpServlet {
 			// 获取文件名
 
 			fileName = UploadUtils.getFileName(header);
-
+			
 			// 校验格式
 			String form = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+			
 			// System.out.println(form);
 			if (!form.equals("png") && !form.equals("jpg") && !form.equals("jpeg") && !form.equals("gif")
 					&& !form.equals("svg")) {

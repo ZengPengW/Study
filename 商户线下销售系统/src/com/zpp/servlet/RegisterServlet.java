@@ -26,6 +26,16 @@ public class RegisterServlet extends HttpServlet {
 		User user=new User();
 		try {
 			BeanUtils.populate(user, request.getParameterMap());
+			if(user.getUsername().indexOf(" ")!=-1||user.getPassword().indexOf(" ")!=-1||user.getEmail().indexOf(" ")!=-1||user.getShopname().indexOf(" ")!=-1) {
+				throw new RuntimeException("参数有空格");
+			}
+			
+			if(user.getPassword().length()<6||user.getPassword().length()>18) {
+				throw new RuntimeException("密码长度错误");
+			}
+			if(user.getUsername().length()<3||user.getUsername().length()>20) {
+				throw new RuntimeException("用户名长度错误");
+			}
 			user.setSid(SidUtils.getSid(user.getUsername(), user.getPassword()));
 			SellerService service=new SellerServiceImpl();
 			boolean bl=service.register(user);
@@ -39,7 +49,7 @@ public class RegisterServlet extends HttpServlet {
 			
 		} catch (IllegalAccessException | InvocationTargetException | SQLException e) {
 			response.sendRedirect("page/registerfail.html");
-			//e.printStackTrace();
+			e.printStackTrace();
 		}finally {
 			request.getSession().removeAttribute("msg");
 		}

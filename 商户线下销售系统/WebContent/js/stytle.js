@@ -1,3 +1,10 @@
+jQuery.validator.addMethod("notblank", function(value, element) {
+	       var pwdblank = /^\s*$/;
+	       return this.optional(element) ||(value.indexOf(" ")==-1);
+	   }, "不可包含空格");
+
+
+
 $(function(){
 	
 	
@@ -8,6 +15,7 @@ $(function(){
 				 password:{
 					 required:true,
 					 rangelength:[6,18],
+					 notblank:true
 					 },
 				 repassword:{
 					required:true,
@@ -16,6 +24,7 @@ $(function(){
 				 email:{
 					  required:true,
 					  email:email,
+					  notblank:true,
 					  remote:{
 						 	type:"POST",
 	                    	url:"../CheckUserEmail", // 请求地址
@@ -28,6 +37,7 @@ $(function(){
 				 username:{
 					 required:true,
 					 rangelength:[3,20],
+					 notblank:true,
 					 remote:{
 						 	type:"POST",
 	                    	url:"../CheckUserName", // 请求地址
@@ -55,6 +65,7 @@ $(function(){
 					
 				 shopname:{
 					 required:true,
+					 notblank:true
 				}
 			  },
 				
@@ -62,12 +73,13 @@ $(function(){
 				 username:{
 					required: "用户名不能为空",
 					rangelength:"用户名不能少于3位且不能大于20位",
+					notblank:"用户名不能有空格",
 					remote:"用户名已存在"
 					 } ,
 				 password:{
 					 required:"密码不能为空",
-					
-					 rangelength:"密码不能少于6位且大于18位"
+					 checkPassword:"密码不能有空格",
+					 rangelength:"密码不能少于6位且大于18位q"
 					 },
 				 repassword:{
 					required:"确认密码不能为空",
@@ -76,6 +88,7 @@ $(function(){
 				 email:{
 					  required:"邮箱不能为空",
 					  email:"请输入正确的邮箱",
+					  notblank:"邮箱不能有空格",
 					 remote:"该邮箱已经注册过了"
 					 },	
 				
@@ -85,12 +98,13 @@ $(function(){
 					 remote:"验证码错误"
 					},
 				
-				shopname:{required:"请输入店铺名称"}
+				shopname:{required:"请输入店铺名称",notblank:"店铺名不能有空格",}
 					
 				},
 				 onfocus:true,　　　
            		 onkeyup:false,　　　
            		 focusCleanup:true
+           		 
 					  
 // focusInvalid:true,
 // 当未通过验证的元素获得焦点时，移除错误提示

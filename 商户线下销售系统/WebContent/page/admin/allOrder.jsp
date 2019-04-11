@@ -18,21 +18,38 @@
 <link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
 <script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
-
+<!--  <script type="text/javascript" src="${pageContext.request.contextPath }/js/sweet-alert.min.js"></script>-->
+<!--  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/sweet-alert.css">-->
+<link href="${pageContext.request.contextPath }/css/checkDetails.css"  rel="stylesheet" type="text/css" />
+<script src="${pageContext.request.contextPath }/js/sweetalert2.all.min.js"></script>
+<link href="${pageContext.request.contextPath }/css/checkDetails.css" rel="stylesheet" type="text/css" >
 </head>
 <%
-	User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
-	request.setAttribute("user", user);
-%>
-<%
-request.setAttribute("currpage", "allOrder");
+
+User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
+request.setAttribute("user", user);
+
+
+
 %>
 <body>
 <jsp:include page="/page/head.jsp" flush="true"></jsp:include>
-<div class="container">
-	<div class="row">
+<div class="container" >
+<!-- 搜索 -->
+<div class="col-md-4 col-md-offset-8">
+				<div class="input-group">
+					<input type="text" class="form-control"
+						placeholder="手机号/编号/姓名/关键字" id="likeName" name="likeName">
+					<span class="input-group-btn">
+						<button class="btn btn-warning" type="button" id="search">搜索订单</button>
+					</span>
+				</div>
+
+			</div>
+			
+	<div class="row" id="orderlist">
 	<c:forEach items="${allOrd}" var="ls">
-		<div class="col-lg-4 col-md-6 col-sm-6">
+		<div class="col-lg-4 col-md-6 col-sm-6" name="ding">
 			
 	<div class="panel panel-default">
   	<div class="panel-body">
@@ -57,7 +74,7 @@ request.setAttribute("currpage", "allOrder");
 			待备货
 			</c:if>
 		<c:if test="${ls.statu==2}">
-		已备货
+		待取货
 		</c:if>
 		</font>
 		</c:if>
@@ -90,7 +107,7 @@ request.setAttribute("currpage", "allOrder");
  	 
   	<button class="btn btn-warning" oid='${ls.oid}' isOption="3" onclick="myoption(this)">取货</button>
 	</c:if>	
-  	<button class="btn btn-info">查看订单</button>
+  	<button class="btn btn-info" oid='${ls.oid}' onclick="checkOrder(this)">查看订单</button>
   		
   	</div>
 	</div>
@@ -131,7 +148,7 @@ request.setAttribute("currpage", "allOrder");
 	</div>
 
 		
-	
+
 	
 	
 </div>
@@ -142,29 +159,172 @@ if(page>0&&page<=${totalPage})
 	location.href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=${orderClass}&currentPage="+page+"";
 
 }
+
 function myoption(item){
 	var oid=$(item).attr("oid");
 	var isOption=$(item).attr("isOption");
-	$.post("",{
-	   oid:oid,
-	   isOption:isOption
-	},function(data){
-	if(data=="true"){
+	var mess;
 	
 	if(isOption==1){
-		$(item).text("已确认");		
+		mess="是否确认订单"	;
 	}else if(isOption==2){
-		$(item).text("已备货");
+		mess="是否备货完毕,完毕后可在未取货列表中查看";
 	}else{
-	$(item).text("已取货");
+		mess="是否手动进行取货。（推荐使用扫码取货）";
 	}
 	
-	$(item).addClass("disabled");
-	}
-		
-	});
+	
+	sweetAlert({
+		  title: "确认操作",
+		  text: mess,
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonColor: "#CD3333",
+		  cancelButtonText:"再想想",
+		  confirmButtonText: "确认!",
+		  closeOnConfirm: true
+		}).then(function(){
+			
+			$.post("${pageContext.request.contextPath }/OrderOption",{
+			   oid:oid,
+			   isOption:isOption
+			},function(data){
+			if(data=="true"){
+			
+			if(isOption==1){
+				$(item).text("已确认");
+			$(item).prev().children("font:eq(0)").text("待备货");
+			}else if(isOption==2){
+				$(item).text("已备货");
+					$(item).prev().prev().children("font:eq(0)").text("待取货");
+			}else{
+			$(item).text("已取货");
+				$(item).prev().prev().prev().children("font:eq(0)").text("已取货");
+			}
+			
+			$(item).addClass("disabled");
+			}
+				
+			});
+		});
+
 	
 }
+
+function checkOrder(item){
+var oid=$(item).attr("oid");
+var mylist="";
+//UserOrderDetails
+$.post("${pageContext.request.contextPath }/UserOrderDetails",{oid:oid},function(data){
+	
+$(data).each(function(index,ls){
+
+mylist=mylist+"<p style='margin-left: -10%;' align='left'> <span style='margin-left: 10%;'> <img src='"+ls.product.productImg+"'/ width='50px' height='50px'></span> <span style='margin-left: 10%;'>"+ls.product.productName+"</span><span style='margin-left: 10%;'> x&nbsp;"+ls.count+"</span><span style='margin-left: 10%;'><font color='red'>￥"+ls.product.price+"</font></span></p>";
+
+
+
+});
+
+	 swal({
+		  title: "订单详情",
+		  
+		  html:mylist,
+		  
+		  confirmButtonColor: "#CD3333",
+		  
+		  confirmButtonText: "确认!",
+		  closeOnConfirm: true
+		});
+
+
+},"json");
+
+
+
+
+}
+
+$("#search").click(function(){
+var searchinfo=$("#likeName").val();
+$.post("${pageContext.request.contextPath }/OrderSearch",{searchinfo:searchinfo},function(data){
+
+if(data!=false){
+$("[name='ding']").remove();
+var infomessage="";
+$(data).each(function(index,c){
+infomessage="<div class='col-lg-4 col-md-6 col-sm-6' name='ding'><div class='panel panel-default'><div class='panel-body'>用户："+c.username+"<span class='col-sm-offset-5' style='right: 10%;position: absolute;'>实付款:<strong  ><font color='red'  >￥"+c.money.toFixed(2)+"</font></strong></span></div><div class='panel-footer'><h5>用户名："+c.username+"</h5><h5>手机:"+c.phone+"</h5><h5>取货编号："+c.gid+"</h5><h5>创建时间：</h5><h6><small>"+c.time+"</small></h6><h6>订单状态:";
+
+
+
+
+
+if(c.isteke=="0"){
+infomessage=infomessage+"<font color='#00E067'>";
+
+if(c.statu=="0")infomessage+="待确认···";
+if(c.statu=="1")infomessage+="待备货···";
+if(c.statu=="2")infomessage+="待取货···";
+infomessage=infomessage+"</font></h6>";
+
+}
+if(c.isteke=="1"){
+	infomessage=infomessage+"<font color='#FF4A07'>";
+	infomessage+="已取货···";
+	
+	infomessage=infomessage+"</font></h6>";
+
+	}
+if(c.isteke=="1"){
+
+infomessage=infomessage+"<button class='btn btn-primary disabled'>已确认</button><button class='btn btn-success disabled'>已备货</button><button class='btn btn-warning disabled'>已取货</button>";
+
+}
+
+if(c.isteke=="0"){
+	
+	if(c.statu=="0"){
+	infomessage=infomessage+"<button class='btn btn-primary ' oid='"+c.oid+"' isOption='1' onclick='myoption(this)'>确认订单</button><button class='btn btn-success ' oid='"+c.oid+"' isOption='2' onclick='myoption(this)'>备货完毕</button>";
+
+	}
+
+	if(c.statu=="1"){
+	infomessage=infomessage+"<button class='btn btn-primary disabled'>已确认</button><button class='btn btn-success ' oid='"+c.oid+"' isOption='2' onclick='myoption(this)'>备货完毕</button>";
+
+	}	
+	
+	if(c.statu=="2"){
+		
+		infomessage=infomessage+"<button class='btn btn-primary disabled'>已确认</button><button class='btn btn-success disabled'>已备货</button>";
+	}
+	infomessage=infomessage+"<button class='btn btn-warning' oid='"+c.oid+"' isOption='3' onclick='myoption(this)'>取货</button>";
+
+	
+}
+
+infomessage=infomessage+"<button class='btn btn-info' oid='"+c.oid+"' onclick='checkOrder(this)'>查看订单</button></div></div></div>";
+
+
+$("#orderlist").append(infomessage);
+
+});
+
+
+}
+
+
+
+
+},"json");
+
+
+
+
+});
+
+
+
+
 </script>
+
 </body>
 </html>

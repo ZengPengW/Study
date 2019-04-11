@@ -14,6 +14,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+
+import com.zpp.utils.XssEncode;
 /**
  * 统一编码
  * @author Administrator
@@ -87,7 +89,7 @@ class MyRequest extends HttpServletRequestWrapper{
 		
 		return map.get(name);
 	}
-	
+	private boolean postflag=true;
 	@Override
 	/**
 	 * map{ username=[tom],password=[123],hobby=[eat,drink]}
@@ -103,7 +105,20 @@ class MyRequest extends HttpServletRequestWrapper{
 		if("post".equalsIgnoreCase(method)){
 			try {
 				request.setCharacterEncoding("utf-8");
-				return request.getParameterMap();
+			//	return request.getParameterMap();
+				Map<String,String[]> map = request.getParameterMap();
+				if(postflag){
+					for (String key:map.keySet()) {
+						String[] arr = map.get(key);
+						//继续遍历数组
+						for(int i=0;i<arr.length;i++){
+							arr[i]=XssEncode.xssEncode(arr[i]);
+						}
+					}
+					postflag=false;
+				}
+				
+				return map;
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -118,6 +133,7 @@ class MyRequest extends HttpServletRequestWrapper{
 						//编码
 						try {
 							arr[i]=new String(arr[i].getBytes("iso-8859-1"),"utf-8");
+							arr[i]=XssEncode.xssEncode(arr[i]);
 						} catch (UnsupportedEncodingException e) {
 							e.printStackTrace();
 						}
