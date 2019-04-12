@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="container">
 	<div class="row">
@@ -56,12 +56,12 @@
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">订单中心 <span class="caret"></span></a>
 						<ul class="dropdown-menu ">
-							<li class="${orderClass eq '5YWo6YOo'?'active':'' }"><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5YWo6YOo&currentPage=1">全部订单</a></li>
+							<li class="${'5YWo6YOo6K6i5Y2V' eq myclass?'active':'' }"><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5YWo6YOo&currentPage=1">全部订单</a></li>
 							<li role="separator" class="divider"></li>
 							<li class="${orderClass eq '5pyq5Y%2BW6LSn'?'active':'' }"><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5pyq5Y%2BW6LSn&currentPage=1">未取货订单</a></li>
 							<li class="${orderClass eq '5bey5Y%2BW6LSn'?'active':'' }"><a href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=5bey5Y%2BW6LSn&currentPage=1">已取货订单</a></li>
 							<li role="separator" class="divider"></li>
-							<li><a href="#">展示未取货编号</a></li>
+							<li class="${currpage eq 'showpage'?'active':'' }"><a href="${pageContext.request.contextPath }/ShowTeke">展示未取货编号</a></li>
 
 						</ul></li>
 				</ul>
@@ -70,3 +70,51 @@
 		</div>
 	</nav>
 </div>
+<script> var zpmess="3"; </script>
+<c:if test="${!empty myclass && myclass eq '5YWo6YOo6K6i5Y2V'}">
+<script> zpmess="1";</script>
+</c:if>
+
+<c:if test="${currpage eq 'showpage'}">
+<script> zpmess="2";</script>
+</c:if>>
+
+
+<script>
+
+
+var websocket = null;
+var domain2=window.location.host;
+
+//判断当前浏览器是否支持WebSocket
+if ('WebSocket' in window) {
+    websocket = new WebSocket("ws://"+domain2+"${pageContext.request.contextPath }/ShowTekeSocket");
+}
+else {
+    alert('当前浏览器 Not support websocket')
+}
+
+//连接成功建立的回调方法
+websocket.onopen = function () {
+   // setMessageInnerHTML("WebSocket连接成功");
+    send("sid:${cookie.sid.value}");
+}
+
+</script>
+
+<script src="${pageContext.request.contextPath }/js/MyWEBsocket.js"></script>
+<script>
+$(function(){
+	//clearInterval(tt);
+	//	setInterval(function  () {
+//        
+//    },30000) 
+	
+}); 
+
+function getnewmessage(){
+	send(zpmess);
+	
+}
+
+</script>

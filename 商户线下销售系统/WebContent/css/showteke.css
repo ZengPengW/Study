@@ -1,0 +1,16 @@
+.bgimg{
+	 width: 60vw;
+    
+    height: 57vw;
+	margin-top: -4%;
+	position: absolute;
+	
+	background-repeat: no-repeat;
+	
+	background-size: cover;
+	-webkit-background-size: cover;
+	-o-background-size: cover;
+	-moz-background-size: cover;
+	-ms-background-size: cover;
+	z-index: -1;
+}

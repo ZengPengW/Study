@@ -40,7 +40,7 @@ public class AllOrderCheck extends HttpServlet {
 			List<Order> allOrd=payService.getAllOrderByUid(user.getId(),currentPage,orderClass);
 			request.setAttribute("allOrd",allOrd);
 			//ªÒ»°∑÷“≥
-			long totalSize=payService.getAllOrderCountByUid(user.getId(), currentPage, orderClass);
+			long totalSize=payService.getAllOrderCountByUid(user.getId(), orderClass);
 			long totalPage=totalSize/PayDaoImpl.pageSize;
 			if(totalSize%PayDaoImpl.pageSize!=0)totalPage++;
 			request.setAttribute("currentPage",currentPage);

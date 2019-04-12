@@ -28,7 +28,9 @@
 
 User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
 request.setAttribute("user", user);
-
+if(request.getParameter("orderClass").equals("5YWo6YOo")){
+	request.setAttribute("myclass", "5YWo6YOo6K6i5Y2V");
+}
 
 
 %>
@@ -196,10 +198,13 @@ function myoption(item){
 			$(item).prev().children("font:eq(0)").text("待备货");
 			}else if(isOption==2){
 				$(item).text("已备货");
-					$(item).prev().prev().children("font:eq(0)").text("待取货");
+				$(item).prev().text("已确认").addClass("disabled");
+				$(item).prev().prev().children("font:eq(0)").text("待取货");
 			}else{
 			$(item).text("已取货");
 				$(item).prev().prev().prev().children("font:eq(0)").text("已取货");
+				$(item).prev().text("已备货").addClass("disabled");
+				$(item).prev().prev().text("已确认").addClass("disabled");
 			}
 			
 			$(item).addClass("disabled");

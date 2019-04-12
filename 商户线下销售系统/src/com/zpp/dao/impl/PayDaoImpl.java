@@ -128,7 +128,7 @@ public class PayDaoImpl implements PayDao {
 	}
 
 	@Override
-	public Long getAllOrderCountByUid(int uid, int currentPage, String orderClass) throws SQLException {
+	public Long getAllOrderCountByUid(int uid, String orderClass) throws SQLException {
 		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
 		Long allOrder = 0l;
 		if(orderClass.equals("È«²¿")) {
@@ -183,6 +183,15 @@ public class PayDaoImpl implements PayDao {
 		String sql="select * from `order` where uid=?  and (gid like ? or username like ? or phone like ?)";
 		info="%"+info+"%";
 		List<Order> list=qr.query(sql, new BeanListHandler<Order>(Order.class),uid,info,info,info);
+		return list;
+	}
+
+	@Override
+	public List<Order> getTeke(int uid,int isteke,int statu) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from `order` where uid=?  and isteke=? and statu=? ";
+		
+		List<Order> list=qr.query(sql, new BeanListHandler<Order>(Order.class),uid,isteke,statu);
 		return list;
 	}
 
