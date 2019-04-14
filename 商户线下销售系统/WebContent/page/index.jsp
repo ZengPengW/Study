@@ -22,9 +22,9 @@
 <!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>首页</title>
-<link href="../css/bootstrap.css" rel="stylesheet" type="text/css">
-<script src="../js/jquery-1.11.3.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
 
 </head>
 

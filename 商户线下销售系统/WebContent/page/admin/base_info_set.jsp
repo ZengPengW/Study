@@ -18,12 +18,12 @@
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>商铺设置</title>
-		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
-		<script src="../../js/jquery-1.11.3.min.js"></script>
-		<script src="../../js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../../js/messages_zh.js"></script>
-		<script type="text/javascript" src="../../js/jquery.validate.min.js" ></script>
-		<script type="text/javascript" src="../../js/base_info.js"></script>
+		<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
+		<script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+		<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/messages_zh.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.validate.min.js" ></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/base_info.js"></script>
 	</head>
 	<%
 		request.setAttribute("currpage", "base_info");
@@ -59,7 +59,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-2">
-					<img src="../../imgs/icon/me.svg" width="100px" height="100px" />
+					<img src="${pageContext.request.contextPath }/imgs/icon/me.svg" width="100px" height="100px" />
 				</div>
 				<div class="col-md-3"></div>
 				<div class="col-md-5">
@@ -70,7 +70,7 @@
 			</div>
 			<div class="row">
 				<div class="container">
-					<form role="form" class="form-horizontal " action="/Zpp/AlterBaseInfo" method="post" id="base_info" >
+					<form role="form" class="form-horizontal " action="${pageContext.request.contextPath }/AlterBaseInfo" method="post" id="base_info" >
 						<div class="form-group">
 							<label for="shopname" class="col-sm-3 control-label">商铺名称</label>
 							<div class="col-sm-6">

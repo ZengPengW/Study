@@ -12,13 +12,13 @@
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>添加商品</title>
-		<link href="../../css/bootstrap.css" rel="stylesheet" type="text/css">
-		<script src="../../js/jquery-1.11.3.min.js"></script>
-		<script src="../../js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="../../js/jquery.validate.min.js"></script>
+		<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
+		<script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+		<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.validate.min.js"></script>
 		
 
-		<script type="text/javascript" src="../../js/AddMer.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath }/js/AddMer.js"></script>
 	</head>
 	<style>
 		a {
@@ -26,7 +26,7 @@
 		}
 		
 		label.error {
-			background: url(../../imgs/icon/unchecked.gif) no-repeat 10px 3px;
+			background: url(${pageContext.request.contextPath }/imgs/icon/unchecked.gif) no-repeat 10px 3px;
 			padding-left: 30px;
 			font-family: georgia;
 			font-size: 15px;
@@ -92,7 +92,7 @@ request.setAttribute("user", user);
 				<div class="form-group">
 					<label class="col-sm-3 control-label"></label>
 					<div class="col-sm-6">
-						<img class="img-rounded img-thumbnail" width="140px" height="140px" src="..\..\imgs\icon\douzi.svg" id="spimg" />
+						<img class="img-rounded img-thumbnail" width="140px" height="140px" src="${pageContext.request.contextPath }\imgs\icon\douzi.svg" id="spimg" />
 					</div>
 				</div>
 

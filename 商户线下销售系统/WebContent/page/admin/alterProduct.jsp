@@ -15,13 +15,13 @@
 <!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>修改商品</title>
-<link href="/Zpp/css/bootstrap.css" rel="stylesheet" type="text/css">
-<script src="/Zpp/js/jquery-1.11.3.min.js"></script>
-<script src="/Zpp/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/Zpp/js/jquery.validate.min.js"></script>
+<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.validate.min.js"></script>
 
 
-<script type="text/javascript" src="/Zpp/js/AlterMerch.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/AlterMerch.js"></script>
 </head>
 <style>
 a {
@@ -29,7 +29,7 @@ a {
 }
 
 label.error {
-	background: url(/Zpp/imgs/icon/unchecked.gif) no-repeat 10px 3px;
+	background: url(${pageContext.request.contextPath }/imgs/icon/unchecked.gif) no-repeat 10px 3px;
 	padding-left: 30px;
 	font-family: georgia;
 	font-size: 15px;
@@ -49,7 +49,7 @@ label.error {
 
 	<div class="container">
 		<form role="form" class="form-horizontal "
-			action="/Zpp/AlterProductServlet" method="post" id="AlterMerchandise"
+			action="${pageContext.request.contextPath }/AlterProductServlet" method="post" id="AlterMerchandise"
 			enctype="multipart/form-data">
 			<div class="form-group">
 				<label for="productName" class="col-sm-3 control-label">商品名称</label>

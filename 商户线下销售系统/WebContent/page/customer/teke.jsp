@@ -25,7 +25,7 @@
 		<div class="container">
 			<div class="row col-md-6 col-lg-offset-3 col-md-offset-3 " >
 				
-				<div class="row bg" style=" padding:62% 30% 30% 30%;background-image: url(../../imgs/icon/qrbg.svg); background-size: cover; background-repeat: no-repeat;">	
+				<div class="row bg" style=" padding:62% 30% 30% 30%;background-image: url(${pageContext.request.contextPath }/imgs/icon/qrbg.svg); background-size: cover; background-repeat: no-repeat;">	
 					<img src="" class="img-thumbnail" id="myqr"/>	
 				</div>
 			</div>

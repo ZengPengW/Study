@@ -18,7 +18,7 @@
 	</style>
 	<script type="text/javascript">
 		function countDown(){
-		setTimeout("location.href='/Zpp/page/login.jsp'",1000);
+		setTimeout("location.href='${pageContext.request.contextPath }/page/login.jsp'",1000);
              
 	}
 	countDown();
@@ -27,12 +27,12 @@
 	<body >
 	<div class="di">
 	<c:if test="${isSuccess}">
-	<img src="/Zpp/imgs/icon/success.svg" width="100px" height="100px" />
+	<img src="${pageContext.request.contextPath }/imgs/icon/success.svg" width="100px" height="100px" />
 	<h2 style="margin-left: -15%;">恭喜，操作成功！</h2>
 	<h4 style="margin-left: -15%;">正在跳转界面....</h4>
 	</c:if>
 	<c:if test="${!isSuccess}">
-	<img src="/Zpp/imgs/icon/fail.svg" width="100px" height="100px" />
+	<img src="${pageContext.request.contextPath }/imgs/icon/fail.svg" width="100px" height="100px" />
 	<h2 style="margin-left: -15%;">抱歉，操作失敗！</h2>
 	<h4 style="margin-left: -15%;">正在跳转界面....</h4>
 	</c:if>

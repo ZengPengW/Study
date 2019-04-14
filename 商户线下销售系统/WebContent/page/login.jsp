@@ -5,20 +5,20 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>登陆</title>
 
-<script src="../js/jquery-1.11.3.min.js"></script>
-<link href="../css/bootstrap.css" rel="stylesheet"/>
-<script src="../js/bootstrap.min.js"></script>
-<!--  <script src="../js/stytle.js"></script>-->
-<link href="../css/style.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript" src="../js/jquery.validate.min.js" ></script>
- <script type="text/javascript" src="../js/messages_zh.js" ></script>
+<script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet"/>
+<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
+
+<link href="${pageContext.request.contextPath }/css/style.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.validate.min.js" ></script>
+ <script type="text/javascript" src="${pageContext.request.contextPath }/js/messages_zh.js" ></script>
 <style>
 	 label.error {
-			background: url(../imgs/icon/unchecked.gif) no-repeat 10px 3px;
+			background: url(${pageContext.request.contextPath }/imgs/icon/unchecked.gif) no-repeat 10px 3px;
 			padding-left: 30px;
 			font-family: georgia;
 			font-size: 15px;
@@ -37,7 +37,7 @@ $(function(){
 	
 	
 	$("#msgimg").click(function(){
-		$("#msgimg").prop("src","/Zpp/CheckImgServlet?"+new Date().getTime());
+		$("#msgimg").prop("src","${pageContext.request.contextPath }/CheckImgServlet?"+new Date().getTime());
 	});
 	
 	$("#loginFrom").validate({
@@ -54,7 +54,7 @@ $(function(){
 				required:true,
 				 remote:{
 				 	type:"POST",
-	          		url:"/Zpp/CheckLoginMsg", // 请求地址
+	          		url:"${pageContext.request.contextPath }/CheckLoginMsg", // 请求地址
 	         	 	data:{
 	              	msg:function(){ return $("#yanzhengma").val(); }
 	         	 	}
@@ -81,7 +81,7 @@ $(function(){
 			var username=$("#username").val();
 			var password=$("#password").val();
 			
-			$.post("/Zpp/CheckUserIsExis",
+			$.post("${pageContext.request.contextPath }/CheckUserIsExis",
 					{//参数
 						name:username,
 						password:password
@@ -124,7 +124,7 @@ $(function(){
 	<br />
 	<center><h3 style=" color: red; "><strong>账户登陆</strong></h3></center>
 	
-<form role="form" class="form-horizontal" method="post" action="/Zpp/LoginServlet" id="loginFrom"  >
+<form role="form" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/LoginServlet" id="loginFrom"  >
 					<div class="form-group">
 							
 							<div class="col-sm-12 col-md-offset-3 col-sm-offset-3 ">
@@ -144,18 +144,18 @@ $(function(){
 							<label for="password" class="col-sm-3 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
 							<div class="col-sm-6">
 								<input type="password" class="form-control" id="password" name="password"
-									placeholder="请输入密码" style="border-radius: 15px;">
+									placeholder="请输入密码" autocomplete="off" style="border-radius: 15px;">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="yanzhengma" class="col-sm-3 control-label">验证码</label>
 							<div class="col-sm-5">
 								<input type="text" class="form-control" id="yanzhengma" name="yanzhengma"
-									placeholder="请输入验证码" style="border-radius: 15px;">
+									placeholder="请输入验证码" style="border-radius: 15px;" autocomplete="off"/>
 							</div>
 							
 							<div class="col-sm-3 col-md-offset-3">
-								<img id="msgimg" src="/Zpp/CheckImgServlet" />
+								<img id="msgimg" src="${pageContext.request.contextPath }/CheckImgServlet" />
 							</div>
 						</div>
 						<div class="form-group">
@@ -172,7 +172,7 @@ $(function(){
 						</div>
 				
 						<a href="findPwd.html" id="wjmm" style="color: #666666;">忘记密码</a>&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="register.html"  style="color: red;" ><img src="../imgs/icon/zc.svg"  style="width: 20px; height: 20px;"/>立即注册</a>
+						<a href="register.html"  style="color: red;" ><img src="${pageContext.request.contextPath }/imgs/icon/zc.svg"  style="width: 20px; height: 20px;"/>立即注册</a>
 </form>
 		
 	</div>

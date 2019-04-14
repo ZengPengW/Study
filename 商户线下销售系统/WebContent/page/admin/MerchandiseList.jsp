@@ -27,14 +27,14 @@
 <!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>商品仓库</title>
-<link href="/Zpp/css/bootstrap.css" rel="stylesheet" type="text/css">
-<script src="/Zpp/js/jquery-1.11.3.min.js"></script>
-<script src="/Zpp/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/Zpp/js/jquery.validate.min.js"></script>
+<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
+<script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
+<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.validate.min.js"></script>
 <!--  <script type="text/javascript" src="/Zpp/js/sweet-alert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/Zpp/css/sweet-alert.css">-->
-<script type="text/javascript" src="/Zpp/js/SearchProduct.js"></script>
-<script type="text/javascript" src="/Zpp/js/CRUD.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/SearchProduct.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/CRUD.js"></script>
 <script src="${pageContext.request.contextPath }/js/sweetalert2.all.min.js"></script>
 <link href="${pageContext.request.contextPath }/css/checkDetails.css" rel="stylesheet" type="text/css" >
 <script src="${pageContext.request.contextPath }/js/es6-promise.auto.js" type="text/javascript" ></script>
@@ -57,8 +57,7 @@
 		request.setAttribute("onsalePid", onsalePid);
 		jedis.close();
 	} catch (SQLException e) {
-		request.setAttribute("isSuccess", false);
-		request.getRequestDispatcher("/Zpp/page/Success.jsp").forward(request, response);
+		e.printStackTrace();
 	}
 %>
 <body>
@@ -84,13 +83,13 @@
 					<ul class="dropdown-menu">
 
 						<li><a
-							href="/Zpp/FindProductAll?currentPage=1&productClass=5YWo6YOo">全部</a></li>
+							href="${pageContext.request.contextPath }/FindProductAll?currentPage=1&productClass=5YWo6YOo">全部</a></li>
 						<li role="presentation" class="divider"></li>
 
 						<%
 							for (int i = 0; i < productClass.size(); i++) {
 								out.write("<li>");
-								out.write("<a href='/Zpp/FindProductAll?currentPage=1&productClass="
+								out.write("<a href='"+request.getContextPath()+"/FindProductAll?currentPage=1&productClass="
 										+ URLcodeUtils.encoder(Base64Utils.encoder(String.valueOf(productClass.get(i)))) + "'>");
 								out.write(productClass.get(i) + "</a></li>");
 								out.write("<li role='presentation' class='divider'></li>");
@@ -240,13 +239,13 @@
 				</c:if>
 				<c:if test="${pageBean.currentPage!=1}">
 					<li><a
-						href="/Zpp/FindProductAll?currentPage=${(pageBean.currentPage-1)<=0?1:(pageBean.currentPage-1)}&productClass=${pageBean.productClass}">&laquo;</a></li>
+						href="${pageContext.request.contextPath }/FindProductAll?currentPage=${(pageBean.currentPage-1)<=0?1:(pageBean.currentPage-1)}&productClass=${pageBean.productClass}">&laquo;</a></li>
 				</c:if>
 
 				<c:forEach begin="1" end="${pageBean.totalPage }" var="i">
 					<c:if test="${i!=pageBean.currentPage}">
 						<li><a
-							href="/Zpp/FindProductAll?currentPage=${i}&productClass=${pageBean.productClass}">${i}</a></li>
+							href="${pageContext.request.contextPath }/FindProductAll?currentPage=${i}&productClass=${pageBean.productClass}">${i}</a></li>
 					</c:if>
 					<c:if test="${i==pageBean.currentPage}">
 						<li class=" active "><a href="#">${i}</a></li>
@@ -257,7 +256,7 @@
 				</c:if>
 				<c:if test="${pageBean.currentPage!=pageBean.totalPage}">
 					<li><a
-						href="/Zpp/FindProductAll?currentPage=${(pageBean.currentPage+1)>pageBean.totalPage?pageBean.totalPage:(pageBean.currentPage+1)}&productClass=${pageBean.productClass}">&raquo;</a></li>
+						href="${pageContext.request.contextPath }/FindProductAll?currentPage=${(pageBean.currentPage+1)>pageBean.totalPage?pageBean.totalPage:(pageBean.currentPage+1)}&productClass=${pageBean.productClass}">&raquo;</a></li>
 				</c:if>
 
 			</ul>
