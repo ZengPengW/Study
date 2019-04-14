@@ -66,7 +66,9 @@ public class SweepTeke extends HttpServlet {
 			if(payService.tekeOrder(ouid, equipment, oid)) {
 				mark="确认取货成功！！！";
 				request.setAttribute("status", 1);
-				request.setAttribute("message", mark);				
+				request.setAttribute("message", mark);
+				request.setAttribute("uid", ouid);	
+				request.setAttribute("oid", oid);	
 				request.getRequestDispatcher("/page/errorMessage.jsp").forward(request, response);;
 				return;
 			}else {

@@ -11,6 +11,7 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import com.zpp.dao.PayDao;
 import com.zpp.domain.Finance;
+import com.zpp.domain.Money;
 import com.zpp.domain.Order;
 import com.zpp.utils.DataSourceUtils;
 
@@ -162,7 +163,9 @@ public class PayDaoImpl implements PayDao {
 		}else{
 			//È¡»õ²Ù×÷
 			 sql="update  `order`  set isteke=?,statu=?  where uid=? and oid=?";
+			
 			 int v=qr.update(sql,1,2,uid,oid);
+			
 			 if(v==1)return true;
 		}
 		
@@ -192,6 +195,62 @@ public class PayDaoImpl implements PayDao {
 		String sql="select * from `order` where uid=?  and isteke=? and statu=? ";
 		
 		List<Order> list=qr.query(sql, new BeanListHandler<Order>(Order.class),uid,isteke,statu);
+		return list;
+	}
+
+	@Override
+	public boolean tekeMoney(int uid, int amount) throws SQLException {
+		QueryRunner qr=new QueryRunner();
+		Connection conn=DataSourceUtils.getConnection();
+		conn.setAutoCommit(true);
+		try {
+		
+			
+			for (int i = 0; i < 3; i++) {
+				String sql="select * from finance where uid=?";
+					
+				Finance finance=qr.query(conn,sql, new BeanHandler<Finance>(Finance.class),uid);
+				double balance=finance.getBalance();
+				if(amount>balance)return false;
+				int version=finance.getVersion();
+				sql="update finance set balance=?,version=? where uid=? and version=? and balance>=?";
+				int v=qr.update(conn, sql,balance-amount,version+1,uid,version,amount);
+				if(v==1)return true;
+			}
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally {
+			conn.close();
+		}
+	
+	}
+
+	@Override
+	public boolean addMoneyTab(Money money) throws SQLException {
+	try {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="insert into money(uid,amount,account,payee,time,status) values(?,?,?,?,?,?)";
+		int v=qr.update(sql,money.getUid(),money.getAmount(),money.getAccount(),money.getPayee(),money.getTime(),money.getStatus());
+		if (v==1) {
+			return true;
+		}else {
+			return false;
+		}
+	} catch (Exception e) {
+		
+		e.printStackTrace();
+		return false;
+	}
+	}
+
+	@Override
+	public List<Money> getMonerList(int uid) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from money where uid=?";
+		List<Money> list=qr.query(sql, new BeanListHandler<Money>(Money.class),uid);
+		
 		return list;
 	}
 

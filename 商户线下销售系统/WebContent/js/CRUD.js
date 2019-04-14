@@ -9,15 +9,18 @@ function deleteProdcut(item){
 		  cancelButtonText:"取消",
 		  confirmButtonText: "确认删除!",
 		  closeOnConfirm: true
-		}).then(function(){
-			var pid=$(item).val();
-			$.post("/Zpp/DeleteProduct",{pid:pid},function(data){
-				if(data=="true"){
-					$(item).parent().parent().parent().remove();
-				}else{
-					swal({text:"未知异常删除失败!", type:'error'});
-				}
-			});
+		}).then(function(result){
+			  if (result.value) {
+				 var pid=$(item).val();
+					$.post("/Zpp/DeleteProduct",{pid:pid},function(data){
+						if(data=="true"){
+							$(item).parent().parent().parent().remove();
+						}else{
+							swal({text:"未知异常删除失败!", type:'error'});
+						}
+					}); 
+			 }
+			
 		});
 	
 //	var flag=confirm("删除后,上架商品也会同步删除!\n是否继续删除？");
@@ -44,9 +47,12 @@ function alterProdcut(item){
 		  cancelButtonText:"取消",
 		  confirmButtonText: "继续修改!",
 		  closeOnConfirm: true
-		}).then(function(){
-			var pid=$(item).val();
-			window.location.href="AlterProduct?pid="+pid;
+		}).then(function(result){
+			  if (result.value) {
+				 var pid=$(item).val();
+				window.location.href="AlterProduct?pid="+pid; 
+			 }
+			
 		});
 //	var flag=confirm("修改后,商品需要重新发布上架! \n 是否需要修改？");
 //	if(flag){
@@ -67,20 +73,24 @@ function publish(item){
 		  confirmButtonText: "确认!",
 		  //timer:1000,
 		  closeOnConfirm: false
-		}).then(function(){
-			var pid=$(item).val();
-			$.post("/Zpp/PublishServlet",{pid:pid},function(data){
-				if(data=="true"){
-					swal({text:"上架成功!", type:'success'});
-					list.push(pid);
-					$(item).text("已发布");
-					$(item).removeClass("btn-success").addClass("btn-warning");
-					$(item).prop("disabled","disabled");
-				}else{
-					swal({text:"上架失败!", type:'error'});
-				}
-			})
-		//	swal("上架成功");
+		}).then(function(result) {
+			  if (result.value) {
+					var pid=$(item).val();
+					$.post("/Zpp/PublishServlet",{pid:pid},function(data){
+						if(data=="true"){
+							swal({text:"上架成功!", type:'success'});
+							list.push(pid);
+							$(item).text("已发布");
+							$(item).removeClass("btn-success").addClass("btn-warning");
+							$(item).prop("disabled","disabled");
+						}else{
+							swal({text:"上架失败!", type:'error'});
+						}
+					})
+				//	swal("上架成功"); 
+				 
+			 }
+		
 			
 		});
 	
@@ -97,16 +107,20 @@ function cancel(item) {
 		  confirmButtonText: "确认!",
 		  //timer:1000,
 		  closeOnConfirm: true
-		} ).then(function(){
-			var pid=$(item).val();
-			$.post("/Zpp/OnSaleDelete",{pid:pid},function(data){
-				if(data=="true"){
-					$(item).parent().parent().parent().remove();
-					
-				}else{
-					swal({text:"下架失败!", type:'error'});
-				}
-			})
+		} ).then(function(result) {
+			  if (result.value) {
+				 var pid=$(item).val();
+					$.post("/Zpp/OnSaleDelete",{pid:pid},function(data){
+						if(data=="true"){
+							$(item).parent().parent().parent().remove();
+							
+						}else{
+							swal({text:"下架失败!", type:'error'});
+						}
+					}) 
+				 
+			 }
+			
 		
 			
 		});

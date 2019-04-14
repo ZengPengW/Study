@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.zpp.dao.PayDao;
 import com.zpp.dao.impl.PayDaoImpl;
+import com.zpp.domain.Money;
 import com.zpp.domain.Order;
 
 public class PayServiceImpl implements PayService{
@@ -57,6 +58,18 @@ public class PayServiceImpl implements PayService{
 	@Override
 	public List<Order> getTeke(int uid, int isteke, int statu) throws SQLException {
 		return dao.getTeke(uid, isteke, statu);
+	}
+	@Override
+	public boolean tekeMoney(int uid, int primary) throws SQLException {
+		return dao.tekeMoney(uid, primary);
+	}
+	@Override
+	public boolean addMoneyTab(Money money) throws SQLException {
+		return dao.addMoneyTab(money);
+	}
+	@Override
+	public List<Money> getMonerList(int uid) throws SQLException {
+		return dao.getMonerList(uid);
 	}
 	
 }

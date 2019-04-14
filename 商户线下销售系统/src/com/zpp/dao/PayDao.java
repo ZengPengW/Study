@@ -3,6 +3,7 @@ package com.zpp.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.zpp.domain.Money;
 import com.zpp.domain.Order;
 
 public interface PayDao {
@@ -30,4 +31,9 @@ public interface PayDao {
 	
 	public List<Order> getTeke(int uid,int isteke,int statu)throws SQLException;
 	
+	public boolean tekeMoney(int uid,int primary)throws SQLException;
+	
+	public boolean addMoneyTab(Money money)throws SQLException;
+	
+	public List<Money> getMonerList (int uid)throws SQLException;
 }

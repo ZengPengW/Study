@@ -1,0 +1,5 @@
+#winpop { width:200px; height:0px; position:fixed; right:0; bottom:0; border:1px solid #666; margin:0; padding:1px; overflow:hidden; display:none;}
+#winpop .title { width:100%; height:22px; line-height:20px; background:#FFCC00; font-weight:bold; text-align:center; font-size:12px;}
+#winpop .con { width:100%; height:90px; line-height:80px; font-weight:bold; font-size:12px; color:#FF0000; text-decoration:underline; text-align:center} /* http://www.CsrCode.cn */
+#silu { font-size:12px; color:#666; position:absolute; right:0; text-align:right; text-decoration:underline; line-height:22px;}
+.close { position:absolute; right:4px; top:-1px; color:#FFF; cursor:pointer}

@@ -207,6 +207,7 @@ public class SellerdaoImpl implements Sellerdao {
 		if("È«²¿".equals(productClass)){
 			String sql="select * from onse where uid=? limit ? offset ?";
 			//System.out.println("select * from onse where uid="+uid+" limit "+pageSize+" offset "+pageSize*(currentPage-1)+"");
+			
 		    list = qr.query(sql, new BeanListHandler<Product>(Product.class),uid,pageSize,pageSize*(currentPage-1));
 		}else {
 			String sql="select * from onse where uid=? and productClass=? limit ? offset ?";

@@ -29,7 +29,7 @@
 	type="text/css" rel="stylesheet">
 
 </head>
-<body style="padding-top: 13%">
+<body style="padding-top: 13%; padding-bottom: 13%;">
 <% 
 String cart = CookiesUtils.getCookie(request.getCookies(), "cart");
 List<ShopCart> shopCarts = null;
@@ -81,10 +81,10 @@ if (shopCarts != null) {
 
 
 	<div class="container">
-		<div class="row ">
+		<div class="row " style="margin-top: 10%;">
 			<ul class="cart-group-253X-" style="padding: 10px; margin: 0">
 				<c:forEach items="${cartlist}" var="ls">
-				<li><img  class='cart-group-2U2FI' src='${ls.productImg}'><div class='cart-group-OgNfZ'><p class='cart-group-2_GET'>${ls.productName}</p></div> <span class='cart-group-1vF9L'>×&nbsp;${hm.get(ls.pid)}</span> <span class='cart-group-3GWE2'><span><span class='cart-group-12n-9'></span></span></span> <span class='cart-group-31C83 cart-group-2EEJb'><span class='cart-group-12n-9'>¥</span>${ls.price}</span></li>	
+				<li><img  class='cart-group-2U2FI' src='${ls.productImg}'><div class='cart-group-OgNfZ'><p class='cart-group-2_GET'>${ls.productName}</p></div> <span class='cart-group-1vF9L'>×&nbsp;${hm.get(ls.pid)}</span> <span class='cart-group-3GWE2'><span><span class='cart-group-12n-9'></span></span></span> <span class='cart-group-31C83 cart-group-2EEJb'><span class='cart-group-12n-9'></span>¥${ls.price}</span></li>	
 				
 				</c:forEach>	
 			</ul>

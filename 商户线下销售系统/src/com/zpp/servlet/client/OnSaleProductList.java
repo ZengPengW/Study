@@ -50,26 +50,26 @@ public class OnSaleProductList extends HttpServlet {
 //			}else{
 //				uid=Integer.parseInt(curUid);
 //			}
-			
+		//	System.out.println(uid);
 			
 			SellerService service=new SellerServiceImpl();
 			
 			String deproductClass=Base64Utils.decoder(productClass);
 		
 			List<Product> list=service.OnSaleProductByID(uid, currentPage,deproductClass);
-		
-			
+	
 			long totalSize =service.CheckOnsaleProductCount(uid, deproductClass);//总记录数
 			long totalPage=totalSize/SellerdaoImpl.pageSize;//总页数
 			if(totalSize%SellerdaoImpl.pageSize!=0)totalPage++;
 			
 			PageBean<Product> pageBean=new PageBean<Product>(currentPage,totalSize,totalPage,list,productClass);
 			
+			//System.out.println(pageBean.getProductClass());
 			request.setAttribute("pageBean", pageBean);
 			
 			List<Object>productclass= service.FindOnSaleProductClass(uid);
 			request.setAttribute("productclass", productclass);
-			
+			//System.out.println(productclass.get(0));
 			
 			request.getRequestDispatcher("/page/customer/customerProductList.jsp").forward(request, response);
 		

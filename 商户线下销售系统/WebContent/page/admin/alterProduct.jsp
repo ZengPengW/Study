@@ -135,5 +135,26 @@ label.error {
 	</div>
 
 </body>
+<!-- websocket -->
+<script>var uid="${user.id}a4"+new Date().getTime();</script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/MyWEBsocket.js" ></script>
+<script >
+//连接成功建立的回调方法
+websocket.onopen = function () {
+   // setMessageInnerHTML("WebSocket连接成功");
+   // send("sid:${cookie.sid.value}");
+   
+    
+}
+</script>
+<!-- message -->
+<link href="${pageContext.request.contextPath }/css/message.css" rel="stylesheet" type="text/css"/>
+
+
+
+<div id="winpop">
+ <div class="title">短消息！<span class="close" onclick="myclose()">×</span></div>
+    <div class="con">有新的订单啦</div>
+</div>
 
 </html>

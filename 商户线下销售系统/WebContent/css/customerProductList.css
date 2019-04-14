@@ -1,12 +1,15 @@
 .fooddetails-desc_3tvBJ {
-	font-size: 1rem;
+	font-size: 4vw;
 	color: #999;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	
 	width: 42.666667vw;
 }
-
+strong {
+    font-weight: bold;
+    font-size: 5.5vw;
+}
 .tab-p {
 	font-size: 15px;
 }
@@ -113,9 +116,10 @@ position: relative;
 .footer .fa-shopping-cart img{
 	height: 100%;
     width: 6rem;
+    position:static;
     margin-left: -20%;
     margin-top: -40%;
-    z-index: 4;
+    z-index:88;
     
 }
 tbody tr td{

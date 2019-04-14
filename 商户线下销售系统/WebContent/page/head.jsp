@@ -1,3 +1,7 @@
+<%@page import="com.zpp.utils.CookiesUtils"%>
+<%@page import="com.zpp.domain.User"%>
+<%@page import="com.zpp.service.PayServiceImpl"%>
+<%@page import="com.zpp.service.PayService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -64,57 +68,22 @@
 							<li class="${currpage eq 'showpage'?'active':'' }"><a href="${pageContext.request.contextPath }/ShowTeke">展示未取货编号</a></li>
 
 						</ul></li>
+					<li class="${currpage eq 'tixian'?'active':'' }"><a
+						href="${pageContext.request.contextPath }/WithMoneyWeb"
+						id="ck">提现</a></li>	
 				</ul>
 
 			</div>
 		</div>
 	</nav>
 </div>
-<script> var zpmess="3"; </script>
+
+<script> var zpmess="3"; var loc='${pageContext.request.contextPath }';</script>
 <c:if test="${!empty myclass && myclass eq '5YWo6YOo6K6i5Y2V'}">
 <script> zpmess="1";</script>
 </c:if>
 
 <c:if test="${currpage eq 'showpage'}">
 <script> zpmess="2";</script>
-</c:if>>
+</c:if>
 
-
-<script>
-
-
-var websocket = null;
-var domain2=window.location.host;
-
-//判断当前浏览器是否支持WebSocket
-if ('WebSocket' in window) {
-    websocket = new WebSocket("ws://"+domain2+"${pageContext.request.contextPath }/ShowTekeSocket");
-}
-else {
-    alert('当前浏览器 Not support websocket')
-}
-
-//连接成功建立的回调方法
-websocket.onopen = function () {
-   // setMessageInnerHTML("WebSocket连接成功");
-    send("sid:${cookie.sid.value}");
-}
-
-</script>
-
-<script src="${pageContext.request.contextPath }/js/MyWEBsocket.js"></script>
-<script>
-$(function(){
-	//clearInterval(tt);
-	//	setInterval(function  () {
-//        
-//    },30000) 
-	
-}); 
-
-function getnewmessage(){
-	send(zpmess);
-	
-}
-
-</script>

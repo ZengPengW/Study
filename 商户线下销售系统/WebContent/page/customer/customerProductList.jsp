@@ -39,7 +39,7 @@
 	rel="stylesheet" type="text/css" />
 </head>
 
-<body>
+<body style="height:100%;">
 	<%
 		String cart = CookiesUtils.getCookie(request.getCookies(), "cart");
 		List<ShopCart> shopCarts = null;
@@ -162,7 +162,7 @@
 							<div class="row">
 
 								<h5 class="fooddetails-desc_3tvBJ">
-									<small class="tab-pane">&nbsp;${pro.productMessage}</small>
+									<small class="tab-pane" >&nbsp;${pro.productMessage}</small>
 								</h5>
 							</div>
 							<div class="row " style="margin-top: 15%;">
@@ -260,8 +260,8 @@
 
 	
 	<div id="shoping"
-		style="width: 99%; height: 43%; background-color: white; position: fixed; top: 100%; overflow: auto;">
-		<table class="table" style="position: fixed; width: 98%;">
+		style="width: 99%; height: 43%; background-color: #DEDEDE; position: fixed; top: 100%; overflow: auto;">
+		<table class="table" style="position:absolute; width: 98%;" id="toubu">
 			<tr bgcolor="#eceff1">
 				<th><font color="#666">已选商品</font></th>
 				<th colspan="2" class="text-right" id="clean"><img

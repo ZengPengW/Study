@@ -14,6 +14,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="300"> 
 <title>全部订单</title>
 <link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
@@ -23,6 +24,9 @@
 <link href="${pageContext.request.contextPath }/css/checkDetails.css"  rel="stylesheet" type="text/css" />
 <script src="${pageContext.request.contextPath }/js/sweetalert2.all.min.js"></script>
 <link href="${pageContext.request.contextPath }/css/checkDetails.css" rel="stylesheet" type="text/css" >
+<script src="${pageContext.request.contextPath }/js/es6-promise.auto.js" type="text/javascript" ></script>
+<script src="${pageContext.request.contextPath }/js/tone.js" type="text/javascript" ></script>
+
 </head>
 <%
 
@@ -161,7 +165,7 @@ if(page>0&&page<=${totalPage})
 	location.href="${pageContext.request.contextPath }/AllOrderCheck?orderClass=${orderClass}&currentPage="+page+"";
 
 }
-
+var ud='${user.id}';
 function myoption(item){
 	var oid=$(item).attr("oid");
 	var isOption=$(item).attr("isOption");
@@ -185,32 +189,56 @@ function myoption(item){
 		  cancelButtonText:"再想想",
 		  confirmButtonText: "确认!",
 		  closeOnConfirm: true
-		}).then(function(){
+		}).then(function(result) {
+			  if (result.value) {
+					$.post("${pageContext.request.contextPath }/OrderOption",{
+						   oid:oid,
+						   isOption:isOption
+						},function(data){
+							
+						if(data=="true"){
+						
+						if(isOption==1){
+							$(item).text("已确认");
+							$(item).removeAttr("onclick");
+							
+						$(item).prev().children("font:eq(0)").text("待备货");
+						}else if(isOption==2){
+							 $(item).removeAttr("onclick");
+							$(item).text("已备货");
+							$(item).prev().text("已确认").addClass("disabled");
+							$(item).prev().removeAttr("onclick");
+							$(item).prev().prev().children("font:eq(0)").text("待取货");
+							send(oid+"已备货"+ud);
+						}else{
+						$(item).text("已取货");
+						$(item).removeAttr("onclick");
+						$(item).prev().removeAttr("onclick");
+						$(item).prev().prev().removeAttr("onclick");
+							$(item).prev().prev().prev().children("font:eq(0)").text("已取货");
+							$(item).prev().text("已备货").addClass("disabled");
+							$(item).prev().prev().text("已确认").addClass("disabled");
+							send(oid+"已取货"+ud);
+						}
+						
+						$(item).addClass("disabled");
+						}else if(isOption==3&&data=="false"){
+							$(item).removeAttr("onclick");
+							$(item).prev().removeAttr("onclick");
+							$(item).prev().prev().removeAttr("onclick");
+							$(item).text("已取货");
+							$(item).prev().prev().prev().children("font:eq(0)").text("已取货");
+							$(item).prev().text("已备货").addClass("disabled");
+							$(item).prev().prev().text("已确认").addClass("disabled");
+							swal("该订单已经取货，请勿重复取货");
+							$(item).addClass("disabled");
+						}
+						
+						});  
+				  
+			  }
 			
-			$.post("${pageContext.request.contextPath }/OrderOption",{
-			   oid:oid,
-			   isOption:isOption
-			},function(data){
-			if(data=="true"){
-			
-			if(isOption==1){
-				$(item).text("已确认");
-			$(item).prev().children("font:eq(0)").text("待备货");
-			}else if(isOption==2){
-				$(item).text("已备货");
-				$(item).prev().text("已确认").addClass("disabled");
-				$(item).prev().prev().children("font:eq(0)").text("待取货");
-			}else{
-			$(item).text("已取货");
-				$(item).prev().prev().prev().children("font:eq(0)").text("已取货");
-				$(item).prev().text("已备货").addClass("disabled");
-				$(item).prev().prev().text("已确认").addClass("disabled");
-			}
-			
-			$(item).addClass("disabled");
-			}
-				
-			});
+		
 		});
 
 	
@@ -327,9 +355,32 @@ $("#orderlist").append(infomessage);
 });
 
 
-
+var uid="${user.id}a3"+new Date().getTime();
 
 </script>
 
+
+<!-- websocket -->
+
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/MyWEBsocket.js" ></script>
+<script >
+//连接成功建立的回调方法
+websocket.onopen = function () {
+   // alert("WebSocket连接成功");
+   // send("sid:${cookie.sid.value}");
+   
+    
+}
+</script>
 </body>
+<!-- message -->
+<link href="${pageContext.request.contextPath }/css/message.css" rel="stylesheet" type="text/css"/>
+
+
+
+<div id="winpop">
+ <div class="title">短消息！<span class="close" onclick="myclose()">×</span></div>
+    <div class="con">有新的订单啦</div>
+</div>
+
 </html>

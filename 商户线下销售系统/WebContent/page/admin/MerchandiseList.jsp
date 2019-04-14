@@ -15,7 +15,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -37,7 +37,7 @@
 <script type="text/javascript" src="/Zpp/js/CRUD.js"></script>
 <script src="${pageContext.request.contextPath }/js/sweetalert2.all.min.js"></script>
 <link href="${pageContext.request.contextPath }/css/checkDetails.css" rel="stylesheet" type="text/css" >
-
+<script src="${pageContext.request.contextPath }/js/es6-promise.auto.js" type="text/javascript" ></script>
 </head>
 <%
 	request.setAttribute("currpage", "mer");
@@ -264,4 +264,26 @@
 			</nav>
 		</div>
 	</div>
+<!-- websocket -->
+<script>var uid="${user.id}a6"+new Date().getTime();</script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/MyWEBsocket.js" ></script>
+<script >
+//连接成功建立的回调方法
+websocket.onopen = function () {
+   // setMessageInnerHTML("WebSocket连接成功");
+  //  send("sid:${cookie.sid.value}");
+   
+    
+}
+</script>
+<!-- message -->
+<link href="${pageContext.request.contextPath }/css/message.css" rel="stylesheet" type="text/css"/>
+
+
+
+<div id="winpop">
+ <div class="title">短消息！<span class="close" onclick="myclose()">×</span></div>
+    <div class="con">有新的订单啦</div>
+</div>
+
 </html>

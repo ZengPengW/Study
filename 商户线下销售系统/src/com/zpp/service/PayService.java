@@ -3,6 +3,7 @@ package com.zpp.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.zpp.domain.Money;
 import com.zpp.domain.Order;
 
 public interface PayService {
@@ -22,4 +23,8 @@ public interface PayService {
 	public List<Order> OrderSearchLike(int uid, String info)throws SQLException;
 	public List<Order> getTeke(int uid,int isteke,int statu)throws SQLException;
 	
+	public boolean tekeMoney(int uid,int primary)throws SQLException;
+	
+	public boolean addMoneyTab(Money money)throws SQLException;
+	public List<Money> getMonerList (int uid)throws SQLException;
 }

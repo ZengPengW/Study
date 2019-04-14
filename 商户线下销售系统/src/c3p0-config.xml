@@ -4,7 +4,7 @@
 	<!-- default-config 默认的配置，  -->
   <default-config>
     <property name="driverClass">com.mysql.jdbc.Driver</property>
-    <property name="jdbcUrl">jdbc:mysql://localhost/zpp</property>
+    <property name="jdbcUrl">jdbc:mysql://localhost/zpp?useAffectedRows=true</property>
     <property name="user">root</property>
     <property name="password">147258</property>
     

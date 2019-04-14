@@ -15,6 +15,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maxinum-scale=1,user-scalable=no">
+		<meta http-equiv="refresh" content="30"> 
 		<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
 		<script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
 		<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>

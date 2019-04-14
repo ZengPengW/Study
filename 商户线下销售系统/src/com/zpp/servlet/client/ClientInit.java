@@ -63,6 +63,10 @@ public class ClientInit extends HttpServlet {
 			response.addCookie(cookie3);
 			response.addCookie(cookie4);
 			
+			//Çå¿Õ¹ºÎï³µ
+			Cookie cart=new Cookie("cart", "1");
+			cart.setMaxAge(0);
+			response.addCookie(cart);
 			//request.getRequestDispatcher("/OnSaleProductListClient").forward(request, response);
 			response.sendRedirect(request.getContextPath()+"/page/customer/Springboard.html");
 		} catch (Exception e) {

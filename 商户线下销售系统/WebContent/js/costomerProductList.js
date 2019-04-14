@@ -167,23 +167,30 @@ function showshop(){
 function myshowshop(){
 	
 	if(mark==0){
+	
+		document.body.style.position = 'fixed';
+		document.body.style.overflow = 'hidden';
 		if(top1<=hg){
 			clearInterval(ds);
 			return;
 		}
-		top1-=3;
+		top1-=9;
 		$("#shoping").css({"top":top1+"px"}); 
 		if(top1<=hg){
+			document.getElementById("toubu").style.position='fixed';
 			clearInterval(ds);
 			return;
 		}
 	}
 	else{
-		if(top1>=hg){
+		document.getElementById("toubu").style.position='absolute';
+		document.body.style.position = 'relative';
+		document.body.style.overflow = 'auto';
+		if(top1>=hg){			
 			clearInterval(ds);
 			return;
 		}
-		top1+=3;
+		top1+=9;
 		$("#shoping").css({"top":top1+"px"});
 		if(top1>=hg){
 			clearInterval(ds);
