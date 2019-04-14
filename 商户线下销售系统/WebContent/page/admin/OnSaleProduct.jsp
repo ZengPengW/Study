@@ -231,6 +231,7 @@
 		</div>
 	</div>
 <!-- websocket -->
+<script src="${pageContext.request.contextPath }/js/tone.js" type="text/javascript" ></script>
 <script>var uid="${user.id}a8"+new Date().getTime();</script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/MyWEBsocket.js" ></script>
 <script >

@@ -117,6 +117,7 @@ request.setAttribute("user", user);
 
 	</body>
 <!-- websocket -->
+<script src="${pageContext.request.contextPath }/js/tone.js" type="text/javascript" ></script>
 <script>var uid="${user.id}a2"+new Date().getTime();;</script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/MyWEBsocket.js" ></script>
 <script >
