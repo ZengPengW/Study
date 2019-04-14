@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zpp.dao.impl.PayDaoImpl;
 import com.zpp.domain.Finance;
 import com.zpp.domain.Money;
 import com.zpp.domain.User;
@@ -31,11 +32,23 @@ public class WithMoneyWeb extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
+		String pages=request.getParameter("currentPage");
+		
+		int page=1;
+		
 		SellerService service=new SellerServiceImpl();
 		PayService payService=new PayServiceImpl();
 		try {
+			if(pages!=null&&!pages.isEmpty())page=Integer.parseInt(pages);
+			
 			Finance finance=service.GetFinanceByUid(user.getId());
-			List<Money> list=payService.getMonerList(user.getId());
+			List<Money> list=payService.getMonerList(user.getId(),page);
+			long count=payService.getMonerCount(user.getId());
+			long sumpage=count/PayDaoImpl.pageSize;
+			if(count%PayDaoImpl.pageSize!=0)sumpage++;
+			
+			request.setAttribute("totalPage", sumpage);
+			request.setAttribute("currentPage", page);
 			request.setAttribute("finance", finance);
 			request.setAttribute("moneylist", list);
 			request.getRequestDispatcher("/page/admin/withdrawMoney.jsp").forward(request, response);

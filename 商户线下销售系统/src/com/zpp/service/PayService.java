@@ -26,5 +26,6 @@ public interface PayService {
 	public boolean tekeMoney(int uid,int primary)throws SQLException;
 	
 	public boolean addMoneyTab(Money money)throws SQLException;
-	public List<Money> getMonerList (int uid)throws SQLException;
+	public List<Money> getMonerList (int uid,int page)throws SQLException;
+	public Long getMonerCount (int uid)throws SQLException;
 }

@@ -35,5 +35,6 @@ public interface PayDao {
 	
 	public boolean addMoneyTab(Money money)throws SQLException;
 	
-	public List<Money> getMonerList (int uid)throws SQLException;
+	public List<Money> getMonerList (int uid,int page)throws SQLException;
+	public Long getMonerCount (int uid)throws SQLException;
 }

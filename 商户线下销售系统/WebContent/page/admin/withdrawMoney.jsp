@@ -21,6 +21,19 @@
 <script src="${pageContext.request.contextPath }/js/regutils.js"></script>
 <script src="${pageContext.request.contextPath }/js/sweetalert2.all.min.js"></script>
 <script src="${pageContext.request.contextPath }/js/es6-promise.auto.js" type="text/javascript" ></script>
+ <style>
+        th{
+            text-align:center;
+        }
+        table{
+            text-align:center;
+        }
+        .fixedhead{
+            
+            background: white;
+        }
+    </style>
+
 </head>
 <%
 request.setAttribute("currpage", "tixian");
@@ -39,7 +52,7 @@ request.setAttribute("user", user);
   <div class="panel-heading">
    提现面板&nbsp;&nbsp;<small><font color="red"> 注：提现前必须先绑定支付宝，否则将提现失败.(提现只能提现整数金额)</font></small>
   </div>
-  <div class="panel-body">
+  <div class="panel-body" >
   	<div class="row">
   		
   		<h3 style="margin-left: 2%">当前余额：<span style="color: red;" id="yver">￥${finance.balance}</span></h3>
@@ -69,14 +82,19 @@ request.setAttribute("user", user);
   	</div>	
   	
   	<h2>提现记录：</h2>
-  	<table class="table">
-  		<tr>
+  	
+
+		<table  class="table " style="" >
+		<thead>
+		<tr>
   		<th>提现金额</th>	
   		<th>收款账号</th>
   		<th>收款人</th>
   		<th>申请时间</th>
   		<th>进度</th>
   		</tr>
+		</thead>
+	
   	<c:forEach items="${moneylist}" var="ml">
   	<tr>
   		<td>￥<font color="red">${ml.amount }</font></td>
@@ -94,13 +112,49 @@ request.setAttribute("user", user);
   	</c:forEach>	
   		
   	</table>
+		
+		<!-- pages -->
+			<div class="row" style="text-align: center">
+<ul class="pager" >
+<c:if test="${currentPage-1>0}">
+ <li><a href="${pageContext.request.contextPath }/WithMoneyWeb?currentPage=${currentPage-1}">上一页</a></li>
+</c:if>
+<c:if test="${currentPage-1<0}">
+ <li class="disabled"><a href="javascript:">上一页</a></li>
+</c:if> 
+ 
+ <c:if test="${currentPage+1<=totalPage}">
+ <li><a href="${pageContext.request.contextPath }/WithMoneyWeb?currentPage=${currentPage+1}">下一页</a></li>
+</c:if>
+<c:if test="${currentPage>totalPage}">
+ <li class="disabled"><a href="javascript:">下一页</a></li>
+</c:if> 
+  
+  <li> 
+  <input type="number" id='page' placeholder="页码" style=" height:34px ; width: 40px;" value="">
+  <button class="btn  btn-primary" onclick="jump()">跳转</button>
+  共${currentPage}/${totalPage}页
+  </li>
+</ul>
+	
+	
+	</div>
+		
+		</div>
+  
   </div>
 </div>
 		
 	</div>
-	
-	
-</div>
+<script>
+function jump(){
+var page=$("#page").val();
+if(page>0&&page<=${totalPage})
+	location.href="${pageContext.request.contextPath }/WithMoneyWeb?currentPage="+page+"";
+
+}
+</script>
+
 <script>
 	function tixian(){
 	var money=$("#money").val().trim();

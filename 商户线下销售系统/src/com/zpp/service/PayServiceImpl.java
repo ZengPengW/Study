@@ -68,8 +68,12 @@ public class PayServiceImpl implements PayService{
 		return dao.addMoneyTab(money);
 	}
 	@Override
-	public List<Money> getMonerList(int uid) throws SQLException {
-		return dao.getMonerList(uid);
+	public List<Money> getMonerList(int uid,int page) throws SQLException {
+		return dao.getMonerList(uid,page);
+	}
+	@Override
+	public Long getMonerCount(int uid) throws SQLException {
+		return dao.getMonerCount(uid);
 	}
 	
 }

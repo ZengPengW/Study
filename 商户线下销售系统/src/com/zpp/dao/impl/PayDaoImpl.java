@@ -110,6 +110,7 @@ public class PayDaoImpl implements PayDao {
 	}
 
 	public static int pageSize=12;
+	
 	@Override
 	public List<Order> getAllOrderByUid(int uid,int currentPage,String orderClass) throws SQLException {
 		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
@@ -244,14 +245,24 @@ public class PayDaoImpl implements PayDao {
 		return false;
 	}
 	}
-
+	
+	
 	@Override
-	public List<Money> getMonerList(int uid) throws SQLException {
+	public List<Money> getMonerList(int uid,int page) throws SQLException {
 		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
-		String sql="select * from money where uid=?";
-		List<Money> list=qr.query(sql, new BeanListHandler<Money>(Money.class),uid);
+		String sql="select * from money where uid=? ORDER BY `time` DESC LIMIT ? OFFSET ? ";
+//		System.out.println("select * from money where uid="+uid+" ORDER BY `time` DESC LIMIT "+pageSize+" OFFSET "+ pageSize*(page-1));
+		List<Money> list=qr.query(sql, new BeanListHandler<Money>(Money.class),uid,pageSize,pageSize*(page-1));
 		
 		return list;
+	}
+
+	@Override
+	public Long getMonerCount(int uid) throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select count(*) from money where uid=? ";
+		Long count=qr.query(sql, new ScalarHandler<Long>(),uid);
+		return count;
 	}
 
 }
