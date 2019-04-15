@@ -6,19 +6,20 @@ public class Order {
 	String oid;//订单编号
 	String gid;//取货编号
 	double money;//付款金额
-	public double getMoney() {
-		return money;
-	}
-	public void setMoney(double money) {
-		this.money = money;
-	}
+	
 	String username;
 	String phone;
 	String shopMessage;
 	int isteke;//是否取货 0 1
 	String equipment;//设备
 	int statu;//状态 0 1 2
-	
+
+	public double getMoney() {
+		return money;
+	}
+	public void setMoney(double money) {
+		this.money = money;
+	}
 	public int getStatu() {
 		return statu;
 	}

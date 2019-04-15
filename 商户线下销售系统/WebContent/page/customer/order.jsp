@@ -93,7 +93,7 @@ if (shopCarts != null) {
 	</div>
 <script type="text/javascript">
 $("#settlement").click(function(){
-	window.location.href="${pageContext.request.contextPath }/PaymentServlet";
+	window.location.href="${pageContext.request.contextPath }/MyAlipayServlet";
 	
 });
 

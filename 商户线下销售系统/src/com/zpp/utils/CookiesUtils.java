@@ -10,6 +10,7 @@ import redis.clients.jedis.Jedis;
 public class CookiesUtils {
 
 	public static String getCookie(Cookie[] cookies,String name) {
+		if(cookies==null||cookies.length==0)return null;
 		for (int i = 0; i < cookies.length; i++) {
 			if(cookies[i].getName().equals(name)) {
 				return cookies[i].getValue();

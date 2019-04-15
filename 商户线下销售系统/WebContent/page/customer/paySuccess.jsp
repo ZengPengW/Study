@@ -25,7 +25,7 @@
 </style>
 <body>
 <div class="container" >
-	
+	<%request.setAttribute("status", 1); %>
 <div   >
 			<c:if test="${status==0}">
 						<img alt="错误" src="${pageContext.request.contextPath }/imgs/icon/fail.svg" class="img-thumbnail" >

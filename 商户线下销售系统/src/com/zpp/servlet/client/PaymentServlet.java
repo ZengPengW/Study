@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alipay.config.AlipayClientFactory;
 import com.google.zxing.qrcode.encoder.QRCode;
 import com.zpp.domain.Order;
 import com.zpp.domain.Product;
@@ -39,25 +42,10 @@ public class PaymentServlet extends HttpServlet {
 	@SuppressWarnings({ "deprecation", "unchecked", "static-access" })
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			String shopcart=CookiesUtils.getCookie(request.getCookies(),"cart");
-			//System.out.println(shopcart);
-			if(shopcart==null||shopcart.isEmpty())throw new RuntimeException("商品信息不存在");
-			
-			int uid = Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
-			
-			JSONArray jsonArray=JSONArray.fromObject(shopcart);
-			List<ShopCart> list=jsonArray.toList(jsonArray, ShopCart.class);
-			
-			//List<Product> buyProduct=new ArrayList<Product>();
-			//计算支付金额
-			SellerService service=new SellerServiceImpl();
-			Product p=null;
-			double  payMoney=0;
-			for (ShopCart ls : list) {
-				p=service.GetProductByPid(uid, ls.getPid());
-				//buyProduct.add(p);
-				payMoney+=(ls.getCount()*p.getPrice());
-			}
+			String shopcart=request.getParameter("cart");
+			int uid=Integer.parseInt(request.getParameter("store_id"));
+			double payMoney=Double.valueOf(request.getParameter("total_amount"));
+			//调用支付
 			
 			/*
 			 * 一系列支付过程后
@@ -102,9 +90,9 @@ public class PaymentServlet extends HttpServlet {
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 			
-			int status=1;
-			request.setAttribute("message", "支付成功。。。正在跳转");
-			request.setAttribute("status",status);
+//			int status=1;
+//			request.setAttribute("message", "支付成功。。。正在跳转");
+//			request.setAttribute("status",status);
 		
 			List<Order> oList=payService.GetOrderByEquipment(uid, equipment);
 			time=time+".0";
@@ -117,7 +105,7 @@ public class PaymentServlet extends HttpServlet {
 				}
 			}
 			
-			String json=jsonArray.fromObject(order).toString();
+			String json=JSONArray.fromObject(order).toString();
 			  ConcurrentHashMap<String, ShowTekeSocket>mywebsocket=ShowTekeSocket.getWebsocket();
 			 String temp=null;
 			  for(String item: mywebsocket.keySet()){
@@ -133,7 +121,7 @@ public class PaymentServlet extends HttpServlet {
 						}
   			 	}
   	        }
-			request.getRequestDispatcher("/page/customer/paySuccess.jsp").forward(request, response);
+		//	request.getRequestDispatcher("/page/customer/paySuccess.jsp").forward(request, response);
 			
 			
 		} catch (Exception e) {
