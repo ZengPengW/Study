@@ -37,7 +37,10 @@ public class EncodingFilter implements Filter {
 		HttpServletResponse response=(HttpServletResponse) resp;
 		
 		//2.·ÅÐÐ
+		
 		chain.doFilter(new MyRequest(request), response);
+		
+		
 	}
 
 	@Override

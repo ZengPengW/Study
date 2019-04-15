@@ -75,5 +75,10 @@ public class PayServiceImpl implements PayService{
 	public Long getMonerCount(int uid) throws SQLException {
 		return dao.getMonerCount(uid);
 	}
+	@Override
+	public boolean IsExistOrder(int uid, String equipment, String time, String gid, String phone, String username)
+			throws SQLException {
+	return dao.IsExistOrder(uid, equipment, time, gid, phone, username);
+	}
 	
 }

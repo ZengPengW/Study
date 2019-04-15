@@ -14,7 +14,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!--设置视口的宽度(值为设备的理想宽度)，页面初始缩放值<理想宽度/可见宽度>-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="refresh" content="300"> 
+
 <title>全部订单</title>
 <link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet" type="text/css">
 <script src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
@@ -382,5 +382,12 @@ websocket.onopen = function () {
  <div class="title">短消息！<span class="close" onclick="myclose()">×</span></div>
     <div class="con">有新的订单啦</div>
 </div>
-
+<script>
+function refresh(){
+	closeWebSocket();
+	window.location.href=window.location.href; 
+	
+}
+setTimeout("refresh()", 300000);
+</script>
 </html>

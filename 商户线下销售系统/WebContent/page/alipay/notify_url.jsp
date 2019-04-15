@@ -54,30 +54,32 @@
 
 				//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
 				
-				if(trade_status.equals("TRADE_FINISHED")||trade_status.equals("TRADE_SUCCESS")){
-					//判断该笔订单是否在商户网站中已经做过处理
-						//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-						//请务必判断请求时的total_fee、seller_id与通知时获取的total_fee、seller_id为一致的
-						//如果有做过处理，不执行商户的业务程序
-						
-					//注意：
-					//如果签约的是可退款协议，退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
-					//如果没有签约可退款协议，那么付款完成后，支付宝系统发送该交易状态通知。
+				if(trade_status.equals("TRADE_FINISHED")||trade_status.equals("TRADE_SUCCESS")||trade_status.equals("WAIT_BUYER_PAY")){
 					
-					//request.getRequestDispatcher("/PaymentServlet").forward(request, response);
 					try {
 				String passback_params=request.getParameter("passback_params");
 				JSONObject jsonObject=JSONObject.fromObject(Base64Utils.decoder(passback_params));
 				
 				Order order=(Order)JSONObject.toBean(jsonObject,Order.class);
 				PayService payService=new PayServiceImpl();
+				boolean flag=payService.IsExistOrder(order.getUid(), order.getEquipment(), order.getTime(), order.getGid(), order.getPhone(), order.getUsername());
+						
+				if(flag){
+					out.clear();
+					out.println("success");
+					return;
+				}
+				boolean bl=payService.updateFinanceOnPay(order.getUid(), order.getMoney());	
 				payService.addOrderOnPay(order);
 				
 			    String time=order.getTime()+".0";
 			   
-			    order=null;
-				List<Order> oList=payService.GetOrderByEquipment(order.getUid(), order.getEquipment());
+			    
+			    int uid=order.getUid();
+			    String equ= order.getEquipment();
+				List<Order> oList=payService.GetOrderByEquipment(uid,equ);
 				
+				order=null;
 				for (Order or : oList) {
 					
 					if(or.getTime().equals(time)){
@@ -91,19 +93,21 @@
 					String json=JSONArray.fromObject(order).toString();
 					  ConcurrentHashMap<String, ShowTekeSocket>mywebsocket=ShowTekeSocket.getWebsocket();
 					 String temp=null;
-					  for(String item: mywebsocket.keySet()){
-						  
-						  temp=item.substring(0,item.indexOf("a"));
-		  			 	if(temp.equals(String.valueOf(order.getUid()))){
-		  			 		//System.out.println(item+"   "+order.getUid());
-		  			 		try {
-									mywebsocket.get(item).sendMessage(json);
-								} catch (IOException e) {						
-									e.printStackTrace();
-									continue;
-								}
-		  			 	}
-		  	        }
+					 if(mywebsocket.size()>0){
+						 for(String item: mywebsocket.keySet()){
+							  
+							  temp=item.substring(0,item.indexOf("a"));
+			  			 	if(temp.equals(String.valueOf(order.getUid()))){
+			  			 		//System.out.println(item+"   "+order.getUid());
+			  			 		try {
+										mywebsocket.get(item).sendMessage(json);
+									} catch (IOException e) {						
+										e.printStackTrace();
+										continue;
+									}
+			  			 	}
+			  	        }
+					 }
 				}
 			//	request.getRequestDispatcher("/page/customer/paySuccess.jsp").forward(request, response);
 				
@@ -113,16 +117,7 @@
 				e.printStackTrace();
 			}	
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+		
 					
 				} 
 

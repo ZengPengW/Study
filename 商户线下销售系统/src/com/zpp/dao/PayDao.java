@@ -37,4 +37,5 @@ public interface PayDao {
 	
 	public List<Money> getMonerList (int uid,int page)throws SQLException;
 	public Long getMonerCount (int uid)throws SQLException;
+	public boolean IsExistOrder(int uid,String equipment,String time,String gid,String phone,String username)throws SQLException;
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,12 @@ public class MyOrderCheck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String shopcart=CookiesUtils.getCookie(request.getCookies(),"cart");
+		if(shopcart!=null&&!shopcart.isEmpty()){
+			Cookie cookie=new Cookie("cart", "q");
+			cookie.setMaxAge(0);
+			response.addCookie(cookie);
+		}
 		String equipment=CookiesUtils.getCookie(request.getCookies(), "equipment");
 		String uid=CookiesUtils.getCookie(request.getCookies(), "uid");
 		if(equipment==null||uid==null) {

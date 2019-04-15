@@ -265,4 +265,14 @@ public class PayDaoImpl implements PayDao {
 		return count;
 	}
 
+	@Override
+	public boolean IsExistOrder(int uid, String equipment, String time, String gid, String phone, String username)
+			throws SQLException {
+		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
+		String sql="select * from `order` where uid=?  and equipment=? and time=? and gid=? and phone=? and username=?";
+		Order order=qr.query(sql, new BeanHandler<Order>(Order.class),uid,equipment,time,gid,phone,username);
+		if(order!=null)return true;
+		else return false;
+	}
+
 }

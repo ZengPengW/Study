@@ -32,9 +32,15 @@ public class OrderDetails extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			int oid=Integer.parseInt(request.getParameter("oid"));
+			
+			String oids=request.getParameter("oid");
+			if(oids==null||oids.isEmpty())throw new RuntimeException("订单空指针");
+			int oid=Integer.parseInt(oids);
 			String equipment=CookiesUtils.getCookie(request.getCookies(), "equipment");
-			int uid=Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
+			String uids=CookiesUtils.getCookie(request.getCookies(), "uid");
+			if(equipment==null||equipment.isEmpty()||uids==null||uids.isEmpty())throw new RuntimeException("用户空指针");
+			int uid=Integer.parseInt(uids);
+			
 			PayService payservice=new PayServiceImpl();
 			Order order=payservice.GetOrderByOid(uid, equipment, oid);
 			String cart=order.getShopMessage();

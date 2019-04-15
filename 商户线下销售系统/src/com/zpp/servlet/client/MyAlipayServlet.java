@@ -95,7 +95,7 @@ public class MyAlipayServlet extends HttpServlet {
 		Map<String, String> maps=new HashMap<String,String>();
 	//	String productlist=JSONArray.fromObject(buyProduct).toString();
 		maps.put("total_amount", payMoney+"");//订单金额
-		maps.put("subject", username);//标题
+		maps.put("subject","订单支付");//标题
 		maps.put("store_id", uid+"");//商户id
 		
 		maps.put("product_code", "QUICK_WAP_PAY");//手机页面
@@ -104,16 +104,17 @@ public class MyAlipayServlet extends HttpServlet {
 		System.out.println(orderjsoneco);
 		maps.put("passback_params", orderjsoneco);//附带参数
 	   // maps.put("product_code", "FAST_INSTANT_TRADE_PAY");//电脑页面
-		maps.put("ReturnUrl", "http://dv2pda.natappfree.cc"+request.getContextPath()+"/page/alipay/return_url.jsp");//同步通知
-		maps.put("NotifyUrl", "http://dv2pda.natappfree.cc"+request.getContextPath()+"/page/alipay/notify_url.jsp");//异步通知
+		maps.put("ReturnUrl", "http://gzpw3c.natappfree.cc"+request.getContextPath()+"/MyOrderCheck");//同步通知
+		maps.put("NotifyUrl", "http://gzpw3c.natappfree.cc"+request.getContextPath()+"/page/alipay/notify_url.jsp");//异步通知
 		
 		
 			AlipayClientFactory ali=new AlipayClientFactory();
 			String form=ali.ydAndPc_Pay(maps);
+			//String form=ali.Pc_Pay(maps);
 			if(!form.equals("err")) {
-				Cookie cookie =new Cookie("cart", "cart");
-				cookie.setMaxAge(0);
-				response.addCookie(cookie);
+//				Cookie cookie =new Cookie("cart", "cart");
+//				cookie.setMaxAge(0);
+//				response.addCookie(cookie);
 				response.setContentType("text/html;charset=utf-8");
 				response.getWriter().write(form);// 直接将完整的表单.h.tml输出到页面
 				response.getWriter().flush();

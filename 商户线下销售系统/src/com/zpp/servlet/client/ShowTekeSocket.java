@@ -73,7 +73,7 @@ public class ShowTekeSocket  {
 //			}else {
 //				System.out.println("没关");
 //			}
-					
+		//System.out.println("剩余人数"+webSocketSet.size());			
     }
     
   private static PayService payService=new PayServiceImpl();
@@ -83,7 +83,7 @@ public class ShowTekeSocket  {
     	if(message.contains("close")){
     		String tempuid=message.substring(5);
     		webSocketSet.remove(tempuid);
-    	//	System.out.println("关闭连接  人数：1关闭id"+tempuid);
+    		//System.out.println("关闭连接  人数：1关闭id"+tempuid);
     		return;
     		
     	}
