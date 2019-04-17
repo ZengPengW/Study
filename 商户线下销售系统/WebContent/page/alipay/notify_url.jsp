@@ -93,21 +93,28 @@
 					String json=JSONArray.fromObject(order).toString();
 					  ConcurrentHashMap<String, ShowTekeSocket>mywebsocket=ShowTekeSocket.getWebsocket();
 					 String temp=null;
-					 if(mywebsocket.size()>0){
-						 for(String item: mywebsocket.keySet()){
-							  
-							  temp=item.substring(0,item.indexOf("a"));
-			  			 	if(temp.equals(String.valueOf(order.getUid()))){
-			  			 		//System.out.println(item+"   "+order.getUid());
-			  			 		try {
-										mywebsocket.get(item).sendMessage(json);
-									} catch (IOException e) {						
+						Iterator<Map.Entry<String, ShowTekeSocket>> entries=mywebsocket.entrySet().iterator();
+						
+						while(entries.hasNext()){
+							Map.Entry<String, ShowTekeSocket> entry=entries.next();
+							if(entry.getValue().getSession().isOpen()==false){
+								entries.remove();
+							}else {
+								String item=null;
+								item=entry.getKey();
+								temp = item.substring(0, item.indexOf("a"));
+								
+								if (temp.equals(String.valueOf(order.getUid()))) {
+
+									try {						
+										entry.getValue().sendMessage(json);
+									} catch (IOException e) {
 										e.printStackTrace();
 										continue;
 									}
-			  			 	}
-			  	        }
-					 }
+								}
+							}
+						}
 				}
 			//	request.getRequestDispatcher("/page/customer/paySuccess.jsp").forward(request, response);
 				

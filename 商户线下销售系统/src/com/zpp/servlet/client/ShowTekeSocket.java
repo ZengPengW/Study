@@ -38,7 +38,9 @@ public class ShowTekeSocket {
 	// 与某个客户端的连接会话，需要通过它来给客户端发送数据
 	private Session session;
 	private static String uid = "";
-
+	public Session getSession() {
+		return this.session;
+	}
 	public String getSUid() {
 		return uid;
 	}
@@ -114,7 +116,7 @@ public class ShowTekeSocket {
 
 	public void sendMessage(String message) throws IOException {
 		// System.out.println(message);
-		this.session.getAsyncRemote().sendText(message);
+		if(this.session.isOpen()==true)this.session.getAsyncRemote().sendText(message);
 		// this.session.getAsyncRemote().sendText(message);
 	}
 
