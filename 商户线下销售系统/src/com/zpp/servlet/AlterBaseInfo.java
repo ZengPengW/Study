@@ -44,6 +44,10 @@ public class AlterBaseInfo extends HttpServlet implements Servlet {
 				throw new RuntimeException("验证码错误");
 			}else {
 				if(username.indexOf(" ")!=-1||shopname.indexOf(" ")!=-1||payment.indexOf(" ")!=-1) {
+					System.out.println("|"+username+"|"+"|"+shopname+"|"+"|"+payment+"|");
+					System.out.println(username.length());
+					System.out.println(shopname.length());
+					System.out.println(payment.length());
 					throw new RuntimeException("参数有空格");
 				}
 				

@@ -39,7 +39,7 @@ public class MyQRCode extends HttpServlet {
 //			}
 		//	file=new File(savePath+File.separator+user.getId()+"jpg");
 			host="http://"+host+request.getContextPath()+"/IndexClient?uid="+user.getId();
-			System.out.println(host);
+		//	System.out.println(host);
 			try {
 				QrCodeCreateUtil.createQrCode(response.getOutputStream(), host, 900, "JPEG");
 			} catch (WriterException e) {

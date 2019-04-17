@@ -41,93 +41,93 @@ public class PaymentServlet extends HttpServlet {
     
 	@SuppressWarnings({ "deprecation", "unchecked", "static-access" })
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			String shopcart=request.getParameter("cart");
-			int uid=Integer.parseInt(request.getParameter("store_id"));
-			double payMoney=Double.valueOf(request.getParameter("total_amount"));
-			//调用支付
-			
-			/*
-			 * 一系列支付过程后
-			 */
-			
-			//支付成功 写入数据库
-			PayService payService=new PayServiceImpl();
-			//更新余额表
-		
-			boolean bl=payService.updateFinanceOnPay(uid, payMoney);
-			
-			//插入订单数据
-			Date date=new Date(System.currentTimeMillis());
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String time=sdf.format(date);//时间
-			
-			String gid=null;//取货编号
-			bl=true;
-			while(bl) {
-				int nob=(int) (Math.random()*800000+100000);
-				gid=nob+"";
-				bl=payService.isExistenceGid(uid, gid);
-			}
-			
-			String username=CookiesUtils.getCookie(request.getCookies(), "username");
-			username=Base64Utils.decoder(username);
-			String phone=CookiesUtils.getCookie(request.getCookies(), "phone");
-			String shopMessage=shopcart;
-			String equipment=CookiesUtils.getCookie(request.getCookies(), "equipment");
-			if(equipment==null||equipment.isEmpty()) {
-				equipment=request.getSession().getId();
-				Cookie cookie5 =new Cookie("equipment", equipment);
-				cookie5.setMaxAge(24*30*30*365);
-				response.addCookie(cookie5);
-			}
-			Order order=new Order(uid, time, gid, username, phone, shopMessage,equipment,payMoney);
-			
-			payService.addOrderOnPay(order);
-			
-			//清空购物车
-			Cookie cookie =new Cookie("cart", "cart");
-			cookie.setMaxAge(0);
-			response.addCookie(cookie);
-			
-//			int status=1;
-//			request.setAttribute("message", "支付成功。。。正在跳转");
-//			request.setAttribute("status",status);
-		
-			List<Order> oList=payService.GetOrderByEquipment(uid, equipment);
-			time=time+".0";
-			for (Order or : oList) {
-				
-				if(or.getTime().equals(time)){
-					
-					order=or;
-					break;
-				}
-			}
-			
-			String json=JSONArray.fromObject(order).toString();
-			  ConcurrentHashMap<String, ShowTekeSocket>mywebsocket=ShowTekeSocket.getWebsocket();
-			 String temp=null;
-			  for(String item: mywebsocket.keySet()){
-				  
-				  temp=item.substring(0,item.indexOf("a"));
-  			 	if(temp.equals(String.valueOf(order.getUid()))){
-  			 		//System.out.println(item+"   "+order.getUid());
-  			 		try {
-							mywebsocket.get(item).sendMessage(json);
-						} catch (IOException e) {						
-							e.printStackTrace();
-							continue;
-						}
-  			 	}
-  	        }
-		//	request.getRequestDispatcher("/page/customer/paySuccess.jsp").forward(request, response);
-			
-			
-		} catch (Exception e) {
-			response.sendRedirect(request.getContextPath()+"/page/errorpage.html");
-			e.printStackTrace();
-		}
+//		try {
+//			String shopcart=request.getParameter("cart");
+//			int uid=Integer.parseInt(request.getParameter("store_id"));
+//			double payMoney=Double.valueOf(request.getParameter("total_amount"));
+//			//调用支付
+//			
+//			/*
+//			 * 一系列支付过程后
+//			 */
+//			
+//			//支付成功 写入数据库
+//			PayService payService=new PayServiceImpl();
+//			//更新余额表
+//		
+//			boolean bl=payService.updateFinanceOnPay(uid, payMoney);
+//			
+//			//插入订单数据
+//			Date date=new Date(System.currentTimeMillis());
+//			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			String time=sdf.format(date);//时间
+//			
+//			String gid=null;//取货编号
+//			bl=true;
+//			while(bl) {
+//				int nob=(int) (Math.random()*800000+100000);
+//				gid=nob+"";
+//				bl=payService.isExistenceGid(uid, gid);
+//			}
+//			
+//			String username=CookiesUtils.getCookie(request.getCookies(), "username");
+//			username=Base64Utils.decoder(username);
+//			String phone=CookiesUtils.getCookie(request.getCookies(), "phone");
+//			String shopMessage=shopcart;
+//			String equipment=CookiesUtils.getCookie(request.getCookies(), "equipment");
+//			if(equipment==null||equipment.isEmpty()) {
+//				equipment=request.getSession().getId();
+//				Cookie cookie5 =new Cookie("equipment", equipment);
+//				cookie5.setMaxAge(24*30*30*365);
+//				response.addCookie(cookie5);
+//			}
+//			Order order=new Order(uid, time, gid, username, phone, shopMessage,equipment,payMoney);
+//			
+//			payService.addOrderOnPay(order);
+//			
+//			//清空购物车
+//			Cookie cookie =new Cookie("cart", "cart");
+//			cookie.setMaxAge(0);
+//			response.addCookie(cookie);
+//			
+////			int status=1;
+////			request.setAttribute("message", "支付成功。。。正在跳转");
+////			request.setAttribute("status",status);
+//		
+//			List<Order> oList=payService.GetOrderByEquipment(uid, equipment);
+//			time=time+".0";
+//			for (Order or : oList) {
+//				
+//				if(or.getTime().equals(time)){
+//					
+//					order=or;
+//					break;
+//				}
+//			}
+//			
+//			String json=JSONArray.fromObject(order).toString();
+//			  ConcurrentHashMap<String, ShowTekeSocket>mywebsocket=ShowTekeSocket.getWebsocket();
+//			 String temp=null;
+//			  for(String item: mywebsocket.keySet()){
+//				  
+//				  temp=item.substring(0,item.indexOf("a"));
+//  			 	if(temp.equals(String.valueOf(order.getUid()))){
+//  			 		//System.out.println(item+"   "+order.getUid());
+//  			 		try {
+//							mywebsocket.get(item).sendMessage(json);
+//						} catch (IOException e) {						
+//							e.printStackTrace();
+//							continue;
+//						}
+//  			 	}
+//  	        }
+//		//	request.getRequestDispatcher("/page/customer/paySuccess.jsp").forward(request, response);
+//			
+//			
+//		} catch (Exception e) {
+//			response.sendRedirect(request.getContextPath()+"/page/errorpage.html");
+//			e.printStackTrace();
+//		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

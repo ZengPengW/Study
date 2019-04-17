@@ -121,13 +121,7 @@ request.setAttribute("user", user);
 <script>var uid="${user.id}a2"+new Date().getTime();;</script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/MyWEBsocket.js" ></script>
 <script >
-//连接成功建立的回调方法
-websocket.onopen = function () {
-   // setMessageInnerHTML("WebSocket连接成功");
-   // send("sid:${cookie.sid.value}");
-   
-    
-}
+
 </script>
 <!-- message -->
 <link href="${pageContext.request.contextPath }/css/message.css" rel="stylesheet" type="text/css"/>

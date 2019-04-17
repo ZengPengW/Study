@@ -89,11 +89,13 @@ public class UploadProduct extends HttpServlet {
 
 			Jedis jedis = JedisPoolUtils.getJedis();
 			String jsonstr = jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid"));
-			User user = JsonUtils.getUser(jsonstr);
-
+			User user = JsonUtils.getUser(jsonstr);			
 			SellerService service = new SellerServiceImpl();
+//			Product product = new Product(user.getId(), productName, price, productCount,
+//					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))),
+//					productMessage, productClass);
 			Product product = new Product(user.getId(), productName, price, productCount,
-					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))),
+					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath())),
 					productMessage, productClass);
 			service.AddProduct(product);
 			request.setAttribute("isSuccess", true);

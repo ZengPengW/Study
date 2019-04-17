@@ -101,11 +101,11 @@ public class MyAlipayServlet extends HttpServlet {
 		maps.put("product_code", "QUICK_WAP_PAY");//手机页面
 		maps.put("out_trade_no", date.getTime()+"");//订单编号
 		
-		System.out.println(orderjsoneco);
+		//System.out.println(orderjsoneco);
 		maps.put("passback_params", orderjsoneco);//附带参数
 	   // maps.put("product_code", "FAST_INSTANT_TRADE_PAY");//电脑页面
-		maps.put("ReturnUrl", "http://gzpw3c.natappfree.cc"+request.getContextPath()+"/MyOrderCheck");//同步通知
-		maps.put("NotifyUrl", "http://gzpw3c.natappfree.cc"+request.getContextPath()+"/page/alipay/notify_url.jsp");//异步通知
+		maps.put("ReturnUrl", "http://47.106.67.171"+request.getContextPath()+"/MyOrderCheck");//同步通知
+		maps.put("NotifyUrl", "http://47.106.67.171"+request.getContextPath()+"/page/alipay/notify_url.jsp");//异步通知
 		
 		
 			AlipayClientFactory ali=new AlipayClientFactory();

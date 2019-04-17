@@ -92,7 +92,10 @@ public class AlterProductServlet extends HttpServlet {
 				
 				SellerService service=new SellerServiceImpl();
 				//User user=service.getUserBySid(CookiesUtils.getCookie(request.getCookies(), "sid"));
-				Product product=new Product(user.getId(), productName, price, productCount, fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))), productMessage, productClass);
+				//linux
+				Product product=new Product(user.getId(), productName, price, productCount, fileName.substring(fileName.indexOf(this.getServletContext().getContextPath())), productMessage, productClass);
+				//windows
+				//Product product=new Product(user.getId(), productName, price, productCount, fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))), productMessage, productClass);
 				product.setPid(pid);
 				flag=service.alterProduct(product);
 				

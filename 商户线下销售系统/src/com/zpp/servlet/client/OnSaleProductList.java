@@ -30,7 +30,6 @@ public class OnSaleProductList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     
-	@SuppressWarnings("null")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
@@ -46,7 +45,12 @@ public class OnSaleProductList extends HttpServlet {
 			//String curUid=request.getParameter("curUid");
 			int uid=0;
 			//if(curUid==null||curUid.isEmpty()){
-				 uid=Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
+				String uids=CookiesUtils.getCookie(request.getCookies(), "uid");
+				if (uids!=null&&!uids.isEmpty()) {
+					uid=Integer.parseInt(uids);
+				}else {
+					throw new RuntimeException("uid¿Õ");
+				}
 //			}else{
 //				uid=Integer.parseInt(curUid);
 //			}

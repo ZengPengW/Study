@@ -174,8 +174,8 @@ if(page>0&&page<=${totalPage})
 		$("#tishi").show();
 		return;
 	}
-	if(parseInt(money)>parseFloat($("#yver").text().substring(1))){
-		$("#tishi").text("提现金额不能大于余额");
+	if(parseInt(money)>parseFloat($("#yver").text().substring(1))&&parseFloat($("#yver").text().substring(1))!=0){
+		$("#tishi").text("提现金额不能大于余额或为0");
 		$("#tishi").show();
 		return;
 	}

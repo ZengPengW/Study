@@ -1,6 +1,8 @@
 package com.zpp.servlet.client;
 
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -14,6 +16,8 @@ import com.zpp.service.PayService;
 import com.zpp.service.PayServiceImpl;
 import com.zpp.service.SellerService;
 import com.zpp.utils.CookiesUtils;
+
+import net.sf.json.JSONArray;
 
 /**
  * Servlet implementation class SweepTeke
@@ -68,7 +72,30 @@ public class SweepTeke extends HttpServlet {
 				request.setAttribute("status", 1);
 				request.setAttribute("message", mark);
 				request.setAttribute("uid", ouid);	
-				request.setAttribute("oid", oid);	
+				request.setAttribute("oid", oid);
+				
+				
+				  ConcurrentHashMap<String, ShowTekeSocket>mywebsocket=ShowTekeSocket.getWebsocket();
+				 String temp=null;
+				 if(mywebsocket.size()>0){
+					 for(String item: mywebsocket.keySet()){
+						  
+						  temp=item.substring(0,item.indexOf("a"));
+		  			 	if(temp.equals(String.valueOf(ouid))){
+		  			 		//System.out.println(item+"   "+order.getUid());
+		  			 		try {
+									mywebsocket.get(item).sendMessage("del"+order.getGid());
+								} catch (IOException e) {						
+									e.printStackTrace();
+									continue;
+								}
+		  			 	}
+		  	        }
+				 }
+				
+				
+				
+				
 				request.getRequestDispatcher("/page/errorMessage.jsp").forward(request, response);;
 				return;
 			}else {

@@ -134,13 +134,7 @@ line-height: 3.428571;
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/MyWEBsocket.js" ></script>
 <script >
 
-//连接成功建立的回调方法
-websocket.onopen = function () {
- //  alert("WebSocket连接成功");
-   // send("sid:${cookie.sid.value}");
-   
-    
-}
+
 function refresh(){
 	closeWebSocket();
 	window.location.href=window.location.href; 

@@ -12,10 +12,11 @@
 	<link href="${pageContext.request.contextPath }/css/bootstrap.css" rel="stylesheet"/>
 	<script src="${pageContext.request.contextPath }/js/bootstrap.min.js"></script>
 
-	 <script  src="${pageContext.request.contextPath }/js/MyValidate.js"></script>
+	
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/regutils.js" ></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.validate.min.js" ></script>
       <script type="text/javascript" src="${pageContext.request.contextPath }/js/messages_zh.js" ></script>
+       <script  src="${pageContext.request.contextPath }/js/MyValidate.js"></script>
 	</head>
 	<style>
 		.asy{

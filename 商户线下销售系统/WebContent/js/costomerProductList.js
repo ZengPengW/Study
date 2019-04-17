@@ -168,7 +168,7 @@ function myshowshop(){
 	
 	if(mark==0){
 	
-		document.body.style.position = 'fixed';
+		document.body.style.position = '';
 		document.body.style.overflow = 'hidden';
 		if(top1<=hg){
 			clearInterval(ds);

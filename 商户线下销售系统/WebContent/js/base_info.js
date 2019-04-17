@@ -7,7 +7,9 @@ $(function() {
 	$("#base_info").validate({
 
 		rules: {
-
+			payment:{
+				notblank:true
+			},
 			shopname: {
 				required: true,
 				notblank:true

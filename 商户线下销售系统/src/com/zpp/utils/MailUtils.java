@@ -29,7 +29,11 @@ private static final String myemail="zpzydsxzqf@qq.com";
 		//设置发送邮件的服务器
 		props.setProperty("mail.host", "smtp.qq.com");
 		props.setProperty("mail.smtp.auth", "true");// 指定验证为true
-
+		props.setProperty("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+		props.setProperty("mail.smtp.socketFactory.fallback","false");
+		props.setProperty("mail.smtp.port","465");
+		props.setProperty("mail.smtp.socketFactory.port","465");
+//		
 		// 创建验证器
 		Authenticator auth = new Authenticator() {
 			public PasswordAuthentication getPasswordAuthentication() {

@@ -30,7 +30,10 @@ public class WithMoney extends HttpServlet {
 			try {
 				int money=Integer.parseInt(request.getParameter("money"));
 				String payee=request.getParameter("name");
-				
+				if(money<=0) {
+					response.getWriter().print(false);
+					return;
+				}
 				User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
 				SellerService service=new SellerServiceImpl();
 				Finance finance=service.GetFinanceByUid(user.getId());

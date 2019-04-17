@@ -209,7 +209,7 @@ function myoption(item){
 							$(item).prev().text("已确认").addClass("disabled");
 							$(item).prev().removeAttr("onclick");
 							$(item).prev().prev().children("font:eq(0)").text("待取货");
-							send(oid+"已备货"+ud);
+						//	send(oid+"已备货"+ud);
 						}else{
 						$(item).text("已取货");
 						$(item).removeAttr("onclick");
@@ -218,7 +218,7 @@ function myoption(item){
 							$(item).prev().prev().prev().children("font:eq(0)").text("已取货");
 							$(item).prev().text("已备货").addClass("disabled");
 							$(item).prev().prev().text("已确认").addClass("disabled");
-							send(oid+"已取货"+ud);
+						//	send(oid+"已取货"+ud);
 						}
 						
 						$(item).addClass("disabled");
@@ -364,13 +364,7 @@ var uid="${user.id}a3"+new Date().getTime();
 
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/MyWEBsocket.js" ></script>
 <script >
-//连接成功建立的回调方法
-websocket.onopen = function () {
-   // alert("WebSocket连接成功");
-   // send("sid:${cookie.sid.value}");
-   
-    
-}
+
 </script>
 </body>
 <!-- message -->
