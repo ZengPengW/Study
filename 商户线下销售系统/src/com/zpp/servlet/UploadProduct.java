@@ -93,10 +93,10 @@ public class UploadProduct extends HttpServlet {
 			SellerService service = new SellerServiceImpl();
 //			Product product = new Product(user.getId(), productName, price, productCount,
 //					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))),
-//					productMessage, productClass);
+//					productMessage, productClass); //windows 下使用
 			Product product = new Product(user.getId(), productName, price, productCount,
 					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath())),
-					productMessage, productClass);
+					productMessage, productClass);//linux 下使用
 			service.AddProduct(product);
 			request.setAttribute("isSuccess", true);
 
