@@ -27,7 +27,7 @@ $(function(){
 					  notblank:true,
 					  remote:{
 						 	type:"POST",
-	                    	url:"../CheckUserEmail", // 请求地址
+	                    	url:"/Zpp/CheckUserEmail", // 请求地址
 	                   	 	data:{
 	                   	 	email:function(){ return $("#email").val(); }
 	                   	 	}
@@ -40,7 +40,7 @@ $(function(){
 					 notblank:true,
 					 remote:{
 						 	type:"POST",
-	                    	url:"../CheckUserName", // 请求地址
+	                    	url:"/Zpp/CheckUserName", // 请求地址
 	                   	 	data:{
 	                   	 		username:function(){ return $("#username").val(); }
 	                   	 	}
@@ -55,7 +55,7 @@ $(function(){
 					 rangelength:[6,6],
 					 remote:{
 					 	type:"POST",
-                    	url:"../CheckMsg", // 请求地址
+                    	url:"/Zpp/CheckMsg", // 请求地址
                    	 	data:{
                         	msg:function(){ return $("#yanzhengma").val(); }
                    	 	}
@@ -124,10 +124,10 @@ function getyzm (biaoqian) {
 	if(checkEmail($("#email").val())){
 		
 		var emailid=$("#email").val();
-		$.post("../CheckUserEmail",{email:emailid},function(data,status){
+		$.post("/Zpp/CheckUserEmail",{email:emailid},function(data,status){
 			//alert(data);
 			if(data=="true"){
-				$.post("../GetCode",{email:emailid},function(data,status){});
+				$.post("/Zpp/GetCode",{email:emailid},function(data,status){});
 				var validCode=true;
 		 				// alert("的");
 		                 var time=45;
@@ -167,7 +167,7 @@ function getyzmZHMM (biaoqian) {
 		$.post("/Zpp/isNotExisEmail",{email:emailid} ,function(data,status){
 			//alert(data);
 			if(data=="true"){
-				$.post("../GetCode",{email:emailid},function(data,status){});
+				$.post("/Zpp/GetCode",{email:emailid},function(data,status){});
 				var validCode=true;
 		 				
 		                 var time=45;

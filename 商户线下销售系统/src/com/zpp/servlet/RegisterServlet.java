@@ -25,6 +25,7 @@ public class RegisterServlet extends HttpServlet {
 	//	request.setCharacterEncoding("utf-8");
 		User user=new User();
 		try {
+			SellerService service=new SellerServiceImpl();
 			BeanUtils.populate(user, request.getParameterMap());
 			if(user.getUsername().indexOf(" ")!=-1||user.getPassword().indexOf(" ")!=-1||user.getEmail().indexOf(" ")!=-1||user.getShopname().indexOf(" ")!=-1) {
 				throw new RuntimeException("参数有空格");
@@ -36,8 +37,20 @@ public class RegisterServlet extends HttpServlet {
 			if(user.getUsername().length()<3||user.getUsername().length()>20) {
 				throw new RuntimeException("用户名长度错误");
 			}
+			boolean flag=service.isExistEmail(user.getEmail());
+			if(flag){
+				throw new RuntimeException("邮箱已经存在");
+			}
+			flag=service.isExistName(user.getUsername());
+			if(flag){
+				throw new RuntimeException("用户名已经存在");
+			}
+			String currEmail=(String) request.getSession().getAttribute("currEmail");
+			if(!currEmail.equals(user.getEmail())){
+				throw new RuntimeException("邮箱被恶意修改");
+			}
 			user.setSid(SidUtils.getSid(user.getUsername(), user.getPassword()));
-			SellerService service=new SellerServiceImpl();
+			
 			boolean bl=service.register(user);
 			if(bl) {
 				response.sendRedirect("page/registerSuccess.html");
@@ -51,7 +64,8 @@ public class RegisterServlet extends HttpServlet {
 			response.sendRedirect("page/registerfail.html");
 			e.printStackTrace();
 		}finally {
-			request.getSession().removeAttribute("msg");
+			request.getSession().removeAttribute("emailmsg");
+			request.getSession().removeAttribute("currEmail");
 		}
 		
 	}

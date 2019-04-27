@@ -44,18 +44,24 @@ public class AlterBaseInfo extends HttpServlet implements Servlet {
 				throw new RuntimeException("验证码错误");
 			}else {
 				if(username.indexOf(" ")!=-1||shopname.indexOf(" ")!=-1||payment.indexOf(" ")!=-1) {
-					System.out.println("|"+username+"|"+"|"+shopname+"|"+"|"+payment+"|");
-					System.out.println(username.length());
-					System.out.println(shopname.length());
-					System.out.println(payment.length());
+					
 					throw new RuntimeException("参数有空格");
 				}
 				
-				if(username.length()<3||username.length()>20) {
+				if(username==null||username.length()<3||username.length()>20) {
 					throw new RuntimeException("用户名长度错误");
 				}
-				
+				if(shopname==null||shopname.isEmpty()){
+					throw new RuntimeException("商铺名空");
+				}
 				SellerService service=new SellerServiceImpl();
+				if(!oldusername.equals(username)){
+					boolean flag=service.isExistName(username);
+					if(flag){
+						throw new RuntimeException("用户名已经存在");
+					}
+				}
+				
 				if(payment!=null&&!payment.isEmpty())service.alterFinancePayByUid(uid, payment);
 				if(!user.getShopname().equals(shopname)){
 					service.alterUserShopNameByUid(uid, shopname);
