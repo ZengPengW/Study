@@ -48,7 +48,7 @@ public class IsLoginFilter implements Filter {
 		    }
 		}
 		
-		if(sid==null||sid.isEmpty())rep.sendRedirect("/Zpp/page/login.jsp");
+		if(sid==null||sid.isEmpty())rep.sendRedirect(req.getContextPath()+"/page/login.jsp");
 		else  {
 			Jedis jedis=JedisPoolUtils.getJedis();
 			String userSid=null;
@@ -58,7 +58,7 @@ public class IsLoginFilter implements Filter {
 				Cookie cookie=new Cookie("sid", "111");
 				cookie.setMaxAge(0);
 				rep.addCookie(cookie);
-				rep.sendRedirect("/Zpp/page/login.jsp");
+				rep.sendRedirect(req.getContextPath()+"/page/login.jsp");
 			}else{
 				chain.doFilter(request, response);
 			}

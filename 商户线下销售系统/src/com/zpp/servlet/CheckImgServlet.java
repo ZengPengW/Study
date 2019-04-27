@@ -35,6 +35,7 @@ public class CheckImgServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
+		//System.out.println("初始化");
 		// 初始化阶段，读取new_words.txt
 		// web工程中读取 文件，必须使用绝对磁盘路径
 		String path = getServletContext().getRealPath("/WEB-INF/new_words.txt");

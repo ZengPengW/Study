@@ -118,12 +118,21 @@ $(function(){
 <div class="row">
 	<div class="col-md-8 hidden-xs hidden-sm">
 		<br /><br /><br /><br />
-		<img src="../imgs/icon/login.svg" width="500" height="330" alt="会员登录" title="会员登录">
+		<img src="${pageContext.request.contextPath }/imgs/icon/login.svg" width="500" height="330" alt="会员登录" title="会员登录">
 	</div>
 <div class="col-md-4" id="lgform">
 	<br />
-	<center><h3 style=" color: red; "><strong>账户登陆</strong></h3></center>
+	<center>
+	<a id="zhdl" href="javascript:void(0)" style="cursor:pointer; text-decoration: none;"><h3 style="display : inline;"><strong><span><font color="red" id="zh1">账户登陆</font></span></strong></h3></a>
+	<img  src="${pageContext.request.contextPath }/imgs/icon/shu.svg" width="30" height="30" >
+	<a id="smdl" href="javascript:void(0)" style="cursor:pointer; text-decoration: none;"><h3 style="display : inline "><strong><span><font color="black" id="sm1">扫码登陆</font></span></strong></h3></a>
+	</center>
+	<div class="form-horizontal" id="smlogin" style="display: none;">
+		<center><samp><font color="red" style="display: none;" id="loginMess"></font></samp></center>
+		<center><img id="sweepimg" src="${pageContext.request.contextPath }/imgs/icon/fail.svg" width="200" height="200" /></center>
+		<center><samp><font color="red">请使用已登录账户的浏览器扫码登录</font></samp></center>
 	
+	</div>
 <form role="form" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/LoginServlet" id="loginFrom"  >
 					<div class="form-group">
 							
@@ -181,6 +190,11 @@ $(function(){
 	
 </div>
 </div>
+<script>  var loc='${pageContext.request.contextPath }';</script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/sweepLogin.js" ></script>
+
+
+	
 
 
 </body>

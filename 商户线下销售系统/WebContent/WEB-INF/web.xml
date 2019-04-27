@@ -4,7 +4,7 @@
     <error-code>404</error-code>
     <location>/page/errorpage.html</location>
   </error-page>
- <error-page>
+  <error-page>
     <error-code>500</error-code>
     <location>/page/errorpage.html</location>
   </error-page>
