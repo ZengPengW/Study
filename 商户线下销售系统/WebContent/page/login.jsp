@@ -108,6 +108,11 @@ $(function(){
 
 
 </script>
+<style type="text/css">
+body{
+    background-image: url(https://static.zhihu.com/heifetz/assets/sign_bg.db29b0fb.png);
+}
+</style>
 </head>
 <body style="height: 100%;">
 	
@@ -118,7 +123,7 @@ $(function(){
 <div class="row">
 	<div class="col-md-8 hidden-xs hidden-sm">
 		<br /><br /><br /><br />
-		<img src="${pageContext.request.contextPath }/imgs/icon/login.svg" width="500" height="330" alt="会员登录" title="会员登录">
+	<!--<img src="${pageContext.request.contextPath }/imgs/icon/login.svg" width="500" height="330" alt="会员登录" title="会员登录">  -->	
 	</div>
 <div class="col-md-4" id="lgform">
 	<br />
