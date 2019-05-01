@@ -110,7 +110,7 @@ $(function(){
 </script>
 <style type="text/css">
 body{
-    background-image: url(https://static.zhihu.com/heifetz/assets/sign_bg.db29b0fb.png);
+    background-image: url(${pageContext.request.contextPath }/imgs/icon/sign_bg.png);
 }
 </style>
 </head>
