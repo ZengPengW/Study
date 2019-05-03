@@ -24,9 +24,9 @@ public class TekeServlet extends HttpServlet {
 			int uid=Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
 			String host=request.getParameter("addr");
 			host="http://"+host+request.getContextPath()+"/SweepTeke?uid="+uid+"&oid="+oid+"&equipment="+equipment;
-			//System.out.println(host);//记得注释
+		//	System.out.println(host);//记得注释
 			response.setContentType("text/html;charset=utf-8;");
-			QrCodeCreateUtil.createQrCode(response.getOutputStream(),host, 900, "JPEG");
+			QrCodeCreateUtil.createQrCode(response.getOutputStream(),host, 1000, "JPEG");
 		} catch (Exception e) {
 			response.sendRedirect(request.getContextPath()+"/page/errorpage.html");
 			e.printStackTrace();

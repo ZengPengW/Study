@@ -37,7 +37,7 @@
 int oid=Integer.parseInt(request.getParameter("oid"));
 String equipment=CookiesUtils.getCookie(request.getCookies(), "equipment");
 int uid=Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
-String par="&uid"+uid+"&oid="+oid+"&equipment="+equipment;
+String par="&uid="+uid+"&oid="+oid+"&equipment="+equipment;
 request.setAttribute("par", par);
 %>	
  <script>
