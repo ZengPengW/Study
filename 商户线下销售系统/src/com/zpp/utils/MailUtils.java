@@ -1,5 +1,6 @@
 package com.zpp.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -19,7 +20,7 @@ import javax.mail.internet.MimeMessage.RecipientType;
 public class MailUtils {
 private static final String myemail="zpzydsxzqf@qq.com";
 	public static void sendMail(String email, String emailMsg)
-			throws AddressException, MessagingException {
+			throws AddressException, MessagingException, UnsupportedEncodingException {
 		// 1.创建一个程序与邮件服务器会话对象 Session
 
 		Properties props = new Properties();
@@ -48,7 +49,7 @@ private static final String myemail="zpzydsxzqf@qq.com";
 		Message message = new MimeMessage(session);
 
 		//设置发送者
-		message.setFrom(new InternetAddress(myemail));
+		message.setFrom(new InternetAddress(myemail,"ZPP服务"));
 
 		//设置发送方式与接收者
 		message.setRecipient(RecipientType.TO, new InternetAddress(email)); 
@@ -80,7 +81,7 @@ private static final String myemail="zpzydsxzqf@qq.com";
 		Transport.send(message);
 	}
 	
-	public static String sendMail(String email) {
+	public static String sendMail(String email) throws UnsupportedEncodingException {
 	
 		int max=999999;
 		int min=100000;
