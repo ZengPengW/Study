@@ -234,10 +234,10 @@
 																+ "</strong></div><div class='row'><h5 class='fooddetails-desc_3tvBJ'><small class='tab-pane'>&nbsp;"
 																+ c.productMessage
 																+ "</small></h5></div><div class='row' style='margin-top: 15%;'><div style='color: red;'>￥"
-																+ c.price
-																+ "</div></div><p></p><div class='row'><div><a href='javascript:' onclick='subpro(this)' pid='"+c.pid+"' sum='"+c.productCount+"' shopname='"+c.productName+"' shopprice='"+c.price+"' ><img src='${pageContext.request.contextPath}/imgs/icon/sub.svg' class='mysvg' /></a>&nbsp;<span id='"+c.pid+"' name='selected' >"+str+"</span>&nbsp;<a href='javascript:' pid='"
+																+ c.price.toFixed(2)
+																+ "</div></div><p></p><div class='row'><div><a href='javascript:' onclick='subpro(this)' pid='"+c.pid+"' sum='"+c.productCount+"' shopname='"+c.productName+"' shopprice='"+c.price.toFixed(2)+"' ><img src='${pageContext.request.contextPath}/imgs/icon/sub.svg' class='mysvg' /></a>&nbsp;<span id='"+c.pid+"' name='selected' >"+str+"</span>&nbsp;<a href='javascript:' pid='"
 																+ c.pid
-																+ "' onclick='addpro(this)'  sum='"+c.productCount+"' shopname='"+c.productName+"' shopprice='"+c.price+"' ><img src='${pageContext.request.contextPath }/imgs/icon/add.svg' class='mysvg'/></a></div></div></td></tr>");
+																+ "' onclick='addpro(this)'  sum='"+c.productCount+"' shopname='"+c.productName+"' shopprice='"+c.price.toFixed(2)+"' ><img src='${pageContext.request.contextPath }/imgs/icon/add.svg' class='mysvg'/></a></div></div></td></tr>");
 																	});
 
 													if (totalPage > currentPage) {

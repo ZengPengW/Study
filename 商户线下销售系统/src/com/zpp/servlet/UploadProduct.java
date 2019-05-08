@@ -94,6 +94,7 @@ public class UploadProduct extends HttpServlet {
 //			Product product = new Product(user.getId(), productName, price, productCount,
 //					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))),
 //					productMessage, productClass); //windows 下使用
+			price=Double.valueOf(String.format("%.2f", price));
 			Product product = new Product(user.getId(), productName, price, productCount,
 					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath())),
 					productMessage, productClass);//linux 下使用
