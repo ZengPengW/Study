@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.09 (64 bit)
-MySQL - 5.5.27 : Database - zpp
+MySQL - 5.7.25 : Database - zpp
 *********************************************************************
 */
 
@@ -44,7 +44,7 @@ CREATE TABLE `money` (
   `status` int(11) NOT NULL DEFAULT '0',
   `uid` int(11) NOT NULL,
   PRIMARY KEY (`mid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `onse` */
 
@@ -79,7 +79,7 @@ CREATE TABLE `order` (
   `statu` int(11) NOT NULL DEFAULT '0',
   `money` double NOT NULL,
   PRIMARY KEY (`oid`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `product` */
 
@@ -94,8 +94,9 @@ CREATE TABLE `product` (
   `productClass` varchar(20) DEFAULT NULL,
   `pid` int(11) NOT NULL AUTO_INCREMENT,
   `productName` varchar(200) NOT NULL,
+  `overdue` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `users` */
 
@@ -112,7 +113,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `sid` (`sid`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

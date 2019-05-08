@@ -53,7 +53,7 @@ if (shopCarts != null) {
 		hm.put(sp.getPid(), sp.getCount());
 		sumPrice += (p.getPrice() * sp.getCount());
 	}
-	
+	sumPrice=Double.valueOf(String.format("%.2f", sumPrice));
 	request.setAttribute("cartlist", cartList);
 	request.setAttribute("hm", hm);
 	request.setAttribute("sumPrice", sumPrice);		

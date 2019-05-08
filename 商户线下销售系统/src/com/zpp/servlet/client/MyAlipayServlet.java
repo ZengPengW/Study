@@ -59,7 +59,7 @@ public class MyAlipayServlet extends HttpServlet {
 		//	buyProduct.add(p);
 			payMoney+=(ls.getCount()*p.getPrice());
 		}
-		
+		payMoney=Double.valueOf(String.format("%.2f", payMoney));
 		
 		
 		//µ÷ÓÃÖ§¸¶

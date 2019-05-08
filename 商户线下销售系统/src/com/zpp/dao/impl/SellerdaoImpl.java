@@ -112,8 +112,8 @@ public class SellerdaoImpl implements Sellerdao {
 	@Override
 	public boolean isExisProductName(String productname, int uid) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
-		String sql = "SELECT * FROM product WHERE uid=?  and productName=?";
-		Product product = qr.query(sql, new BeanHandler<Product>(Product.class), uid, productname);
+		String sql = "SELECT * FROM product WHERE uid=? and overdue=? and productName=?";
+		Product product = qr.query(sql, new BeanHandler<Product>(Product.class), uid,0,productname);
 		if (product == null)
 			return false;
 		else
@@ -145,13 +145,13 @@ public class SellerdaoImpl implements Sellerdao {
 	@Override
 	public Long CheckProductCount(int uid,String productClass) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
-		String sql = "SELECT count(*) FROM product WHERE uid=?";
+		String sql = "SELECT count(*) FROM product WHERE uid=? and overdue=?";
 		Long count=0l ;
 		if("全部".equals(productClass)){
-		 count =(Long) qr.query(sql, new ScalarHandler<Long>(), uid);
+		 count =(Long) qr.query(sql, new ScalarHandler<Long>(), uid,0);
 		}else {
 			sql+=" and productClass=?";
-			count =(Long) qr.query(sql, new ScalarHandler<Long>(), uid,productClass);
+			count =(Long) qr.query(sql, new ScalarHandler<Long>(), uid,0,productClass);
 		}
 		return count;
 	}
@@ -160,8 +160,8 @@ public class SellerdaoImpl implements Sellerdao {
 	public List<Object> FindProductClass(int uid) throws SQLException {
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
 		//System.out.println("SELECT DISTINCT productClass FROM product where uid="+uid);
-		String sql = "SELECT DISTINCT productClass FROM product where uid=?";
-		List<Object[]> ProductClass=qr.query(sql, new ArrayListHandler(),uid);
+		String sql = "SELECT DISTINCT productClass FROM product where uid=? and overdue=?";
+		List<Object[]> ProductClass=qr.query(sql, new ArrayListHandler(),uid,0);
 		
 		
 		List<Object> al= new ArrayList<Object>();
@@ -181,11 +181,11 @@ public class SellerdaoImpl implements Sellerdao {
 		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
 		List<Product> list=null;
 		if("全部".equals(productClass)){
-			String sql="select * from product where uid=? limit ? offset ?";
-		    list = qr.query(sql, new BeanListHandler<Product>(Product.class),uid,pageSize,pageSize*(currentPage-1));
+			String sql="select * from product where uid=? and overdue=? limit ? offset ?";
+		    list = qr.query(sql, new BeanListHandler<Product>(Product.class),uid,0,pageSize,pageSize*(currentPage-1));
 		}else {
-			String sql="select * from product where uid=? and productClass=? limit ? offset ?";
-			list = qr.query(sql, new BeanListHandler<Product>(Product.class),uid,productClass,pageSize,pageSize*(currentPage-1));
+			String sql="select * from product where uid=? and overdue=? and productClass=? limit ? offset ?";
+			list = qr.query(sql, new BeanListHandler<Product>(Product.class),uid,0,productClass,pageSize,pageSize*(currentPage-1));
 		}
 		
 		return list;
@@ -194,9 +194,9 @@ public class SellerdaoImpl implements Sellerdao {
 	@Override
 	public List<Product> GetProductByName(String likeName,int uid) throws SQLException {
 		QueryRunner qr=new QueryRunner(DataSourceUtils.getDataSource());
-		String sql="select * from product where uid=? and  productName like ?";
+		String sql="select * from product where uid=? and overdue=? and  productName like ?";
 		likeName="%"+likeName+"%";
-		List<Product> products=qr.query(sql,new BeanListHandler<Product>(Product.class),uid,likeName);
+		List<Product> products=qr.query(sql,new BeanListHandler<Product>(Product.class),uid,0,likeName);
 		return products;
 	}
 
@@ -253,9 +253,9 @@ public class SellerdaoImpl implements Sellerdao {
 		conn.setAutoCommit(false);
 		//depot
 		try {
-			String sql1="delete from product where pid=? and uid=?";
+			String sql1="UPDATE  product SET `overdue`=? WHERE pid=? AND uid=? ;";
 			String sql2="delete from onse where pid=? and uid=?";
-			qr.update(conn, sql1,pid,uid);
+			qr.update(conn, sql1,1,pid,uid);
 			qr.update(conn, sql2,pid,uid);
 			
 		} catch (Exception e) {
