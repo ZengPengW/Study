@@ -15,6 +15,8 @@ import com.zpp.domain.Order;
 import com.zpp.domain.User;
 import com.zpp.service.PayService;
 import com.zpp.service.PayServiceImpl;
+import com.zpp.service.SellerService;
+import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.Base64Utils;
 import com.zpp.utils.CookiesUtils;
 import com.zpp.utils.URLcodeUtils;
@@ -25,7 +27,8 @@ import com.zpp.utils.URLcodeUtils;
 @WebServlet("/AllOrderCheck")
 public class AllOrderCheck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+	
+	private PayService payService=new PayServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
@@ -36,7 +39,7 @@ public class AllOrderCheck extends HttpServlet {
 			orderClass=Base64Utils.decoder(orderClass);
 			
 			User user=CookiesUtils.getUser(sid);
-			PayService payService=new PayServiceImpl();
+		//	PayService payService=new PayServiceImpl();
 			List<Order> allOrd=payService.getAllOrderByUid(user.getId(),currentPage,orderClass);
 			request.setAttribute("allOrd",allOrd);
 			//ªÒ»°∑÷“≥

@@ -29,20 +29,21 @@ import net.sf.json.JSONArray;
 @WebServlet("/UserOrderDetails")
 public class UserOrderDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+	private SellerService service=new SellerServiceImpl();
+	private PayService payService=new PayServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			int oid=Integer.parseInt(request.getParameter("oid"));
 			User user =CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
 			int uid=user.getId();
-			PayService payService=new PayServiceImpl();
+			//PayService payService=new PayServiceImpl();
 			Order order=payService.getOrderByOid(uid, oid);
 			String json=order.getShopMessage();
 			JSONArray jsonArray=JSONArray.fromObject(json);
 			List<ShopCart> shopCarts=jsonArray.toList(jsonArray, ShopCart.class);
 			
 			List<ShopCartBean> list=new ArrayList<ShopCartBean>(shopCarts.size());
-			SellerService service=new SellerServiceImpl();
+			//SellerService service=new SellerServiceImpl();
 			Product product=null;
 			ShopCartBean shopCartBean=null;
 			for (ShopCart shop : shopCarts) {

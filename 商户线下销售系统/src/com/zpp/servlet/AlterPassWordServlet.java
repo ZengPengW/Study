@@ -18,13 +18,13 @@ import com.zpp.service.SellerServiceImpl;
 @WebServlet("/AlterPassWordServlet")
 public class AlterPassWordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String newPassWord=request.getParameter("password");
 		
 		String email=(String) request.getSession().getAttribute("changePWemail");
 		//System.out.println(email+" "+newPassWord);
-		SellerService service=new SellerServiceImpl();
+		//SellerService service=new SellerServiceImpl();
 		try {
 			if(newPassWord.indexOf(" ")!=-1) {
 				throw new RuntimeException("密码不能有空格");

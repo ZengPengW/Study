@@ -36,7 +36,8 @@ import net.sf.json.JSONObject;
 @WebServlet("/MyAlipayServlet")
 public class MyAlipayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+	private SellerService service=new SellerServiceImpl();
+	private PayService payService=new PayServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
@@ -51,7 +52,7 @@ public class MyAlipayServlet extends HttpServlet {
 		
 		//List<Product> buyProduct=new ArrayList<Product>();
 		//计算支付金额
-		SellerService service=new SellerServiceImpl();
+	//	SellerService service=new SellerServiceImpl();
 		Product p=null;
 		double  payMoney=0;
 		for (ShopCart ls : list) {
@@ -78,7 +79,7 @@ public class MyAlipayServlet extends HttpServlet {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time=sdf.format(date);
 		
-		PayService payService=new PayServiceImpl();
+	//	PayService payService=new PayServiceImpl();
 		String gid=null;//取货编号
 		boolean bl=true;
 		while(bl) {

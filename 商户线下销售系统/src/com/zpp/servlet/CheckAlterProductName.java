@@ -21,14 +21,14 @@ import com.zpp.utils.CookiesUtils;
 @WebServlet("/CheckAlterProductName")
 public class CheckAlterProductName extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String productName=request.getParameter("productName");
 		int pid=Integer.parseInt(request.getParameter("pid"));
 		String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
 		if(sid==null)response.sendRedirect("/page/login.jsp");
 		else {
-			SellerService service=new SellerServiceImpl();
+		//	SellerService service=new SellerServiceImpl();
 			User user;
 			try {
 				user = service.getUserBySid(sid);

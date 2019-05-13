@@ -28,7 +28,8 @@ import net.sf.json.JSONArray;
 @WebServlet("/OrderDetails")
 public class OrderDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+	private SellerService service=new SellerServiceImpl();
+	private PayService payservice=new PayServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
@@ -41,7 +42,7 @@ public class OrderDetails extends HttpServlet {
 			if(equipment==null||equipment.isEmpty()||uids==null||uids.isEmpty())throw new RuntimeException("”√ªßø’÷∏’Î");
 			int uid=Integer.parseInt(uids);
 			
-			PayService payservice=new PayServiceImpl();
+		//	PayService payservice=new PayServiceImpl();
 			Order order=payservice.GetOrderByOid(uid, equipment, oid);
 			String cart=order.getShopMessage();
 			
@@ -53,7 +54,7 @@ public class OrderDetails extends HttpServlet {
 			List<Product> cartList = new ArrayList<Product>();
 			HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
 			if (shopCarts != null) {
-				SellerService service = new SellerServiceImpl();
+			//	SellerService service = new SellerServiceImpl();
 				
 				Product p = null;
 				

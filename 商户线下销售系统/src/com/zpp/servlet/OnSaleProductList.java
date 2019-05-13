@@ -29,7 +29,7 @@ import redis.clients.jedis.Jedis;
 public class OnSaleProductList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int currentPage=Integer.parseInt(request.getParameter("currentPage"));
 		String productClass=request.getParameter("productClass");
@@ -43,7 +43,7 @@ public class OnSaleProductList extends HttpServlet {
 			User user=JsonUtils.getUser(jedis.hget("users", sid));
 			
 			jedis.close();
-			SellerService service=new SellerServiceImpl();
+		//	SellerService service=new SellerServiceImpl();
 			
 			List<Product> list=service.OnSaleProductByID(user.getId(), currentPage,productClass);
 			

@@ -25,7 +25,8 @@ import com.zpp.utils.CookiesUtils;
 @WebServlet("/WithMoney")
 public class WithMoney extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+	private SellerService service=new SellerServiceImpl();
+	private PayService payService=new PayServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			try {
 				int money=Integer.parseInt(request.getParameter("money"));
@@ -35,13 +36,13 @@ public class WithMoney extends HttpServlet {
 					return;
 				}
 				User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
-				SellerService service=new SellerServiceImpl();
+				//SellerService service=new SellerServiceImpl();
 				Finance finance=service.GetFinanceByUid(user.getId());
 				if(finance.getPay()==null||finance.getPay().isEmpty()){
 					response.getWriter().print(false);
 					return;
 				}
-				PayService payService=new PayServiceImpl();
+				
 				boolean flag=payService.tekeMoney(user.getId(), money);
 				if(!flag){
 					response.getWriter().print(false);

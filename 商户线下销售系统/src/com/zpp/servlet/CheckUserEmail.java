@@ -18,11 +18,11 @@ import com.zpp.service.SellerServiceImpl;
  */
 @WebServlet("/CheckUserEmail")
 public class CheckUserEmail extends HttpServlet {
-
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//request.setCharacterEncoding("utf-8");
 		String email=request.getParameter("email");
-		SellerService service=new SellerServiceImpl();
+		//SellerService service=new SellerServiceImpl();
 		try {
 			boolean flag=service.isExistEmail(email);
 			if(flag) {

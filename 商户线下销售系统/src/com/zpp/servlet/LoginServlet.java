@@ -28,13 +28,13 @@ import redis.clients.jedis.Jedis;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name=request.getParameter("username");
 		String password=request.getParameter("password");
 		String auto_login=request.getParameter("auto_login");
 	//	System.out.println(name+auto_login);
-		SellerService service=new SellerServiceImpl();
+		//SellerService service=new SellerServiceImpl();
 		
 		try {
 			User user=service.isExistUser(name, password);

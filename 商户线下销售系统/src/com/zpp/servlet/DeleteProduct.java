@@ -22,7 +22,7 @@ import redis.clients.jedis.Jedis;
 @WebServlet("/DeleteProduct")
 public class DeleteProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
@@ -31,7 +31,7 @@ public class DeleteProduct extends HttpServlet {
 			String json=jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid"));
 			User user=JsonUtils.getUser(json);
 			jedis.close();
-			SellerService service=new SellerServiceImpl();
+			//SellerService service=new SellerServiceImpl();
 			boolean flag=service.DeleteProduct(user.getId(), pid);
 			response.getWriter().print(flag);
 		} catch (Exception e) {

@@ -26,12 +26,12 @@ import redis.clients.jedis.Jedis;
 @WebServlet("/OnSaleProductSearch")
 public class OnSaleProductSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String likeName=request.getParameter("likeName");
 		
 		try {
-			SellerService service=new SellerServiceImpl();
+		//	SellerService service=new SellerServiceImpl();
 			Jedis jedis=JedisPoolUtils.getJedis();
 			User user=JsonUtils.getUser(jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid")));
 			

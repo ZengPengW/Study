@@ -19,7 +19,7 @@ import com.zpp.service.SellerServiceImpl;
 @WebServlet("/CheckUserIsExis")
 public class CheckUserIsExis extends HttpServlet {
 	private static final long serialVersionUID = 1L;
- 
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name= request.getParameter("name");
 		String password=request.getParameter("password");
@@ -30,7 +30,7 @@ public class CheckUserIsExis extends HttpServlet {
 		boolean bl=false;
 		try {
 			//System.out.println(name+" "+password);
-			SellerService service=new SellerServiceImpl();
+			//SellerService service=new SellerServiceImpl();
 			User user=service.isExistUser(name, password);
 			if(user!=null)bl=true;
 			response.getWriter().print(bl);

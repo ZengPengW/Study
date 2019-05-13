@@ -26,7 +26,7 @@ import redis.clients.jedis.Jedis;
 @WebServlet("/AlterBaseInfo")
 public class AlterBaseInfo extends HttpServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
-   
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username=request.getParameter("username");
 		String shopname=request.getParameter("shopname");
@@ -54,7 +54,7 @@ public class AlterBaseInfo extends HttpServlet implements Servlet {
 				if(shopname==null||shopname.isEmpty()){
 					throw new RuntimeException("…Ã∆Ã√˚ø’");
 				}
-				SellerService service=new SellerServiceImpl();
+				
 				if(!oldusername.equals(username)){
 					boolean flag=service.isExistName(username);
 					if(flag){

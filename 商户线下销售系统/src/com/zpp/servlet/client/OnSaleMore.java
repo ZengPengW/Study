@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zpp.domain.Product;
+import com.zpp.service.PayService;
+import com.zpp.service.PayServiceImpl;
 import com.zpp.service.SellerService;
 import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.Base64Utils;
@@ -22,7 +24,8 @@ import com.zpp.utils.JsonUtils;
 @WebServlet("/OnSaleMore")
 public class OnSaleMore extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+	private SellerService service=new SellerServiceImpl();
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 try {
 		
@@ -32,7 +35,7 @@ try {
 			
 			int uid=Integer.parseInt(CookiesUtils.getCookie(request.getCookies(), "uid"));
 			
-			SellerService service=new SellerServiceImpl();
+			//SellerService service=new SellerServiceImpl();
 			String deproductClass=Base64Utils.decoder(productClass);
 			
 			List<Product> list=service.OnSaleProductByID(uid, currentPage,deproductClass);

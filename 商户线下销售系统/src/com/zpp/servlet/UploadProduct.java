@@ -29,7 +29,7 @@ import redis.clients.jedis.Jedis;
 @WebServlet("/UploadProduct")
 public class UploadProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
@@ -90,7 +90,7 @@ public class UploadProduct extends HttpServlet {
 			Jedis jedis = JedisPoolUtils.getJedis();
 			String jsonstr = jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid"));
 			User user = JsonUtils.getUser(jsonstr);			
-			SellerService service = new SellerServiceImpl();
+			//SellerService service = new SellerServiceImpl();
 //			Product product = new Product(user.getId(), productName, price, productCount,
 //					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))),
 //					productMessage, productClass); //windows œ¬ π”√

@@ -20,7 +20,7 @@ import com.zpp.utils.CookiesUtils;
 @WebServlet("/CheckAlterUserNameInfo")
 public class CheckAlterUserNameInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String username=request.getParameter("username");
@@ -28,7 +28,7 @@ public class CheckAlterUserNameInfo extends HttpServlet {
 			String oldusername=user.getUsername();
 			if(oldusername.equals(username))response.getWriter().print(true);
 			else {
-				SellerService service=new SellerServiceImpl();
+				//SellerService service=new SellerServiceImpl();
 				try {
 					boolean isexist=service.isExistName(username);
 					if(isexist) {

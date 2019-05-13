@@ -22,7 +22,7 @@ import redis.clients.jedis.Jedis;
 @WebServlet("/OnSaleDelete")
 public class OnSaleDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean flag=false;
 		try {
@@ -32,7 +32,7 @@ public class OnSaleDelete extends HttpServlet {
 			Jedis jedis=JedisPoolUtils.getJedis();
 			User user =JsonUtils.getUser(jedis.hget("users", sid));
 			jedis.close();
-			SellerService service=new SellerServiceImpl();
+			//SellerService service=new SellerServiceImpl();
 			flag=service.onSaleDelete(user.getId(), pid);
 			
 		} catch (Exception e) {

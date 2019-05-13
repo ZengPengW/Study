@@ -20,12 +20,12 @@ import com.zpp.utils.SidUtils;
 @WebServlet("/RegisterServlet")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-  
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	//	request.setCharacterEncoding("utf-8");
 		User user=new User();
 		try {
-			SellerService service=new SellerServiceImpl();
+			//SellerService service=new SellerServiceImpl();
 			BeanUtils.populate(user, request.getParameterMap());
 			if(user.getUsername().indexOf(" ")!=-1||user.getPassword().indexOf(" ")!=-1||user.getEmail().indexOf(" ")!=-1||user.getShopname().indexOf(" ")!=-1) {
 				throw new RuntimeException("参数有空格");

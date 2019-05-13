@@ -15,6 +15,8 @@ import com.zpp.domain.Order;
 import com.zpp.domain.User;
 import com.zpp.service.PayService;
 import com.zpp.service.PayServiceImpl;
+import com.zpp.service.SellerService;
+import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.Base64Utils;
 import com.zpp.utils.CookiesUtils;
 import com.zpp.utils.URLcodeUtils;
@@ -27,6 +29,7 @@ import net.sf.json.JSONArray;
 @WebServlet("/AllOrderCheckSocket")
 public class AllOrderCheckSocket extends HttpServlet {
 	
+	private PayService payService=new PayServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String sid=CookiesUtils.getCookie(request.getCookies(), "sid");
@@ -36,7 +39,7 @@ public class AllOrderCheckSocket extends HttpServlet {
 			orderClass=Base64Utils.decoder(orderClass);
 			
 			User user=CookiesUtils.getUser(sid);
-			PayService payService=new PayServiceImpl();
+			//PayService payService=new PayServiceImpl();
 			List<Order> allOrd=payService.getAllOrderByUid(user.getId(),currentPage,orderClass);
 			String json=JSONArray.fromObject(allOrd).toString();
 			response.setContentType("text/html;charset=utf-8");

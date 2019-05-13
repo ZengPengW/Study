@@ -17,11 +17,11 @@ import com.zpp.service.SellerServiceImpl;
  */
 @WebServlet("/CheckUserName")
 public class CheckUserName extends HttpServlet {
-	
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//request.setCharacterEncoding("utf-8");
 		String username=request.getParameter("username");
-		SellerService service=new SellerServiceImpl();
+	//	SellerService service=new SellerServiceImpl();
 		try {
 			boolean isexist=service.isExistName(username);
 			response.getWriter().print(!isexist);

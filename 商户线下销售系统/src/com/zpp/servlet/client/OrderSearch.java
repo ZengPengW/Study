@@ -13,6 +13,8 @@ import com.zpp.domain.Order;
 import com.zpp.domain.User;
 import com.zpp.service.PayService;
 import com.zpp.service.PayServiceImpl;
+import com.zpp.service.SellerService;
+import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.CookiesUtils;
 
 import net.sf.json.JSONArray;
@@ -23,7 +25,8 @@ import net.sf.json.JSONArray;
 @WebServlet("/OrderSearch")
 public class OrderSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
- 
+	
+	private PayService payService=new PayServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String searchinfo=request.getParameter("searchinfo");
@@ -31,7 +34,7 @@ public class OrderSearch extends HttpServlet {
 				throw new RuntimeException("²ÎÊýÎª¿Õ");
 			}
 			User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
-			PayService payService=new PayServiceImpl();
+		//	PayService payService=new PayServiceImpl();
 			List<Order> list=payService.OrderSearchLike(user.getId(), searchinfo);
 			String json=JSONArray.fromObject(list).toString();
 			response.setContentType("text/html;charset=utf-8");

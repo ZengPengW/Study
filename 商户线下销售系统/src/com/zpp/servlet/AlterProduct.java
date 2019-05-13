@@ -23,7 +23,7 @@ import redis.clients.jedis.Jedis;
 @WebServlet("/AlterProduct")
 public class AlterProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			int pid=Integer.parseInt(request.getParameter("pid"));
@@ -31,7 +31,7 @@ public class AlterProduct extends HttpServlet {
 			String json=jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid"));
 			User user=JsonUtils.getUser(json);
 			jedis.close();
-			SellerService service=new SellerServiceImpl();
+			//SellerService service=new SellerServiceImpl();
 			Product product=service.GetProductByPid(user.getId(), pid);
 			request.setAttribute("product", product);
 			request.getRequestDispatcher("/page/admin/alterProduct.jsp").forward(request, response);

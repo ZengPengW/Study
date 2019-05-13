@@ -22,7 +22,7 @@ import redis.clients.jedis.Jedis;
 @WebServlet("/PublishServlet")
 public class PublishServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean flag=false;
 		try {
@@ -35,7 +35,7 @@ public class PublishServlet extends HttpServlet {
 				throw new RuntimeException("Î´µÇÂ¼´íÎó");
 			}
 			User user=JsonUtils.getUser(jsonstr);
-			SellerService service=new SellerServiceImpl();
+			//SellerService service=new SellerServiceImpl();
 			
 			if(!service.isExisOnSale(user.getId(), pid)) {
 				flag=service.publishProduct(user.getId(), pid);

@@ -13,6 +13,8 @@ import com.zpp.domain.Order;
 import com.zpp.domain.User;
 import com.zpp.service.PayService;
 import com.zpp.service.PayServiceImpl;
+import com.zpp.service.SellerService;
+import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.CookiesUtils;
 
 /**
@@ -21,11 +23,12 @@ import com.zpp.utils.CookiesUtils;
 @WebServlet("/ShowTeke")
 public class ShowTeke extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+	
+	private PayService payService=new PayServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
-			PayService payService=new PayServiceImpl();
+			//PayService payService=new PayServiceImpl();
 			List<Order> list=payService.getTeke(user.getId(), 0, 2);//未取货但已经备货
 			
 			request.setAttribute("gidlist", list);

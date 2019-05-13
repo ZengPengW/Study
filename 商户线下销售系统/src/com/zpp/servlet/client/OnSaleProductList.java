@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.zpp.dao.impl.SellerdaoImpl;
 import com.zpp.domain.PageBean;
 import com.zpp.domain.Product;
-
+import com.zpp.service.PayService;
+import com.zpp.service.PayServiceImpl;
 import com.zpp.service.SellerService;
 import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.Base64Utils;
@@ -29,7 +30,8 @@ import com.zpp.utils.URLcodeUtils;
 public class OnSaleProductList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    
+	private SellerService service=new SellerServiceImpl();
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
@@ -56,7 +58,7 @@ public class OnSaleProductList extends HttpServlet {
 //			}
 		//	System.out.println(uid);
 			
-			SellerService service=new SellerServiceImpl();
+		//	SellerService service=new SellerServiceImpl();
 			
 			String deproductClass=Base64Utils.decoder(productClass);
 		

@@ -19,10 +19,10 @@ public class JedisPoolUtils  {
 			
 			//pool=new JedisPool(config, "192.168.204.128", 6379);
 			//pool=new JedisPool(config, "192.168.65.128", 6379);
-			pool=new JedisPool(config, "192.168.65.128", 6379, 5000, "1");//家
+			//pool=new JedisPool(config, "192.168.65.128", 6379, 5000, "1");//家
 			//pool=new JedisPool(config, "192.168.204.128", 6379, 5000, "*******");//学校
 		//	pool=new JedisPool(config, "192.168.204.128", 6379, 5000, "*****");//学校
-		//	pool=new JedisPool(config, "127.0.0.1", 6379, 5000, "147258");//服务器
+			pool=new JedisPool(config, "127.0.0.1", 6379, 5000, "******");//服务器
 		}
 		
 		

@@ -28,7 +28,7 @@ import redis.clients.jedis.Jedis;
 @WebServlet("/AlterProductServlet")
 public class AlterProductServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+	private SellerService service=new SellerServiceImpl();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 
@@ -90,7 +90,7 @@ public class AlterProductServlet extends HttpServlet {
 				part.write(fileName);
 				
 				
-				SellerService service=new SellerServiceImpl();
+				//SellerService service=new SellerServiceImpl();
 				//User user=service.getUserBySid(CookiesUtils.getCookie(request.getCookies(), "sid"));
 				//linux
 				Product product=new Product(user.getId(), productName, price, productCount, fileName.substring(fileName.indexOf(this.getServletContext().getContextPath())), productMessage, productClass);

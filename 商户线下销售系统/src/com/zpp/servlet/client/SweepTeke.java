@@ -15,6 +15,7 @@ import com.zpp.domain.User;
 import com.zpp.service.PayService;
 import com.zpp.service.PayServiceImpl;
 import com.zpp.service.SellerService;
+import com.zpp.service.SellerServiceImpl;
 import com.zpp.utils.CookiesUtils;
 
 import net.sf.json.JSONArray;
@@ -25,6 +26,8 @@ import net.sf.json.JSONArray;
 @WebServlet("/SweepTeke")
 public class SweepTeke extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	private PayService payService=new PayServiceImpl();
     //http://127.0.0.1:8080/Zpp/SweepTeke?uid=18&oid=1&equipment=FCBF987CEB05B9466F980E5D04C55FD4
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -50,7 +53,7 @@ public class SweepTeke extends HttpServlet {
 				request.getRequestDispatcher("/page/errorMessage.jsp").forward(request, response);;
 				return;
 			}
-			PayService payService=new PayServiceImpl();
+		//	PayService payService=new PayServiceImpl();
 			Order order=payService.GetOrderByOid(ouid, equipment, oid);
 			if(order==null) {
 				mark="此订单不存在";

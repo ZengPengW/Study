@@ -28,7 +28,8 @@ import net.sf.json.JSONArray;
 @WebServlet("/WithMoneyWeb")
 public class WithMoneyWeb extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private SellerService service=new SellerServiceImpl();
+	private PayService payService=new PayServiceImpl();
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user=CookiesUtils.getUser(CookiesUtils.getCookie(request.getCookies(), "sid"));
@@ -36,8 +37,8 @@ public class WithMoneyWeb extends HttpServlet {
 		
 		int page=1;
 		
-		SellerService service=new SellerServiceImpl();
-		PayService payService=new PayServiceImpl();
+	//	SellerService service=new SellerServiceImpl();
+	//	PayService payService=new PayServiceImpl();
 		try {
 			if(pages!=null&&!pages.isEmpty())page=Integer.parseInt(pages);
 			
