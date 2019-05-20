@@ -1,0 +1,37 @@
+
+Problem Description
+You are given a tree, it¡¯s root is p, and the node is numbered from 1 to n. Now define f(i) as the number of nodes whose number is less than i in all the succeeding nodes of node i. Now we need to calculate f(i) for any possible i.
+ 
+
+Input
+Multiple cases (no more than 10), for each case:
+The first line contains two integers n (0<n<=10^5) and p, representing this tree has n nodes, its root is p.
+Following n-1 lines, each line has two integers, representing an edge in this tree.
+The input terminates with two zeros.
+ 
+
+Output
+For each test case, output n integer in one line representing f(1), f(2) ¡­ f(n), separated by a space.
+ 
+
+Sample Input
+15 7
+7 10
+7 1
+7 9
+7 3
+7 4
+10 14
+14 2
+14 13
+9 11
+9 6
+6 5
+6 8
+3 15
+3 12
+0 0
+
+
+Sample Output
+0 0 0 0 0 1 6 0 3 1 0 0 0 2 0
