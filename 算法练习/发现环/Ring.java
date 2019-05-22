@@ -1,38 +1,46 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 public class Ring
 {
+	private static class Node{
+		ArrayList<Integer> next=new ArrayList<Integer>();	//能到的点	
+	}
 	private static int n;
-	public static void main(String[] args) {
-		Scanner in=new Scanner(System.in);
-		n=in.nextInt();
-		
-	
-		
+	public static void main(String[] args) throws IOException {		
+		BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+		String []read=in.readLine().split(" ");
+		n=Integer.valueOf(read[0]);		
 		int []fa=new int[n+1];
 		for (int i =1; i <=n; i++) {
 			fa[i]=i;
 		}
 		
-		int[][]dis=new int[n+1][n+1];
-		for (int i = 0; i <n; i++) {
-			int a=in.nextInt();
-			int b=in.nextInt();
-			
+		Node[] dir=new Node[n+1];
+		int j=n;
+		while (j-->0) {
+			read=in.readLine().split(" ");
+			int a=Integer.valueOf(read[0]);	
+			int b=Integer.valueOf(read[1]);	
 			int f1=fa(fa, a);
 			int f2=fa(fa, b);
-			if(f1!=f2){
-				dis[a][b]=1;
-				dis[b][a]=1;
+			if(f1!=f2){				
 				fa[f2]=f1;
+				if(dir[a]==null)dir[a]=new Node();
+				if(dir[b]==null)dir[b]=new Node();
+				dir[a].next.add(b);
+				dir[b].next.add(a);
 			}else {
 				int []mark=new int[n+1];
 				mark[a]=1;
-				dfs(mark, dis, a, b);
+				dfs(mark, dir, a, b);
 				return;
 			}
 		}
 	}
-	public static void dfs(int []mark,int [][]dis,int st,int ed) {
+	public static void dfs(int []mark,Node[] dir,int st,int ed) {
 		if(st==ed){
 			for (int i = 1; i <=n; i++) {
 				if(mark[i]==1)
@@ -40,14 +48,16 @@ public class Ring
 			}
 			System.exit(0);
 		}
-		
-		for (int i =1; i <=n; i++) {
-			if(dis[st][i]==1&&mark[i]==0){
+		if(dir[st]==null)return;
+		List<Integer> go=dir[st].next;
+		for (Integer i : go) {
+			if(mark[i]==0){
 				mark[i]=1;
-				dfs(mark, dis, i, ed);
+				dfs(mark, dir, i, ed);
 				mark[i]=0;
 			}
 		}
+		
 		
 	}
 	public static int fa(int[]fa ,int x) {
