@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+<!-- 
+修改Struts 的常量 默认常量位于 org.apache.struts2.default.properties
+name= 常量名
+value=常量值
+还可以在web.xml 修改
+
+或在src 建立一个struts.properties 进行修改
+
+如下 开启动态方法访问
+-->
+
+ <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+ <!-- 允许ognl静态方法访问 -->
+<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+<!-- 开启spring 整合常量 让action 按照名称自动注入-->
+<constant name="struts.objectFactory" value="spring" />
+<!-- ******************************************************************************************** -->
+
+
+
+<!-- ******************************************************************************************** -->
+
+
+	<!-- Struts2 为了管理Action的配置 通过包进行管理 -->
+
+    <!-- Add packages 
+    name:随便 不可重复即可
+    extends:struts-default 继承后才有功能
+    namespace: 名称空间 与action标签中的name属性决定路径 
+                  查找顺序 ：
+            1.带名称的名称空间：/aaa /aaa/bbb
+            2.根名称空间： /
+            3.默认名称空间：namespace=""
+   
+    abstract: 
+    	true:可以继承
+    	默认不能被继承
+     -->
+ 
+    
+    <!-- 配置Action 
+	name:客户端访问的路径
+	class:类路径
+	result: 页面跳转路径(转发) 
+	          默认值success  
+	     type:类型取值
+	      dispatcher 默认值 转发到jsp
+	      redirect 重定向 到jsp
+	      chain  转发 action 转发到action
+	      redirectAction 重定向到 action
+	      stream  文件下载功能
+	method : 执行Action中的方法名称 默认值 execute
+	converter:用于设置类型转换器
+	--> 
+ 
+ <!-- ******************************************************************************************** -->
+ 
+ <package name="UserActionPackage" extends="struts-default" namespace="/">
+ <action name="user_*" class="UserAction" method="{1}" >
+ <result name="login">/login.jsp</result>
+ <result name="success" type="redirect">/index.jsp</result>
+ </action>
+ </package> 
+
+<package name="CustomerActionPackage" extends="struts-default" namespace="/">
+<action name="customer_*" class="CustomerAction" method="{1}">
+<result name="saveUI">/jsp/customer/add.jsp</result>
+</action>
+</package>
+	
+	
+</struts>
