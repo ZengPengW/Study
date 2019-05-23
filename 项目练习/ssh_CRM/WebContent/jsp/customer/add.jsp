@@ -7,16 +7,15 @@
 <TITLE>添加客户</TITLE> 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <LINK href="${pageContext.request.contextPath }/css/Style.css" type=text/css rel=stylesheet>
-<LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
-	rel=stylesheet>
-
+<LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css rel=stylesheet>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
 	<FORM id=form1 name=form1
 		action="${pageContext.request.contextPath }/customer_save.action"
-		method=post>
+		method=post enctype="multipart/form-data" >
 		
 
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
@@ -57,8 +56,11 @@
 								</td>
 								<td>客户级别 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_level">
+								<select id="cust_level" name="baseDictLevel.dict_id">
+									<option value="" >--请选择--</option>						
+								</select>
+								<!-- <INPUT class=textbox id=sChannel2
+														style="WIDTH: 180px" maxLength=50 name="cust_level"> -->
 								</td>
 							</TR>
 							
@@ -66,13 +68,20 @@
 								
 								<td>信息来源 ：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_source">
+								<select id="cust_source" name="baseDictSource.dict_id">
+									<option value="" >--请选择--</option>
+									
+								</select>
+								<!-- <INPUT class=textbox id=sChannel2
+														style="WIDTH: 180px" maxLength=50 name="cust_source"> -->
 								</td>
 								<td>所属行业：</td>
 								<td>
-								<INPUT class=textbox id=sChannel2
-														style="WIDTH: 180px" maxLength=50 name="cust_industry">
+								<!-- <INPUT class=textbox id=sChannel2
+														style="WIDTH: 180px" maxLength=50 name="cust_industry"> -->
+								<select id="cust_industry" name="baseDictIndustry.dict_id">
+									<option value="" >--请选择--</option>						
+								</select>
 								</td>
 							</TR>
 							
@@ -91,7 +100,14 @@
 								</td>
 							</TR>
 							
+							<TR>
+								
 							
+								<td>客户资质：</td>
+								<td colspan="3">
+								<INPUT type="file" name="upload" />
+								</td>
+							</TR>
 							
 							<tr>
 								<td rowspan=2>
@@ -121,5 +137,27 @@
 			</TBODY>
 		</TABLE>
 	</FORM>
+	<script type="text/javascript">
+		$(function(){
+			$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"002"},function(data){
+				$(data).each(function(index,obj){
+					$("#cust_source").append("<option value='"+obj.dict_id+"' >"+obj.dict_item_name+"</option>");					
+				});		
+			},"json");
+			
+			$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"006"},function(data){
+				$(data).each(function(index,obj){
+					$("#cust_level").append("<option value='"+obj.dict_id+"' >"+obj.dict_item_name+"</option>");					
+				});		
+			},"json");
+			
+			$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"001"},function(data){
+				$(data).each(function(index,obj){
+					$("#cust_industry").append("<option value='"+obj.dict_id+"' >"+obj.dict_item_name+"</option>");					
+				});		
+			},"json");
+			
+		});
+	</script>
 </BODY>
 </HTML>

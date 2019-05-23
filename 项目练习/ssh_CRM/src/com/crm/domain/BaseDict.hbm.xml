@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.crm.domain">
+<class name="BaseDict" table="base_dict" >
+<id name="dict_id">
+<generator class="uuid" />
+</id>
+<property name="dict_type_code" />
+<property name="dict_type_name" />
+<property name="dict_item_name" />
+<property name="dict_item_code" />
+<property name="dict_sort" />
+<property name="dict_enable" />
+<property name="dict_memo" />
+<!-- 字典客户一对多 查询字典无需查询客户数据 可以不配置 -->
+
+
+</class>
+</hibernate-mapping>

@@ -72,6 +72,14 @@ value=常量值
 <package name="CustomerActionPackage" extends="struts-default" namespace="/">
 <action name="customer_*" class="CustomerAction" method="{1}">
 <result name="saveUI">/jsp/customer/add.jsp</result>
+<result name="findAll">/jsp/customer/list.jsp</result>
+<result name="findAllAction" type="redirectAction">customer_findAll</result>
+</action>
+</package>
+
+<package name="BaseDictActionPackage" extends="struts-default" namespace="/">
+<action name="baseDict_*" class="BaseDictAction" method="{1}">
+
 </action>
 </package>
 	

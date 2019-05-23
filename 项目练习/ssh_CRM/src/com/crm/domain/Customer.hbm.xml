@@ -8,13 +8,16 @@
 <generator class="native" />
 </id>
 <property name="cust_name" />
-<property name="cust_source" />
+<!-- <property name="cust_source" />
 <property name="cust_industry" />
-<property name="cust_level" />
+<property name="cust_level" /> -->
 <property name="cust_phone" />
 <property name="cust_mobile" />
 
-
+<!-- 客户字典多对一 -->
+<many-to-one name="baseDictSource" class="BaseDict" column="cust_source" />
+<many-to-one name="baseDictIndustry" class="BaseDict" column="cust_industry" />
+<many-to-one name="baseDictLevel" class="BaseDict" column="cust_level" />
 
 
 </class>

@@ -43,6 +43,8 @@
 		<property name="mappingResources" >
 			 <list>
 			<value>com/crm/domain/User.hbm.xml</value>
+			<value>com/crm/domain/Customer.hbm.xml</value>
+			<value>com/crm/domain/BaseDict.hbm.xml</value>
 			</list>
 		</property> 
 	</bean>
@@ -62,14 +64,19 @@
 	<bean id="CustomerService" class="com.crm.service.impl.CustomerServiceImpl">
 	<property name="customerDao" ref="CustomerDao"></property>
 	</bean>
+	<bean id="BaseDictServuce" class="com.crm.service.impl.BaseDictServiceImpl">
+	<property name="baseDictDao" ref="BaseDictDao"></property>
+	</bean>
 	
 	
 	<!-- Dao -->
 	<bean id="UserDao" class="com.crm.dao.impl.UserDaoImpl">
 	<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-	
+	</bean>	
 	<bean id="CustomerDao" class="com.crm.dao.impl.CustomerDaoImpl">
+	<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="BaseDictDao" class="com.crm.dao.impl.BaseDictDaoImpl">
 	<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	
@@ -81,7 +88,9 @@
 	<bean id="CustomerAction" class="com.crm.web.action.CustomerAction" scope="prototype" >
 		<property name="customerService" ref="CustomerService"></property>
 	</bean>
-	
+	<bean id="BaseDictAction" class="com.crm.web.action.BaseDictAction" scope="prototype" >
+		<property name="baseDictService" ref="BaseDictServuce"></property>
+	</bean>
 	
 	
 	
