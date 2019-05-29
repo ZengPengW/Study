@@ -1,6 +1,8 @@
 package com.zpp.servlet.client;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletException;
@@ -80,21 +82,29 @@ public class SweepTeke extends HttpServlet {
 				
 				  ConcurrentHashMap<String, ShowTekeSocket>mywebsocket=ShowTekeSocket.getWebsocket();
 				 String temp=null;
-				 if(mywebsocket.size()>0){
-					 for(String item: mywebsocket.keySet()){
-						  
-						  temp=item.substring(0,item.indexOf("a"));
-		  			 	if(temp.equals(String.valueOf(ouid))){
-		  			 		//System.out.println(item+"   "+order.getUid());
-		  			 		try {
-									mywebsocket.get(item).sendMessage("del"+order.getGid());
-								} catch (IOException e) {						
-									e.printStackTrace();
-									continue;
-								}
-		  			 	}
-		  	        }
+				 Iterator<Map.Entry<String, ShowTekeSocket>> entries=mywebsocket.entrySet().iterator();
+				 
+				 while(entries.hasNext()){
+						Map.Entry<String, ShowTekeSocket> entry=entries.next();
+						if(entry.getValue().getSession().isOpen()==false){
+							entries.remove();
+						}else {
+							temp=entry.getKey();
+							  temp=temp.substring(0,temp.indexOf("a"));
+				  			 	if(temp.equals(String.valueOf(ouid))){
+				  			 		//System.out.println(item+"   "+order.getUid());
+				  			 		try {
+											mywebsocket.get(temp).sendMessage("del"+order.getGid());
+										} catch (IOException e) {						
+											e.printStackTrace();
+											continue;
+										}
+				  			 	}	
+							
+							
+						}
 				 }
+				
 				
 				
 				

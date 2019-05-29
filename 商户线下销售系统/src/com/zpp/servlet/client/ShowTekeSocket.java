@@ -34,7 +34,7 @@ public class ShowTekeSocket {
 	// IdentityHashMap<String ,ShowTekeSocket>();
 	// 与某个客户端的连接会话，需要通过它来给客户端发送数据
 	private Session session;
-	private static String uid = "";
+	private  String uid = "";
 	public Session getSession() {
 		return this.session;
 	}
@@ -50,7 +50,7 @@ public class ShowTekeSocket {
 	@OnOpen
 	public void onOpen(@PathParam("uid") String param, Session session, EndpointConfig config) {
 
-		// System.out.println(param);
+		 System.out.println(param);
 		this.session = session;
 		// System.out.println(session.getPathParameters());
 		// System.out.println(session.getQueryString());
@@ -64,19 +64,10 @@ public class ShowTekeSocket {
 	// 关闭方法
 	@OnClose
 	public void OnClose() {
-		// webSocketSet.remove(this);
+//		System.out.println(this.uid);
+		 webSocketSet.remove(this);
+// 		subOnlineCount();
 
-		// subOnlineCount();
-//    	
-//    	
-//			if(!uid.equals("")){
-//				webSocketSet.remove(uid);
-//				System.out.println("关闭连接  人数：1关闭id"+uid);
-//				subOnlineCount();
-//			}else {
-//				System.out.println("没关");
-//			}
-//		System.out.println("剩余人数" + webSocketSet.size());
 	}
 
 	private static PayService payService = new PayServiceImpl();
@@ -86,22 +77,23 @@ public class ShowTekeSocket {
 	public void onMessage(String message, Session session) {
 		if ("ping".equals(message)) {
 			this.session.getAsyncRemote().sendText("pong");
-		} else {
-			if (message.contains("close")) {
-				String tempuid = message.substring(5);
-				try {
-					webSocketSet.get(tempuid).session.close();
-				} catch (IOException e) {
-
-					e.printStackTrace();
-				}
-				webSocketSet.remove(tempuid);
-			//	System.out.println("sc剩余人数" + webSocketSet.size());
-				return;
-
-			}
-
-		}
+		} 
+//		else {
+//			if (message.contains("close")) {
+//				String tempuid = message.substring(5);
+//				try {
+//					webSocketSet.get(tempuid).session.close();
+//				} catch (IOException e) {
+//
+//					e.printStackTrace();
+//				}
+//				webSocketSet.remove(tempuid);
+//			//	System.out.println("sc剩余人数" + webSocketSet.size());
+//				return;
+//
+//			}
+//
+//		}
 	}
 
 	// 发生错误时候
