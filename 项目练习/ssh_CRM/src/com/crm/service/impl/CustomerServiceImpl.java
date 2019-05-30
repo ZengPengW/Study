@@ -1,5 +1,6 @@
 package com.crm.service.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
@@ -11,6 +12,7 @@ import com.crm.dao.CustomerDao;
 import com.crm.domain.Customer;
 import com.crm.domain.PageBean;
 import com.crm.service.CustomerService;
+
 @Transactional(isolation=Isolation.READ_COMMITTED,propagation=Propagation.REQUIRED)
 public class CustomerServiceImpl implements CustomerService {
 	private CustomerDao customerDao;
@@ -43,6 +45,28 @@ public class CustomerServiceImpl implements CustomerService {
 		List<Customer> list=customerDao.findByPage(detachedCriteria,begin,pageSize);
 		pageBean.setList(list);
 		return pageBean;
+	}
+
+	@Override
+	public Customer findById(Long cust_id) {
+		return customerDao.findById(cust_id);
+		 
+	}
+
+	@Override
+	public void delete(Customer customer) {
+		if(customer.getCust_image()!=null&&!customer.getCust_image().isEmpty()){
+			File file=new File(customer.getCust_image());
+			if(file.exists())
+				file.delete();
+		}
+		customerDao.delete(customer);
+		
+	}
+
+	@Override
+	public void update(Customer customer) {
+		customerDao.update(customer);
 	}
 	
 	

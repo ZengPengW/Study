@@ -63,7 +63,22 @@
 												<TR>
 													<TD>客户名称：</TD>
 													<TD><INPUT class=textbox id=sChannel2
-														style="WIDTH: 80px" maxLength=50 name="custName"></TD>
+														style="WIDTH: 80px" maxLength=50 name="cust_name" value="${model.cust_name}"></TD>
+														<TD>客户来源：</TD>
+													<TD>
+															<select id="cust_source" name="baseDictSource.dict_id">
+															<option value="" >-请选择-</option>
+															</select>
+														</TD>
+															<TD>客户级别：</TD>
+													<TD><select id="cust_level" name="baseDictLevel.dict_id">
+															<option value="" >-请选择-</option>
+															</select></TD>
+													
+														<TD>客户所属行业：</TD>
+													<TD><select id="cust_industry" name="baseDictIndustry.dict_id">
+															<option value="" >-请选择-</option>
+															</select></TD>
 													
 													<TD><INPUT class=button id=sButton2 type=submit
 														value=" 筛选 " name=sButton2></TD>
@@ -116,9 +131,9 @@
 													<TD><s:property value="#customer.cust_phone" /></TD>
 													<TD><s:property value="#customer.cust_mobile" /></TD>
 													<TD>
-													<a href="${pageContext.request.contextPath }/customerServlet?method=edit&custId=<s:property value="#customer.cust_id" />">修改</a>
+													<a href="${pageContext.request.contextPath }/customer_edit.action?cust_id=<s:property value="#customer.cust_id" />">修改</a>
 													&nbsp;&nbsp;
-													<a href="${pageContext.request.contextPath }/customerServlet?method=delete&custId=<s:property value="#customer.cust_id" />">删除</a>
+													<a href="${pageContext.request.contextPath }/customer_delete.action?cust_id=<s:property value="#customer.cust_id" />">删除</a>
 													</TD>
 												</TR>
 												</s:iterator>
@@ -194,4 +209,42 @@
 		</TABLE>
 	</FORM>
 </BODY>
+<script type="text/javascript">
+$(function(){
+	$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"002"},function(data){
+		$(data).each(function(index,obj){
+			if(obj.dict_id=='${model.baseDictSource.dict_id}'){
+				$("#cust_source").append("<option value='"+obj.dict_id+"' selected >"+obj.dict_item_name+"</option>");
+			}else{
+				$("#cust_source").append("<option value='"+obj.dict_id+"' >"+obj.dict_item_name+"</option>");
+			}
+								
+		});		
+	},"json");
+	
+	$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"006"},function(data){
+		$(data).each(function(index,obj){
+			if(obj.dict_id=='${model.baseDictLevel.dict_id}'){
+				$("#cust_level").append("<option value='"+obj.dict_id+"' selected >"+obj.dict_item_name+"</option>");
+			}else{
+				$("#cust_level").append("<option value='"+obj.dict_id+"' >"+obj.dict_item_name+"</option>");
+			}
+								
+		});		
+	},"json");
+	
+	$.post("${pageContext.request.contextPath }/baseDict_findByTypeCode.action",{"dict_type_code":"001"},function(data){
+		$(data).each(function(index,obj){
+			
+			if(obj.dict_id=='${model.baseDictIndustry.dict_id}'){
+				$("#cust_industry").append("<option value='"+obj.dict_id+"' selected >"+obj.dict_item_name+"</option>");
+			}else{
+				$("#cust_industry").append("<option value='"+obj.dict_id+"' >"+obj.dict_item_name+"</option>");
+			}
+							
+		});		
+	},"json");
+	
+});
+</script>
 </HTML>

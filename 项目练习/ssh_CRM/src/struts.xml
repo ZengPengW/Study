@@ -21,6 +21,8 @@ value=常量值
 <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
 <!-- 开启spring 整合常量 让action 按照名称自动注入-->
 <constant name="struts.objectFactory" value="spring" />
+<!-- 配置上传文件总大小 -->
+ <constant name="struts.multipart.maxSize" value="5242880" />
 <!-- ******************************************************************************************** -->
 
 
@@ -61,6 +63,7 @@ value=常量值
 	--> 
  
  <!-- ******************************************************************************************** -->
+
  
  <package name="UserActionPackage" extends="struts-default" namespace="/">
  <action name="user_*" class="UserAction" method="{1}" >
@@ -70,18 +73,37 @@ value=常量值
  </package> 
 
 <package name="CustomerActionPackage" extends="struts-default" namespace="/">
+
 <action name="customer_*" class="CustomerAction" method="{1}">
 <result name="saveUI">/jsp/customer/add.jsp</result>
 <result name="findAll">/jsp/customer/list.jsp</result>
-<result name="findAllAction" type="redirectAction">customer_findAll</result>
+<result name="findAllAction" type="redirectAction">customer_findAll.action</result>
+<result name="input" >/jsp/customer/add.jsp</result>
+<result name="deleteSuccess" type="redirectAction">customer_findAll.action</result>
+<result name="editSuccess" >/jsp/customer/edit.jsp</result>
+<result name="updateSuccess" type="redirectAction">customer_findAll.action</result>
+
+
+<!-- 配置单个文件大小拦截器 -->
+<interceptor-ref name="defaultStack">
+<param name="fileUpload.maximumSize">2097152</param>
+<!-- 限制拓展名 -->
+<param name="fileUpload.allowedExtensions">.jpg,.bmo,.png</param>
+</interceptor-ref>
+
+
 </action>
 </package>
 
 <package name="BaseDictActionPackage" extends="struts-default" namespace="/">
 <action name="baseDict_*" class="BaseDictAction" method="{1}">
-
 </action>
 </package>
-	
+
+<package name="LinkManActionPackage" extends="struts-default" namespace="/">
+<action name="linkMan_*" class="LinkManAction" method="{1}">
+<result name="findAll">/jsp/linkman/list.jsp</result>
+</action>
+</package>	
 	
 </struts>

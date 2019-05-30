@@ -11,4 +11,10 @@ public interface CustomerService {
 
 	public PageBean<Customer> findByPage(DetachedCriteria detachedCriteria, Integer currPage,Integer pageSize);
 
+	public Customer findById(Long cust_id);
+
+	public void delete(Customer customer1);
+
+	public void update(Customer customer);
+
 }

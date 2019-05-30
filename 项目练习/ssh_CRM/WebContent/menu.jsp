@@ -162,7 +162,7 @@ A.active {
 												</TR>
 												<TR>
 													<TD class=menuSmall><A class=style2
-														href="linkmanServlet?method=list" target=main>－联系人列表</A></TD>
+														href="${pageContext.request.contextPath}/linkMan_findAll.action" target=main>－联系人列表</A></TD>
 												</TR>
 
 											</TBODY>

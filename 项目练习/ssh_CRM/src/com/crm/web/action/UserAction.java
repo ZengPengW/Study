@@ -1,7 +1,5 @@
 package com.crm.web.action;
 
-import org.apache.struts2.ServletActionContext;
-
 import com.crm.domain.User;
 import com.crm.service.UserService;
 import com.opensymphony.xwork2.ActionContext;

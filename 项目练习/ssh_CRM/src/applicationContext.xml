@@ -45,6 +45,7 @@
 			<value>com/crm/domain/User.hbm.xml</value>
 			<value>com/crm/domain/Customer.hbm.xml</value>
 			<value>com/crm/domain/BaseDict.hbm.xml</value>
+			<value>com/crm/domain/LinkMan.hbm.xml</value>
 			</list>
 		</property> 
 	</bean>
@@ -67,6 +68,9 @@
 	<bean id="BaseDictServuce" class="com.crm.service.impl.BaseDictServiceImpl">
 	<property name="baseDictDao" ref="BaseDictDao"></property>
 	</bean>
+	<bean id="LinkManService" class="com.crm.service.impl.LinkManServiceImpl">
+	<property name="linkManDao" ref="LinkManDao"></property>
+	</bean>
 	
 	
 	<!-- Dao -->
@@ -79,7 +83,9 @@
 	<bean id="BaseDictDao" class="com.crm.dao.impl.BaseDictDaoImpl">
 	<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+	<bean id="LinkManDao" class="com.crm.dao.impl.LinkManDaoImpl">
+	<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	
 	<!--Action -->
 	<bean id="UserAction" class="com.crm.web.action.UserAction" scope="prototype">
@@ -90,6 +96,9 @@
 	</bean>
 	<bean id="BaseDictAction" class="com.crm.web.action.BaseDictAction" scope="prototype" >
 		<property name="baseDictService" ref="BaseDictServuce"></property>
+	</bean>
+	<bean id="LinkManAction" class="com.crm.web.action.LinkManAction">
+	<property name="linkManService" ref="LinkManService" />
 	</bean>
 	
 	

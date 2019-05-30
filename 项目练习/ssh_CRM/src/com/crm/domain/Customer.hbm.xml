@@ -13,12 +13,17 @@
 <property name="cust_level" /> -->
 <property name="cust_phone" />
 <property name="cust_mobile" />
-
+<property name="cust_image" />
 <!-- 客户字典多对一 -->
 <many-to-one name="baseDictSource" class="BaseDict" column="cust_source" />
 <many-to-one name="baseDictIndustry" class="BaseDict" column="cust_industry" />
 <many-to-one name="baseDictLevel" class="BaseDict" column="cust_level" />
 
+<!-- 客户联系人一对多 -->
+<set name="linkMans" >
+<key column="lkm_cust_id"></key>
+<one-to-many class="LinkMan" />
 
+</set>
 </class>
 </hibernate-mapping>

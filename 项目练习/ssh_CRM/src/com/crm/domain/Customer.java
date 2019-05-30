@@ -1,4 +1,8 @@
 package com.crm.domain;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /*
  * 客户实体
  * CREATE TABLE `cst_customer` (
@@ -20,13 +24,33 @@ private String cust_name;
 //private String cust_level;
 private String cust_phone;
 private String cust_mobile;
+private String cust_image;
+public String getCust_image() {
+	return cust_image;
+}
+public void setCust_image(String cust_image) {
+	this.cust_image = cust_image;
+}
 /*
  * 客户字典多对一
  */
 private BaseDict baseDictSource;
 private BaseDict baseDictIndustry;
+
 private BaseDict baseDictLevel;
 
+/*
+ * 客户联系人 一对多
+ */
+private Set<LinkMan> linkMans=new HashSet<LinkMan>();
+
+
+public Set<LinkMan> getLinkMans() {
+	return linkMans;
+}
+public void setLinkMans(Set<LinkMan> linkMans) {
+	this.linkMans = linkMans;
+}
 public BaseDict getBaseDictSource() {
 	return baseDictSource;
 }
