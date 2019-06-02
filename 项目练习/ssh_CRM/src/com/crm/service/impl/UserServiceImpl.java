@@ -1,5 +1,7 @@
 package com.crm.service.impl;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,5 +35,9 @@ public class UserServiceImpl implements UserService {
 		user.setUser_password(passWordMd5);
 		
 		return userDao.login(user);
+	}
+	@Override
+	public List<User> findAll() {
+		return userDao.findAll();
 	}
 }

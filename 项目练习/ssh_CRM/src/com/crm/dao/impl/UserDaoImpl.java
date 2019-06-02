@@ -9,13 +9,10 @@ import com.crm.dao.UserDao;
  * UserDao 实现类
  */
 import com.crm.domain.User;
-public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
+public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
-	//保存用户
-	@Override
-	public void save(User user) {
-		this.getHibernateTemplate().save(user);		
-	}
+	
+
 
 	//根据用户名&密码查询
 	@Override

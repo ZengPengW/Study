@@ -6,18 +6,8 @@ import org.hibernate.criterion.DetachedCriteria;
 
 import com.crm.domain.Customer;
 
-public interface CustomerDao {
+public interface CustomerDao extends BaseDao<Customer> {
 
-	public void save(Customer customer);
-
-	public Integer findCount(DetachedCriteria detachedCriteria);
-
-	public List<Customer> findByPage(DetachedCriteria detachedCriteria, Integer begin, Integer pageSize);
-
-	public Customer findById(Long cust_id);
-
-	public void delete(Customer customer);
-
-	public void update(Customer customer);
+	
 
 }

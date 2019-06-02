@@ -2,8 +2,10 @@ package com.crm.web.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
@@ -16,6 +18,9 @@ import com.crm.utils.UploadUtils;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 
 public class CustomerAction extends ActionSupport implements ModelDriven<Customer> {
 	//文件上传属性 upload 是表单名字
@@ -42,10 +47,10 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		if(this.currPage==null)this.currPage=1;
 	}
 	
-	private Integer pageSize=5;
+	private Integer pageSize=3;
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
-		if(this.pageSize==null)this.pageSize=5;
+		if(this.pageSize==null)this.pageSize=3;
 	}
 	
 	
@@ -155,5 +160,18 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 			return "updateSuccess";
 		}
 		return "updateSuccess";
+	}
+	
+	//异步查询
+	public String findAllCustomer() throws IOException {
+		List<Customer>list=	customerService.findAll();
+		JsonConfig jsonConfig=new JsonConfig();
+		jsonConfig.setExcludes(new String[]{"linkMans","cust_phone","cust_mobile","cust_image","baseDictSource","baseDictIndustry","baseDictLevel"});
+		
+		JSONArray jsonArray=JSONArray.fromObject(list,jsonConfig);
+		ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
+		ServletActionContext.getResponse().getWriter().println(jsonArray.toString());;
+		
+		return NONE;
 	}
 }

@@ -13,6 +13,12 @@
 	http://www.springframework.org/schema/tx 
 	http://www.springframework.org/schema/tx/spring-tx.xsd">
 	
+	<!-- 开启属性注解
+<context:annotation-config> 是用于激活那些已经在spring容器里注册过的bean（无论是通过xml的方式还是通过package sanning的方式）上面的注解。
+
+<context:component-scan>除了具有<context:annotation-config>的功能之外，<context:component-scan>还可以在指定的package下扫描以及注册javabean 。
+	 -->
+<context:annotation-config   />
 	
 	<!-- 整合hibernate 引入其配置信息-->
 	<!-- 配置c3p0 -->
@@ -46,6 +52,7 @@
 			<value>com/crm/domain/Customer.hbm.xml</value>
 			<value>com/crm/domain/BaseDict.hbm.xml</value>
 			<value>com/crm/domain/LinkMan.hbm.xml</value>
+			<value>com/crm/domain/SaleVisit.hbm.xml</value>
 			</list>
 		</property> 
 	</bean>
@@ -71,6 +78,8 @@
 	<bean id="LinkManService" class="com.crm.service.impl.LinkManServiceImpl">
 	<property name="linkManDao" ref="LinkManDao"></property>
 	</bean>
+	<bean id="SaleVisitService" class="com.crm.service.impl.SaleVisitServiceImpl">
+	</bean>
 	
 	
 	<!-- Dao -->
@@ -86,6 +95,9 @@
 	<bean id="LinkManDao" class="com.crm.dao.impl.LinkManDaoImpl">
 	<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="SaleVisitDao" class="com.crm.dao.impl.SaleVisitDaoImpl">
+	<property name="sessionFactory" ref="sessionFactory"></property> 
+	</bean>
 	
 	<!--Action -->
 	<bean id="UserAction" class="com.crm.web.action.UserAction" scope="prototype">
@@ -97,9 +109,14 @@
 	<bean id="BaseDictAction" class="com.crm.web.action.BaseDictAction" scope="prototype" >
 		<property name="baseDictService" ref="BaseDictServuce"></property>
 	</bean>
-	<bean id="LinkManAction" class="com.crm.web.action.LinkManAction">
+	<bean id="LinkManAction" class="com.crm.web.action.LinkManAction" scope="prototype">
 	<property name="linkManService" ref="LinkManService" />
+	<property name="customerService" ref="CustomerService"></property>
 	</bean>
+	
+	<bean id="SaleVisitAction" class="com.crm.web.action.SaleVisitAction" scope="prototype">
+	</bean>
+	
 	
 	
 	

@@ -103,7 +103,20 @@ value=常量值
 <package name="LinkManActionPackage" extends="struts-default" namespace="/">
 <action name="linkMan_*" class="LinkManAction" method="{1}">
 <result name="findAll">/jsp/linkman/list.jsp</result>
+<result name="saveUI">/jsp/linkman/add.jsp</result>
+<result name="saveSuccess" type="redirectAction">linkMan_findAll.action</result>
+<result name="editSuccess">/jsp/linkman/edit.jsp</result>
+<result name="updateSuccess" type="redirectAction">linkMan_findAll.action</result>
+<result name="deleteSuccess" type="redirectAction">linkMan_findAll.action</result>
+
 </action>
 </package>	
 	
+<package name="SaleVisitActionPackage" extends="struts-default" namespace="/">
+<action name="saleVistit_*" class="SaleVisitAction" method="{1}">
+<result name="findAllSuccess">/jsp/salevisit/list.jsp</result>
+<result name="saveUI">/jsp/salevisit/add.jsp</result>
+</action>
+
+</package>	
 </struts>

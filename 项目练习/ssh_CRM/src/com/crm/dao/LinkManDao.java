@@ -6,10 +6,8 @@ import org.hibernate.criterion.DetachedCriteria;
 
 import com.crm.domain.LinkMan;
 
-public interface LinkManDao {
+public interface LinkManDao extends BaseDao<LinkMan> {
 
- public	Integer findCount(DetachedCriteria detachedCriteria);
 
-public List<LinkMan> findByPage(DetachedCriteria detachedCriteria, Integer begin, Integer pageSize);
 
 }

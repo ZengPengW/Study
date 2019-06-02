@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<TITLE>联系人列表</TITLE>
+<TITLE>客户拜访记录列表</TITLE>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <LINK href="${pageContext.request.contextPath }/css/Style.css"
 	type=text/css rel=stylesheet>
@@ -27,7 +27,7 @@
 <BODY>
 	<s:debug></s:debug>
 <s:form id="customerForm" name="customerForm"
-		action="linkMan_findAll.action"
+		action="saleVistit_findAll.action"
 		method="post" theme="simple">
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
@@ -54,7 +54,7 @@
 					<TD vAlign=top width="100%" bgColor=#ffffff>
 						<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 							<TR>
-								<TD class=manageHead>当前位置：联系人管理 &gt; 联系人列表</TD>
+								<TD class=manageHead>当前位置：客户拜访记录管理 &gt;客户拜访记录列表</TD>
 							</TR>
 							<TR>
 								<TD height=2></TD>
@@ -94,48 +94,30 @@
 											<TBODY>
 												<TR
 													style="FONT-WEIGHT: bold; FONT-STYLE: normal; BACKGROUND-COLOR: #eeeeee; TEXT-DECORATION: none">
-													<TD>联系人名称</TD>
-													<TD>性别</TD>
-													<TD>办公电话</TD>
-													<TD>手机</TD>
-													<TD>邮箱</TD>
-													<TD>QQ</TD>
-													<TD>职位</TD>
-													<TD>所属客户</TD>
+													<TD>业务员名称</TD>
+													<TD>客户名称</TD>
+													<TD>拜访时间</TD>
+													<TD>拜访地点</TD>
+													<TD>拜访详情</TD>
+													<TD>下次拜访时间</TD>
 													<TD>操作</TD>
 												</TR>
-												<%-- <c:forEach items="${list }" var="linkman">
-												<TR
-													style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-													<TD>${linkman.lkmName }</TD>
-													<TD>${linkman.lkmGender }</TD>
-													<TD>${linkman.lkmPhone }</TD>
-													<TD>${linkman.lkmMobile }</TD>
-													
-													<TD>
-													<a href="${pageContext.request.contextPath }/linkmanServlet?method=edit&lkmId=${linkman.lkmId}">修改</a>
-													&nbsp;&nbsp;
-													<a href="${pageContext.request.contextPath }/linkmanServlet?method=delete&lkmId=${linkman.lkmId}">删除</a>
-													</TD>
-												</TR>
 												
-												</c:forEach> --%>
 												<s:iterator value="list">
 													<TR
 														style="FONT-WEIGHT: normal; FONT-STYLE: normal; BACKGROUND-COLOR: white; TEXT-DECORATION: none">
-														<TD><s:property value="lkm_name" /></TD>
-														<TD><s:property value="lkm_gender==1?'男':'女'" /></TD>
-														<TD><s:property value="lkm_phone" /></TD>
-														<TD><s:property value="lkm_mobile" /></TD>
-														<TD><s:property value="lkm_email" /></TD>
-														<TD><s:property value="lkm_qq" /></TD>
-														<TD><s:property value="lkm_position" /></TD>
+														<TD><s:property value="user.user_name" /></TD>
 														<TD><s:property value="customer.cust_name" /></TD>
+														<TD><s:date name="visit_time" format="yyyy-MM-dd" /></TD>
+														<TD><s:property value="visit_addr" /></TD>
+														<TD><s:property value="visit_detail" /></TD>
+														<TD><s:date name="visit_nexttime" format="yyyy-MM-dd" /></TD>
+														
 
-														<TD><a href="${pageContext.request.contextPath }/linkMan_edit.action?lkm_id=<s:property value="lkm_id" /> ">修改</a>
+														<TD><a href="${pageContext.request.contextPath }/">修改</a>
 															&nbsp;&nbsp; 
 															
-															<a href="${pageContext.request.contextPath }/linkMan_delete.action?lkm_id=<s:property value="lkm_id" />">删除</a>
+															<a href="${pageContext.request.contextPath }">删除</a>
 															</TD>
 													</TR>
 

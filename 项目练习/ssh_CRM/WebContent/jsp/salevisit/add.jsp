@@ -4,21 +4,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<TITLE>修改联系人</TITLE> 
+<TITLE>添加客户拜访记录</TITLE> 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <LINK href="${pageContext.request.contextPath }/css/Style.css" type=text/css rel=stylesheet>
 <LINK href="${pageContext.request.contextPath }/css/Manage.css" type=text/css
 	rel=stylesheet>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
 
 
 <META content="MSHTML 6.00.2900.3492" name=GENERATOR>
 </HEAD>
 <BODY>
 <s:form id="form1" name="form1" namespace="/" theme="simple"
-		action="linkMan_update.action"
+		action="saleVisit_save.action"
 		method="post" >
 	
-		<s:hidden value="%{lkm_id}" name="lkm_id"/>
+		
 
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
@@ -40,7 +41,7 @@
 					<TD vAlign=top width="100%" bgColor=#ffffff>
 						<TABLE cellSpacing=0 cellPadding=5 width="100%" border=0>
 							<TR>
-								<TD class=manageHead>当前位置：联系人管理 &gt; 修改联系人</TD>
+								<TD class=manageHead>当前位置：客户拜访记录管理 &gt; 添加客户拜访记录</TD>
 							</TR>
 							<TR>
 								<TD height=2></TD>
@@ -48,56 +49,44 @@
 						</TABLE>
 						<TABLE cellSpacing=0 cellPadding=5  border=0>
 							<tr>
-								<td>所属客户：</td>
-								<td colspan="3">
-								<s:select list="list" name="customer.cust_id" headerKey="" headerValue="-请选择-" listKey="cust_id" listValue="cust_name"></s:select>
+								<td>拜访客户：</td>
+								<td >
+								<select id="customer" name="customer.cust_id">
+								<option value="">-请选择-</option>
+								</select>
+								</td>
+								<td>业务员名称：</td>
+								<td>
+								<select id="user" name="user.user_id">
+								<option value="">-请选择-</option>
+								</select>								
 								</td>
 							</tr>
 							<TR>
-								<td>联系人名称：</td>
-								<td>
 								
-								<s:textfield cssClass="textbox" id="sChannel2"  cssStyle="WIDTH: 180px" maxLength="50" name="lkm_name" />
+								<td>拜访时间：</td>
+								<td>
+								<s:textfield  name="visit_time" cssClass="textbox" id="visit_time"  cssStyle="WIDTH: 180px" maxLength="50"  />
 								</td>
-								<td>联系人性别：</td>
+								<td>拜访地点 ：</td>
 								<td>
-								<s:radio list="#{'1':'男','2':'女'}" name="lkm_gender" />
-								
+								<s:textfield cssClass="textbox" id="sChannel2"  cssStyle="WIDTH: 180px" maxLength="50" name="visit_addr" />
 								</td>
 							</TR>
 							<TR>
-								<td>联系人办公电话 ：</td>
-								<td>
-								<s:textfield cssClass="textbox" id="sChannel2"  cssStyle="WIDTH: 180px" maxLength="50" name="lkm_phone" />
 								
-								</td>
-								<td>联系人手机 ：</td>
+								<td>拜访详情 ：</td>
 								<td>
-								<s:textfield cssClass="textbox" id="sChannel2"  cssStyle="WIDTH: 180px" maxLength="50" name="lkm_mobile" />
+								<s:textfield cssClass="textbox" id="sChannel2"  cssStyle="WIDTH: 180px" maxLength="50" name="visit_detail" />
+								</td>
+								<td>下次拜访时间 ：</td>
+								<td>
+								<s:textfield cssClass="textbox" id="visit_nexttime"  cssStyle="WIDTH: 180px" maxLength="50" name="visit_nexttime" />
 								</td>
 							</TR>
 							
-							<TR>
-								<td>联系人邮箱 ：</td>
-								<td>
-								<s:textfield cssClass="textbox" id="sChannel2"  cssStyle="WIDTH: 180px" maxLength="50" name="lkm_email" />
-								</td>
-								<td>联系人QQ ：</td>
-								<td>
-								<s:textfield cssClass="textbox" id="sChannel2"  cssStyle="WIDTH: 180px" maxLength="50" name="lkm_qq" />
-								</td>
-							</TR>
 							
-							<TR>
-								<td>联系人职位 ：</td>
-								<td>
-								<s:textfield cssClass="textbox" id="sChannel2"  cssStyle="WIDTH: 180px" maxLength="50" name="lkm_position" />
-								</td>
-								<td>联系人备注 ：</td>
-								<td>
-								<s:textarea rows="3" cols="20" name="lkm_memo" />
-								</td>
-							</TR>
+						
 							<tr>
 								<td rowspan=2>
 								<INPUT class=button id=sButton2 type=submit
@@ -127,4 +116,36 @@
 		</TABLE>
 	</s:form>
 </BODY>
+<script type="text/javascript">
+$(function(){
+	//加载客户
+	$.post("${pageContext.request.contextPath}/customer_findAllCustomer.action",function(data){
+		$(data).each(function(index,c){
+			$("#customer").append("<option value='"+c.cust_id+"' >"+c.cust_name+"</option>")
+		});
+		
+	},"json");
+	
+	//加载用户
+	$.post("${pageContext.request.contextPath}/user_findAllUser.action",function(data){
+		$(data).each(function(index,c){
+			$("#user").append("<option value='"+c.user_id+"' >"+c.user_name+"</option>")
+		});
+		
+	},"json");
+});
+
+</script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/jquery/jquery.datepick.css" type="text/css">
+<script type="text/javascript" src="jquery/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/jquery/jquery.datepick.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/jquery/jquery.datepick-zh-CN.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+			//使用class属性处理  'yy-mm-dd' 设置格式"yyyy/mm/dd"
+			$('#visit_time').datepick({dateFormat: 'yy-mm-dd'});
+			$('#visit_nexttime').datepick({dateFormat: 'yy-mm-dd'}); 
+
+		});
+</script>
 </HTML>
