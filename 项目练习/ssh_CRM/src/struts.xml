@@ -66,14 +66,48 @@ value=常量值
 
  
  <package name="UserActionPackage" extends="struts-default" namespace="/">
+ <interceptors>
+ <interceptor name="loginInterceptor" class="com.crm.web.interceptor.PrivilegeInterceptor"></interceptor>
+ <interceptor-stack name="PrivilegeInterceptor">
+ <interceptor-ref name="defaultStack"></interceptor-ref>
+ <interceptor-ref name="loginInterceptor">
+ <param name="excludeMethods">regist,login</param>
+ </interceptor-ref>
+ </interceptor-stack>
+ </interceptors>
+ <global-results >
+ <result name="login">/login.jsp</result>
+ </global-results>
+ 
  <action name="user_*" class="UserAction" method="{1}" >
  <result name="login">/login.jsp</result>
  <result name="success" type="redirect">/index.jsp</result>
+ <interceptor-ref name="PrivilegeInterceptor" />
  </action>
  </package> 
 
 <package name="CustomerActionPackage" extends="struts-default" namespace="/">
-
+<interceptors>
+ <interceptor name="loginInterceptor" class="com.crm.web.interceptor.PrivilegeInterceptor"></interceptor>
+ <interceptor-stack name="PrivilegeInterceptor">
+ 
+ <interceptor-ref name="defaultStack">
+ <!-- 配置单个文件大小拦截器 -->
+ <param name="fileUpload.maximumSize">2097152</param>
+<!-- 限制拓展名 -->
+<param name="fileUpload.allowedExtensions">.jpg,.bmo,.png</param>
+ </interceptor-ref>
+ 
+ <interceptor-ref name="loginInterceptor">
+ <param name="excludeMethods">regist,login</param>
+ </interceptor-ref>
+ </interceptor-stack>
+ </interceptors>
+ 
+ <global-results >
+ <result name="login">/login.jsp</result>
+ </global-results>
+ 
 <action name="customer_*" class="CustomerAction" method="{1}">
 <result name="saveUI">/jsp/customer/add.jsp</result>
 <result name="findAll">/jsp/customer/list.jsp</result>
@@ -82,25 +116,50 @@ value=常量值
 <result name="deleteSuccess" type="redirectAction">customer_findAll.action</result>
 <result name="editSuccess" >/jsp/customer/edit.jsp</result>
 <result name="updateSuccess" type="redirectAction">customer_findAll.action</result>
+<interceptor-ref name="PrivilegeInterceptor" />
 
 
-<!-- 配置单个文件大小拦截器 -->
-<interceptor-ref name="defaultStack">
-<param name="fileUpload.maximumSize">2097152</param>
-<!-- 限制拓展名 -->
-<param name="fileUpload.allowedExtensions">.jpg,.bmo,.png</param>
-</interceptor-ref>
+
 
 
 </action>
 </package>
 
 <package name="BaseDictActionPackage" extends="struts-default" namespace="/">
+<interceptors>
+ <interceptor name="loginInterceptor" class="com.crm.web.interceptor.PrivilegeInterceptor"></interceptor>
+ <interceptor-stack name="PrivilegeInterceptor">
+ <interceptor-ref name="defaultStack"></interceptor-ref>
+ <interceptor-ref name="loginInterceptor">
+ <param name="excludeMethods">regist,login</param>
+ </interceptor-ref>
+ </interceptor-stack>
+ </interceptors>
+ 
+ <global-results >
+ <result name="login">/login.jsp</result>
+ </global-results>
+ 
 <action name="baseDict_*" class="BaseDictAction" method="{1}">
+<interceptor-ref name="PrivilegeInterceptor" />
 </action>
 </package>
 
 <package name="LinkManActionPackage" extends="struts-default" namespace="/">
+<interceptors>
+ <interceptor name="loginInterceptor" class="com.crm.web.interceptor.PrivilegeInterceptor"></interceptor>
+ <interceptor-stack name="PrivilegeInterceptor">
+ <interceptor-ref name="defaultStack"></interceptor-ref>
+ <interceptor-ref name="loginInterceptor">
+ <param name="excludeMethods">regist,login</param>
+ </interceptor-ref>
+ </interceptor-stack>
+ </interceptors>
+ 
+ <global-results >
+ <result name="login">/login.jsp</result>
+ </global-results>
+ 
 <action name="linkMan_*" class="LinkManAction" method="{1}">
 <result name="findAll">/jsp/linkman/list.jsp</result>
 <result name="saveUI">/jsp/linkman/add.jsp</result>
@@ -108,14 +167,33 @@ value=常量值
 <result name="editSuccess">/jsp/linkman/edit.jsp</result>
 <result name="updateSuccess" type="redirectAction">linkMan_findAll.action</result>
 <result name="deleteSuccess" type="redirectAction">linkMan_findAll.action</result>
-
+<interceptor-ref name="PrivilegeInterceptor" />
 </action>
 </package>	
 	
 <package name="SaleVisitActionPackage" extends="struts-default" namespace="/">
-<action name="saleVistit_*" class="SaleVisitAction" method="{1}">
+<interceptors>
+ <interceptor name="loginInterceptor" class="com.crm.web.interceptor.PrivilegeInterceptor"></interceptor>
+ <interceptor-stack name="PrivilegeInterceptor">
+ <interceptor-ref name="defaultStack"></interceptor-ref>
+ <interceptor-ref name="loginInterceptor">
+ <param name="excludeMethods">regist,login</param>
+ </interceptor-ref>
+ </interceptor-stack>
+ </interceptors>
+ 
+ <global-results >
+ <result name="login">/login.jsp</result>
+ </global-results>
+ 
+<action name="saleVisit_*" class="SaleVisitAction" method="{1}">
 <result name="findAllSuccess">/jsp/salevisit/list.jsp</result>
 <result name="saveUI">/jsp/salevisit/add.jsp</result>
+<result name="saveSuccess" type="redirectAction">saleVisit_findAll.action</result>
+<result name="editUI">/jsp/salevisit/edit.jsp</result>
+<result name="deleteSuccess" type="redirectAction">saleVisit_findAll.action</result>
+<result name="editSuccess" type="redirectAction">saleVisit_findAll.action</result>
+<interceptor-ref name="PrivilegeInterceptor" />
 </action>
 
 </package>	

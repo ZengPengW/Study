@@ -33,6 +33,30 @@ public class SaleVisitServiceImpl implements SaleVisitService {
 		
 		return pageBean;
 	}
+
+	@Override
+	public void save(SaleVisit saleVisit) {
+		saleVisitDao.save(saleVisit);	
+	}
+
+	@Override
+	public SaleVisit findById(String visit_id) {
+		
+		return saleVisitDao.findById(visit_id);
+	}
+
+	@Override
+	public void update(SaleVisit saleVisit) {
+		saleVisitDao.update(saleVisit);
+		
+	}
+
+	@Override
+	public void delete(SaleVisit saleVisit) {
+		saleVisitDao.delete(saleVisit);
+	}
+	
+	
 	
 	
 }

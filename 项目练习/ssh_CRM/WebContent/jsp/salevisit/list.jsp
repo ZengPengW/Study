@@ -27,7 +27,7 @@
 <BODY>
 	<s:debug></s:debug>
 <s:form id="customerForm" name="customerForm"
-		action="saleVistit_findAll.action"
+		action="saleVisit_findAll.action"
 		method="post" theme="simple">
 		<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
 			<TBODY>
@@ -68,13 +68,17 @@
 										<TABLE cellSpacing=0 cellPadding=2 border=0>
 											<TBODY>
 												<TR>
-													<TD>联系人名称：</TD>
+													<TD>拜访时间：从</TD>
 													<TD>
-													<s:textfield cssClass="textbox" id="sChannel2" maxlength="50" name="lkm_name" cssStyle="WIDTH: 80px" />
+													<s:textfield cssClass="textbox" readonly="readonly" id="visit_begin_time" maxlength="50" name="visit_begin_time" cssStyle="WIDTH: 80px" >
+													<s:param name="value"><s:date name="visit_begin_time" format="yyyy-MM-dd" /></s:param>
+													</s:textfield>
 													
-													<TD>性别</TD>
+													<TD>到:</TD>
 													<TD>
-													<s:select name="lkm_gender" list="#{'1':'男','2':'女'}" headerKey="" headerValue="-请选择-"  />
+													<s:textfield cssClass="textbox" id="visit_end_time" maxlength="50" name="visit_end_time" cssStyle="WIDTH: 80px" >
+													<s:param name="value"><s:date name="visit_end_time" format="yyyy-MM-dd" /></s:param>
+													</s:textfield>
 													</TD>
 													
 
@@ -114,10 +118,10 @@
 														<TD><s:date name="visit_nexttime" format="yyyy-MM-dd" /></TD>
 														
 
-														<TD><a href="${pageContext.request.contextPath }/">修改</a>
+														<TD><a href="${pageContext.request.contextPath }/saleVisit_editUI.action?visit_id=<s:property value="visit_id" />">修改</a>
 															&nbsp;&nbsp; 
 															
-															<a href="${pageContext.request.contextPath }">删除</a>
+															<a href="${pageContext.request.contextPath }/saleVisit_delete.action?visit_id=<s:property value="visit_id" />">删除</a>
 															</TD>
 													</TR>
 
@@ -197,4 +201,16 @@
 		</TABLE>
 	</s:form>
 </BODY>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/jquery/jquery.datepick.css" type="text/css">
+<script type="text/javascript" src="jquery/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/jquery/jquery.datepick.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/jquery/jquery.datepick-zh-CN.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+			//使用class属性处理  'yy-mm-dd' 设置格式"yyyy/mm/dd"
+			$('#visit_begin_time').datepick({dateFormat: 'yy-mm-dd'});
+			$('#visit_end_time').datepick({dateFormat: 'yy-mm-dd'}); 
+
+		});
+</script>
 </HTML>
