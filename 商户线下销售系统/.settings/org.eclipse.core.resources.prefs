@@ -3,4 +3,5 @@ encoding//WebContent/WEB-INF=gbk
 encoding//WebContent/page=UTF-8
 encoding//WebContent/page/admin=UTF-8
 encoding//src/com/alipay/config/AlipayClientFactory.java=UTF-8
+encoding//src/com/zpp/utils/XssEncode.java=gbk
 encoding/WebContent=UTF-8
