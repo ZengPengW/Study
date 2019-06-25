@@ -1,13 +1,22 @@
 package com.taotao.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class PgeController {
+public class PageController {
 
 	@RequestMapping("/")
 	public String showIndex() {
 		return "index";
 	}
+	
+	//显示商品查询页面
+	@RequestMapping(value="/{page}")
+	public String showPage(@PathVariable String page) {		
+		return page;
+	}
+	
+	
 }

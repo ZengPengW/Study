@@ -9,6 +9,8 @@
         http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
+<!-- 加载图片服务器地址的属性文件 -->
+<context:property-placeholder location="classpath:resource/resource.properties"/>
 <!-- ioc扫描 -->
 <context:component-scan base-package="com.taotao.controller"></context:component-scan>
 
@@ -20,12 +22,6 @@
 
 <!-- 注解驱动 同时注入上面两个 -->
 <mvc:annotation-driven />
-
-
-<!-- 引入dubbo服务 -->
-<dubbo:application name="taotao-manager-web"/>
-<dubbo:registry protocol="zookeeper" address="192.168.25.128:2181" />
-<dubbo:reference interface="com.taotao.service.TestService" id="testService" />
 
 <!-- 配置静态资源映射  -->
 <!-- 指定/WEB-INF/js   /WEB-INF/css/  下的所有的静态资源包括子目录下的静态资源  都不被拦截-->
@@ -59,6 +55,7 @@
 
 <!-- 上传图片配置实现类  id固定不能更改-->
 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+<property name="defaultEncoding" value="UTF-8" />
 <!-- 上传图片大小  5M 1*1024*1024*5-->
 <property name="maxUploadSize" value="5242880" />
 
@@ -79,4 +76,11 @@
 
 </mvc:interceptors> -->
 
+
+<!-- 引入dubbo服务 -->
+<dubbo:application name="taotao-manager-web"/>
+<dubbo:registry protocol="zookeeper" address="192.168.25.128:2181" />
+<dubbo:reference interface="com.taotao.service.TestService" id="testService" />
+<dubbo:reference interface="com.taotao.service.ItemService" id="itemService" />
+<dubbo:reference interface="com.taotao.service.ItemCatService" id="itemCatService" />
 </beans>        

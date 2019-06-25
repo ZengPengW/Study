@@ -10,6 +10,7 @@
 	<artifactId>taotao-manager-dao</artifactId>
 
 	<dependencies>
+	
 		<!--依赖pojo  -->
 		<dependency>
 		<groupId>com.taotao</groupId>
