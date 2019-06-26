@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.taotao.common.pojo.EasyUITreeNode;
 import com.taotao.mapper.TbItemCatMapper;
@@ -14,6 +16,7 @@ import com.taotao.pojo.TbItemCatExample.Criteria;
 import com.taotao.service.ItemCatService;
 
 @Service
+@Transactional
 public class ItemCatServiceImpl implements ItemCatService {
 
 	@Autowired
@@ -23,6 +26,7 @@ public class ItemCatServiceImpl implements ItemCatService {
 	 * 根据parentId查询子节点
 	 */
 	@Override
+	@Transactional(propagation=Propagation.NOT_SUPPORTED)
 	public List<EasyUITreeNode> getItemCatList(Long parentId) {
 		if (parentId == null)
 			parentId = 0l;

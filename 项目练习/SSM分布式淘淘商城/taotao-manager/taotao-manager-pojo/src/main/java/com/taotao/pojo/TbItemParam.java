@@ -1,8 +1,9 @@
 package com.taotao.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TbItemParam {
+public class TbItemParam implements Serializable{
     private Long id;
 
     private Long itemCatId;
@@ -13,6 +14,7 @@ public class TbItemParam {
 
     private String paramData;
 
+  
     public Long getId() {
         return id;
     }

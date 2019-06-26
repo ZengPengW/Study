@@ -29,17 +29,7 @@
 
 
 
-<!-- 配置 conveter 转换器 转换工厂(日期)-->
-<!-- <bean id="conversionServiceFactoryBean" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 
-<property name="converters">
-	<list>
-	自定义转换器的类
-	<bean class="cn.study.springmvc.utils.DateConveter" />
-	</list>
-</property>
-
-</bean> -->
 
 <!-- 配置视图解析器 -->
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -47,31 +37,13 @@
 <property name="suffix" value=".jsp" />
 </bean>
 
-<!-- springMvc 异常视图 处理器-->
 
-
-
-
-<!-- SpringMvc的拦截器 -->
-<!-- <mvc:interceptors>
-多个拦截器
-<mvc:interceptor>
-<mvc:mapping path="/**"/>拦截所有
-<bean class="com.study.springmvc.interceptor.Interceptor1" />
-</mvc:interceptor>
-
-<mvc:interceptor>
-<mvc:mapping path="/**"/>
-<bean class="com.study.springmvc.interceptor.Interceptor2" />
-</mvc:interceptor>
-
-</mvc:interceptors> -->
 
 
 <!-- 引入dubbo服务 -->
-<dubbo:application name="taotao-manager-web"/>
+<dubbo:application name="taotao-portal-web"/>
 <dubbo:registry protocol="zookeeper" address="192.168.25.128:2181" />
-<dubbo:reference interface="com.taotao.service.TestService" id="testService" />
+
 
 
 </beans>        

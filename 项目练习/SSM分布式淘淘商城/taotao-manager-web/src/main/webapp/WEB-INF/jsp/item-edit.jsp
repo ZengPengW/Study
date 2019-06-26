@@ -47,7 +47,7 @@
 	        <tr>
 	            <td>商品描述:</td>
 	            <td>
-	                <textarea style="width:800px;height:300px;visibility:hidden;" name="desc"></textarea>
+	                <textarea style="width:800px;height:300px;visibility:hidden;" name="itemDesc"></textarea>
 	            </td>
 	        </tr>
 	        <tr class="params hide">
@@ -68,7 +68,7 @@
 	var itemEditEditor ;
 	$(function(){
 		//实例化编辑器
-		itemEditEditor = TAOTAO.createEditor("#itemeEditForm [name=desc]");
+		itemEditEditor = TAOTAO.createEditor("#itemeEditForm [name=itemDesc]");
 	});
 	
 	function submitForm(){

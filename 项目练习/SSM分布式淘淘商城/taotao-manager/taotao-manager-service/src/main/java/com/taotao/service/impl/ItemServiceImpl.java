@@ -34,7 +34,7 @@ public class ItemServiceImpl implements ItemService,Serializable {
 	private TbItemDescMapper itemDescMapper;
 	
 	@Override
-	@Transactional(isolation=Isolation.READ_COMMITTED,propagation=Propagation.NOT_SUPPORTED)
+	@Transactional(propagation=Propagation.NOT_SUPPORTED)
 	public EasyUIDataGridResult<TbItem> getItemList(Integer page, Integer rows) {
 		if (page==null)page=1;
 		if(rows==null)rows=30;
@@ -49,7 +49,8 @@ public class ItemServiceImpl implements ItemService,Serializable {
 	}
 
 	@Override
-	public TbItem geTbItemById(Long itemId) {		
+	@Transactional(propagation=Propagation.NOT_SUPPORTED)
+	public TbItem getTbItemById(Long itemId) {		
 		return itemMapper.selectByPrimaryKey(itemId);
 	}
 

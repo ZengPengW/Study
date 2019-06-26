@@ -9,7 +9,7 @@ import com.taotao.pojo.TbItem;
 
 public interface ItemService {
 	
-	public TbItem geTbItemById(Long itemId);
+	public TbItem getTbItemById(Long itemId);
 	/**
 	 * 根据当前页码和行数,进行分页查询
 	 * @param page
@@ -25,4 +25,5 @@ public interface ItemService {
 	 * @return 返回TaotaoResult
 	 */
 	public TaotaoResult addItem(TbItem item,String desc);
+	
 }

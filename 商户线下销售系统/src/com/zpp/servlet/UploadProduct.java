@@ -89,15 +89,22 @@ public class UploadProduct extends HttpServlet {
 
 			Jedis jedis = JedisPoolUtils.getJedis();
 			String jsonstr = jedis.hget("users", CookiesUtils.getCookie(request.getCookies(), "sid"));
-			User user = JsonUtils.getUser(jsonstr);			
+			User user = JsonUtils.getUser(jsonstr);	
+//*******************************************************************************************************		
+		//windows 下使用  linux 使用时注释
 			//SellerService service = new SellerServiceImpl();
 //			Product product = new Product(user.getId(), productName, price, productCount,
 //					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath().replace("/", "\\"))),
-//					productMessage, productClass); //windows 下使用
+//					productMessage, productClass);
+			
+		//linux 下使用  windows 使用时注释
 			price=Double.valueOf(String.format("%.2f", price));
 			Product product = new Product(user.getId(), productName, price, productCount,
 					fileName.substring(fileName.indexOf(this.getServletContext().getContextPath())),
-					productMessage, productClass);//linux 下使用
+					productMessage, productClass);
+//*******************************************************************************************************				
+			
+			
 			service.AddProduct(product);
 			request.setAttribute("isSuccess", true);
 
