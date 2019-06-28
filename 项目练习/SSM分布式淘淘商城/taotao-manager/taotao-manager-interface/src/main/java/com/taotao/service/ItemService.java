@@ -24,6 +24,29 @@ public interface ItemService {
 	 * @param desc
 	 * @return 返回TaotaoResult
 	 */
-	public TaotaoResult addItem(TbItem item,String desc);
+	public TaotaoResult addItem(TbItem item,String desc,String itemParams);
+	/**
+	 * 修改商品
+	 * @return
+	 */
+	public TaotaoResult updateItem(TbItem item, String desc,Long itemParamId,String itemParams);
+	/**
+	 * 删除商品
+	 * @param ids
+	 * @return
+	 */
+	public TaotaoResult deleteItem(String ids);
+	/**
+	 * 下架商品
+	 * @param ids
+	 * @return
+	 */
+	public TaotaoResult instockItem(String ids);
+	/**
+	 * 上架商品
+	 * @param ids
+	 * @return
+	 */
+	public TaotaoResult reshelfItem(String ids);
 	
 }

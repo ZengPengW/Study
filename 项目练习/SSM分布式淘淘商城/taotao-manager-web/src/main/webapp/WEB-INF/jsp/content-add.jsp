@@ -4,7 +4,7 @@
 <script type="text/javascript" charset="utf-8" src="/js/kindeditor-4.1.10/lang/zh_CN.js"></script>
 <div style="padding:10px 10px 10px 10px">
 	<form id="contentAddForm" class="itemForm" method="post">
-		<input type="hidden" name="categoryId"/>
+		<input type="hidden" name="categoryId"/><!-- 存放内容分类id 被选中的id -->
 	    <table cellpadding="5">
 	        <tr>
 	            <td>内容标题:</td>
@@ -64,7 +64,7 @@
 					$.messager.alert('提示','表单还未填写完成!');
 					return ;
 				}
-				contentAddEditor.sync();
+				contentAddEditor.sync();//同步富文本编辑器的内容
 				
 				$.post("/content/save",$("#contentAddForm").serialize(), function(data){
 					if(data.status == 200){

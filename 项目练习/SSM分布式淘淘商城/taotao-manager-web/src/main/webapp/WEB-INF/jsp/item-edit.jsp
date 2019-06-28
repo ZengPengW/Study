@@ -47,7 +47,7 @@
 	        <tr>
 	            <td>商品描述:</td>
 	            <td>
-	                <textarea style="width:800px;height:300px;visibility:hidden;" name="itemDesc"></textarea>
+	                <textarea style="width:800px;height:300px;visibility:hidden;" name="desc"></textarea>
 	            </td>
 	        </tr>
 	        <tr class="params hide">
@@ -59,6 +59,8 @@
 	    </table>
 	    <input type="hidden" name="itemParams"/>
 	    <input type="hidden" name="itemParamId"/>
+	    <input type="hidden" name="id" />	
+	    <input type="hidden" name="status" />	
 	</form>
 	<div style="padding:5px">
 	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
@@ -68,7 +70,7 @@
 	var itemEditEditor ;
 	$(function(){
 		//实例化编辑器
-		itemEditEditor = TAOTAO.createEditor("#itemeEditForm [name=itemDesc]");
+		itemEditEditor = TAOTAO.createEditor("#itemeEditForm [name=desc]");
 	});
 	
 	function submitForm(){
@@ -106,6 +108,8 @@
 					$("#itemEditWindow").window('close');
 					$("#itemList").datagrid("reload");
 				});
+			}else{
+				$.messager.alert('提示','修改商品失败!');
 			}
 		});
 	}

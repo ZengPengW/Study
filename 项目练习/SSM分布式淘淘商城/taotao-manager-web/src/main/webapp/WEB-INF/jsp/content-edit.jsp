@@ -68,9 +68,11 @@ var contentEditPage = {
 			
 			$.post("/rest/content/edit",$("#contentEditForm").serialize(), function(data){
 				if(data.status == 200){
-					$.messager.alert('提示','新增内容成功!');
+					$.messager.alert('提示','修改内容成功!');
 					$("#contentList").datagrid("reload");
 					TT.closeCurrentWindow();
+				}else{
+					$.messager.alert('提示','修改内容失败!');
 				}
 			});
 		},

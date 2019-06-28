@@ -30,7 +30,9 @@ $(function(){
 	var datagrid = $("#contentList");
 	tree.tree({
 		onClick : function(node){
+			//如果点击的是叶子节点
 			if(tree.tree("isLeaf",node.target)){
+				//加载表格数据 重新发送url请求加载数据
 				datagrid.datagrid('reload', {
 					categoryId :node.id
 		        });
@@ -42,6 +44,7 @@ var contentListToolbar = [{
     text:'新增',
     iconCls:'icon-add',
     handler:function(){
+    	//获取被选中的节点
     	var node = $("#contentCategoryTree").tree("getSelected");
     	if(!node || !$("#contentCategoryTree").tree("isLeaf",node.target)){
     		$.messager.alert('提示','新增内容必须选择一个内容分类!');
@@ -68,6 +71,7 @@ var contentListToolbar = [{
 			url : "/content-edit",
 			onLoad : function(){
 				var data = $("#contentList").datagrid("getSelections")[0];
+			
 				$("#contentEditForm").form("load",data);
 				
 				// 实现图片

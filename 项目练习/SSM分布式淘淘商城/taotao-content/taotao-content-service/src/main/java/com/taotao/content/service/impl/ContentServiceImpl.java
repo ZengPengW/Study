@@ -1,5 +1,6 @@
 package com.taotao.content.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,12 @@ import com.taotao.pojo.TbContent;
 import com.taotao.pojo.TbContentExample;
 import com.taotao.pojo.TbContentExample.Criteria;
 
+/**
+ * 内容处理接口
+ * 
+ * @author zp
+ *
+ */
 @Service
 @Transactional
 public class ContentServiceImpl implements ContentService {
@@ -26,7 +33,7 @@ public class ContentServiceImpl implements ContentService {
 	private TbContentMapper contentMapper;
 
 	@Override
-	@Transactional(propagation=Propagation.NOT_SUPPORTED)
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public EasyUIDataGridResult<TbContent> getContentList(Long categoryId, Integer page, Integer rows) {
 		if (page == null)
 			page = 1;
@@ -38,7 +45,7 @@ public class ContentServiceImpl implements ContentService {
 			Criteria criteria = example.createCriteria();
 			criteria.andCategoryIdEqualTo(categoryId);
 		}
-		List<TbContent> list = contentMapper.selectByExample(example);
+		List<TbContent> list = contentMapper.selectByExampleWithBLOBs(example);
 
 		EasyUIDataGridResult<TbContent> dataGridResult = new EasyUIDataGridResult<TbContent>();
 		PageInfo<TbContent> pageInfo = new PageInfo<TbContent>(list);
@@ -50,15 +57,35 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public TaotaoResult saveContent(TbContent tContent) {
-		// 1.注入mapper
-
-		// 2.补全其他的属性
+		// 补全属性
 		tContent.setCreated(new Date());
 		tContent.setUpdated(tContent.getCreated());
-		// 3.插入内容表中
+		// 插入
 		contentMapper.insertSelective(tContent);
 		return TaotaoResult.ok();
 
+	}
+
+	@Override
+	public TaotaoResult updateContent(TbContent tContent) {
+		tContent.setUpdated(new Date());
+		contentMapper.updateByPrimaryKeyWithBLOBs(tContent);
+		return TaotaoResult.ok(tContent);
+	}
+
+	@Override
+	public TaotaoResult deleteContent(String ids) {
+		String[] idss = ids.split(",");
+
+		List<Long> id = new ArrayList<Long>(idss.length);
+		for (int i = 0; i < idss.length; i++) {
+			id.add(Long.valueOf(idss[i]));
+		}
+		TbContentExample example =new TbContentExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andIdIn(id);
+		contentMapper.deleteByExample(example);
+		return TaotaoResult.ok(null);
 	}
 
 }
