@@ -28,7 +28,7 @@ public class PictureController {
 	 * @param uploadFile
 	 * @return
 	 */
-	@RequestMapping("/pic/upload")
+	@RequestMapping(value="/pic/upload",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public String picUpload(MultipartFile uploadFile)  {
 		Map result=new HashMap();

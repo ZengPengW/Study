@@ -15,6 +15,7 @@ import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.content.service.ContentService;
 import com.taotao.mapper.TbContentMapper;
+import com.taotao.pojo.LimitPojo;
 import com.taotao.pojo.TbContent;
 import com.taotao.pojo.TbContentExample;
 import com.taotao.pojo.TbContentExample.Criteria;
@@ -39,19 +40,34 @@ public class ContentServiceImpl implements ContentService {
 			page = 1;
 		if (rows == null)
 			rows = 30;
-		PageHelper.startPage(page, rows);
+		// PageHelper.startPage(page, rows);
+		// TbContentExample example = new TbContentExample();
+		// if (categoryId != null && categoryId != 0) {
+		// Criteria criteria = example.createCriteria();
+		// criteria.andCategoryIdEqualTo(categoryId);
+		// }
+		page = (page - 1) * rows;
+		// List<TbContent> list =
+		// contentMapper.selectByExampleWithBLOBs(example);
+
+		LimitPojo limitPojo = new LimitPojo();
+		limitPojo.setBeginId(page);
+		limitPojo.setRows(rows);
+		if (categoryId != null && categoryId != 0)
+			limitPojo.setCategoryId(categoryId);
+		List<TbContent> list = contentMapper.selectByLimit(limitPojo);
+		EasyUIDataGridResult<TbContent> dataGridResult = new EasyUIDataGridResult<TbContent>();
+		// PageInfo<TbContent> pageInfo = new PageInfo<TbContent>(list);
+		// dataGridResult.setTotal(pageInfo.getTotal());
+		
 		TbContentExample example = new TbContentExample();
 		if (categoryId != null && categoryId != 0) {
 			Criteria criteria = example.createCriteria();
 			criteria.andCategoryIdEqualTo(categoryId);
 		}
-		List<TbContent> list = contentMapper.selectByExampleWithBLOBs(example);
-
-		EasyUIDataGridResult<TbContent> dataGridResult = new EasyUIDataGridResult<TbContent>();
-		PageInfo<TbContent> pageInfo = new PageInfo<TbContent>(list);
-		dataGridResult.setTotal(pageInfo.getTotal());
+		Long count = (long) contentMapper.countByExample(example);
 		dataGridResult.setRows(list);
-
+		dataGridResult.setTotal(count);
 		return dataGridResult;
 	}
 
@@ -69,7 +85,7 @@ public class ContentServiceImpl implements ContentService {
 	@Override
 	public TaotaoResult updateContent(TbContent tContent) {
 		tContent.setUpdated(new Date());
-		contentMapper.updateByPrimaryKeyWithBLOBs(tContent);
+		contentMapper.updateByPrimaryKeySelective(tContent);
 		return TaotaoResult.ok(tContent);
 	}
 
@@ -81,11 +97,21 @@ public class ContentServiceImpl implements ContentService {
 		for (int i = 0; i < idss.length; i++) {
 			id.add(Long.valueOf(idss[i]));
 		}
-		TbContentExample example =new TbContentExample();
+		TbContentExample example = new TbContentExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andIdIn(id);
 		contentMapper.deleteByExample(example);
 		return TaotaoResult.ok(null);
+	}
+
+	@Transactional(propagation = Propagation.NOT_SUPPORTED)
+	@Override	
+	public List<TbContent> getContentListByCatId(Long categoryId) {
+		TbContentExample example=new TbContentExample();
+		Criteria criteria = example.createCriteria();
+		criteria.andCategoryIdEqualTo(categoryId);
+		List<TbContent> list=contentMapper.selectByExampleWithBLOBs(example);
+		return list;
 	}
 
 }

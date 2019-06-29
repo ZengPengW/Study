@@ -14,11 +14,11 @@
 
 	<dependencies> 
 		<!--依赖interface -->
-		<!-- <dependency>
+		 <dependency>
 			<groupId>com.taotao</groupId>
-			<artifactId>taotao-manager-interface</artifactId>
+			<artifactId>taotao-content-interface</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency> -->
+		</dependency> 
 		
 		<!-- Spring -->
 		<dependency>

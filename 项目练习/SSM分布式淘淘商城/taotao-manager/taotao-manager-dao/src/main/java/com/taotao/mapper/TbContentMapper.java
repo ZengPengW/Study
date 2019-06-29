@@ -1,11 +1,13 @@
 package com.taotao.mapper;
 
+import com.taotao.pojo.LimitPojo;
 import com.taotao.pojo.TbContent;
 import com.taotao.pojo.TbContentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface TbContentMapper {
+	
     int countByExample(TbContentExample example);
 
     int deleteByExample(TbContentExample example);
@@ -19,6 +21,8 @@ public interface TbContentMapper {
     List<TbContent> selectByExampleWithBLOBs(TbContentExample example);
 
     List<TbContent> selectByExample(TbContentExample example);
+    
+    List<TbContent> selectByLimit(LimitPojo limitPojo);
 
     TbContent selectByPrimaryKey(Long id);
 

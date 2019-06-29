@@ -69,4 +69,6 @@ public class ContentController {
 		
 		return contentService.deleteContent(ids);
 	}
+	
+	
 }
