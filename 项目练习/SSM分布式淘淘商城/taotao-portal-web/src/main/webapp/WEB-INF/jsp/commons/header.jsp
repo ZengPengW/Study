@@ -32,7 +32,7 @@
 		<div id="settleup-2013" clstag="homepage|keycount|home2013|05a">
 			<dl>
 				<dt class="ld"><s></s><span class="shopping"><span id="shopping-amount"></span></span><a href="/cart/cart.html" id="settleup-url">去购物车结算</a> <b></b> </dt>
-<!-- 				<dd>
+<!-- 			<dd>
 					<div class="prompt">
 						<div class="loading-style1"><b></b>加载中，请稍候...</div>
 					</div>

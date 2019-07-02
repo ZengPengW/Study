@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	
+	<!-- 配置单机版 -->
+	<!-- JedisPool pool=new JedisPool(poolConfig, host, port, timeout, password) -->
+	<!-- <bean class="redis.clients.jedis.JedisPool"> <constructor-arg name="host" 
+		value="192.168.25.128"></constructor-arg> <constructor-arg name="port" value="6379"></constructor-arg> 
+		<constructor-arg name="password" value="123456"></constructor-arg> <constructor-arg 
+		name="timeout" value="5000"></constructor-arg> <constructor-arg name="poolConfig" 
+		ref="jedisPoolConfig"></constructor-arg> </bean> -->
+
+	<bean id="jedisPoolConfig"
+		class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="50" />
+		<property name="maxTotal" value="100"></property>
+	</bean>
+
+	<!-- <bean class="com.taotao.content.jedis.JedisClientPool" id="jedisClientPool"></bean> -->
+
+	<!-- 配置集群版 -->
+	<!-- JedisCluster(Set<HostAndPort> jedisClusterNode, int connectionTimeout, 
+		int soTimeout, int maxAttempts, String password, GenericObjectPoolConfig 
+		poolConfig) -->
+	<bean class="redis.clients.jedis.JedisCluster">
+		<constructor-arg index="1"  value="5000"></constructor-arg>
+		<constructor-arg index="2" value="5000"></constructor-arg>
+		<constructor-arg index="3"  value="3"></constructor-arg>
+		<constructor-arg index="4"  value="123456"></constructor-arg>
+		<constructor-arg index="5" 
+			ref="jedisPoolConfig"></constructor-arg>
+		<constructor-arg index="0" >
+			<set>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0"  value="192.168.25.128"></constructor-arg>
+					<constructor-arg index="1"  value="7001"></constructor-arg>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0"  value="192.168.25.128"></constructor-arg>
+					<constructor-arg index="1"  value="7002"></constructor-arg>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0"  value="192.168.25.128"></constructor-arg>
+					<constructor-arg index="1"  value="7003"></constructor-arg>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0"  value="192.168.25.128"></constructor-arg>
+					<constructor-arg index="1"  value="7004"></constructor-arg>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0"  value="192.168.25.128"></constructor-arg>
+					<constructor-arg index="1"  value="7005"></constructor-arg>
+				</bean>
+				<bean class="redis.clients.jedis.HostAndPort">
+					<constructor-arg index="0"  value="192.168.25.128"></constructor-arg>
+					<constructor-arg index="1"  value="7006"></constructor-arg>
+				</bean>
+			</set>
+		</constructor-arg>
+	</bean>
+
+	<bean class="com.taotao.content.jedis.JedisClientCluster"></bean>
+
+</beans>

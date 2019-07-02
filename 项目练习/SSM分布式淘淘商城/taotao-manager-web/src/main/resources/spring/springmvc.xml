@@ -88,5 +88,5 @@
 <dubbo:reference interface="com.taotao.content.service.ContentCategoryService" id="contentCategoryService" />
 <dubbo:reference interface="com.taotao.service.ItemDescService" id="itemDescService" />
 <dubbo:reference interface="com.taotao.service.ItemParamItemService" id="itemParamItemService" />
-
+<dubbo:reference interface="com.taotao.search.service.SearchService" id="searchService" timeout="300000" />
 </beans>        
