@@ -14,8 +14,17 @@
 	http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 <context:property-placeholder location="classpath:properties/*.properties"/>
-<bean class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+<!-- 单机版 -->
+<!-- solr.baseURL=http://192.168.25.128:8081/solr -->
+<!-- <bean class="org.apache.solr.client.solrj.impl.HttpSolrServer">
 <constructor-arg name="baseURL" value="${solr.baseURL}"></constructor-arg>
-</bean>
+</bean> -->
 
+<!-- 集群版 -->
+<!--new CloudSolrServer(String zkHost) -->
+<!-- solrCloud.zkHost=192.168.25.128:2182,192.168.25.128:2183,192.168.25.128:2184 -->
+<bean class="org.apache.solr.client.solrj.impl.CloudSolrServer">
+<constructor-arg name="zkHost" value="${solrCloud.zkHost}"></constructor-arg>
+<property name="defaultCollection" value="${solrCloud.DefaultCollection}"></property>
+</bean>
 </beans>

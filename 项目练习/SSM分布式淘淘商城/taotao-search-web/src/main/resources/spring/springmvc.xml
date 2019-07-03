@@ -30,8 +30,8 @@
 <mvc:resources location="/WEB-INF/css/" mapping="/css/**"/> -->
 
 
-
-
+<!-- 配置全局异常处理器 -->
+<bean class="com.taotao.search.exception.GlobelExceptionResolver"></bean>
 
 <!-- 配置视图解析器 -->
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
