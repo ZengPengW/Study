@@ -19,4 +19,16 @@ public interface SearchService {
 	 * @throws Exception
 	 */
 	public SearchResult search(String queryString,Integer page,Integer rows)throws Exception;
+	/**
+	 * 根据id更新索引
+	 * @param itemIds
+	 * @return
+	 * @throws Exception
+	 */
+	public TaotaoResult updateItemByIds(String... itemIds) throws Exception;
+	
+	/**
+	 * 根据id删除索引
+	 */
+	public TaotaoResult deleteItemByIds(String... itemIds) throws Exception;
 }

@@ -15,5 +15,10 @@ public interface SearchItemMapper {
 	 * @return
 	 */
 	public List<SearchItem> getSearchItemList();
-	
+	/**
+	 * 根据商品id查询商品
+	 * @param itemId
+	 * @return
+	 */
+	public List<SearchItem> getSearchItemListById(String [] itemId);
 }

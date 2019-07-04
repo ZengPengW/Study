@@ -2,8 +2,10 @@ package com.taotao.test.search;
 
 import java.io.IOException;
 
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.CloudSolrServer;
+import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
 
@@ -16,6 +18,13 @@ public class SolrCloudTest {
 				
 		//2.设置默认的搜索的collrction 默认的属于库表示core所对应的,是指中国collection 索引集合
 		cloudSolrServer.setDefaultCollection("collection2");
+		
+		
+//		UpdateResponse response = cloudSolrServer.deleteById("156224338423818",10000);
+//		System.out.println(response.getRequestUrl());
+//		System.out.println(response.getStatus());
+//		System.out.println(response.getResponse());
+//		cloudSolrServer.commit();
 		
 		//3.创建solrinputdocument对象
 		SolrInputDocument document=new SolrInputDocument();

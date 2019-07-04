@@ -5,7 +5,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -41,6 +49,12 @@ public class ItemServiceImpl implements ItemService, Serializable {
 	@Autowired
 	private TbItemParamItemMapper itemParamItemMapper;
 
+	@Autowired
+	private JmsTemplate jmsTemplate;
+
+	@Resource(name = "topicDestination")
+	private Destination destination;
+
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public EasyUIDataGridResult<TbItem> getItemList(Integer page, Integer rows) {
@@ -67,7 +81,7 @@ public class ItemServiceImpl implements ItemService, Serializable {
 	@Override
 	public TaotaoResult addItem(TbItem item, String desc, String itemParams) {
 		// 生成商品id
-		long itemId = IDUtils.getItemId();
+		final long itemId = IDUtils.getItemId();
 
 		// 补全item的属性
 		item.setId(itemId);
@@ -90,8 +104,18 @@ public class ItemServiceImpl implements ItemService, Serializable {
 
 		// 插入商品规格参数
 		insertItemParamItem(item.getId(), itemParams);
-		// 返回结果
 
+		// 添加发送消息
+		jmsTemplate.send(destination, new MessageCreator() {
+
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				// 发送消息
+				return session.createTextMessage(itemId + "");
+			}
+		});
+
+		// 返回结果
 		return TaotaoResult.ok();
 	}
 
@@ -112,7 +136,7 @@ public class ItemServiceImpl implements ItemService, Serializable {
 	}
 
 	@Override
-	public TaotaoResult updateItem(TbItem item, String desc,Long itemParamId,String itemParams) {
+	public TaotaoResult updateItem(TbItem item, String desc, Long itemParamId, String itemParams) {
 
 		// 补全item的属性
 		Date date = new Date();
@@ -127,16 +151,26 @@ public class ItemServiceImpl implements ItemService, Serializable {
 		itemDesc.setItemDesc(desc);
 		// 向商品描述表更新数据
 		itemDescMapper.updateByPrimaryKeySelective(itemDesc);
-		
-		//修改商品规格参数
-		TbItemParamItem itemParamitem=new TbItemParamItem();
+
+		// 修改商品规格参数
+		TbItemParamItem itemParamitem = new TbItemParamItem();
 		itemParamitem.setId(itemParamId);
 		itemParamitem.setUpdated(date);
-		itemParamitem.setParamData(itemParams);		
-	
+		itemParamitem.setParamData(itemParams);
+
 		itemParamItemMapper.updateByPrimaryKeySelective(itemParamitem);
-		
-		
+
+		// 添加发送消息
+		final long itemId = item.getId();
+		jmsTemplate.send(destination, new MessageCreator() {
+
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				// 发送消息
+				return session.createTextMessage(itemId + "");
+			}
+		});
+
 		// 返回结果
 		return TaotaoResult.ok(null);
 	}
@@ -161,12 +195,23 @@ public class ItemServiceImpl implements ItemService, Serializable {
 		descCriteria.andItemIdIn(id);
 		itemDescMapper.deleteByExample(descExample);
 
-		//删除itemParam
-		TbItemParamItemExample paramItemExample=new TbItemParamItemExample();
+		// 删除itemParam
+		TbItemParamItemExample paramItemExample = new TbItemParamItemExample();
 		com.taotao.pojo.TbItemParamItemExample.Criteria paramCriteria = paramItemExample.createCriteria();
 		paramCriteria.andItemIdIn(id);
 		itemParamItemMapper.deleteByExample(paramItemExample);
-		
+
+		// 添加发送消息
+		final String idS=ids;
+		jmsTemplate.send(destination, new MessageCreator() {
+
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				// 发送消息
+				return session.createTextMessage("delete:"+idS);
+			}
+		});
+
 		return TaotaoResult.ok(null);
 	}
 
