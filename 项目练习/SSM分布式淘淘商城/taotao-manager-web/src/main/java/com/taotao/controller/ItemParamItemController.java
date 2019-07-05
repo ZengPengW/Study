@@ -1,5 +1,7 @@
 package com.taotao.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +27,8 @@ public class ItemParamItemController {
 	 */
 	@RequestMapping("/rest/item/param/item/query/{itemId}")
 	@ResponseBody
-	public TaotaoResult getItemParamItem(@PathVariable Long itemId) {
+	public TaotaoResult getItemParamItem(@PathVariable Long itemId,HttpServletResponse response) {
+		
 		return itemParamItemService.getItemParamItemByItemId(itemId);
 	}
 	

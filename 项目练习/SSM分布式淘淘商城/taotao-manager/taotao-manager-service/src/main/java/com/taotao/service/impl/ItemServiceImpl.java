@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.jms.Destination;
@@ -24,6 +25,7 @@ import com.github.pagehelper.PageInfo;
 import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.common.utils.IDUtils;
+import com.taotao.common.utils.JsonUtils;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
 import com.taotao.mapper.TbItemParamItemMapper;
@@ -249,6 +251,61 @@ public class ItemServiceImpl implements ItemService, Serializable {
 		criteria.andIdIn(id);
 		itemMapper.updateByExampleSelective(item, example);
 		return TaotaoResult.ok(null);
+	}
+
+	@Override
+	public String getItemParam(Long itemId) {
+		//添加缓存
+	
+		
+		TbItemParamItemExample example=new TbItemParamItemExample();
+		com.taotao.pojo.TbItemParamItemExample.Criteria criteria = example.createCriteria();
+		criteria.andItemIdEqualTo(itemId);
+		List<TbItemParamItem> list = itemParamItemMapper.selectByExampleWithBLOBs(example);
+		if(list!=null&&list.size()>0){
+			TbItemParamItem itemParamItem=list.get(0);
+			String resultHtml = "";
+			
+				try {
+					
+					//取规格参数信息
+					String paramData = itemParamItem.getParamData();
+					//把规格参数转换成java对象
+					List<Map> paramList = JsonUtils.jsonToList(paramData, Map.class);
+					//拼装html
+					resultHtml ="<table cellpadding=\"0\" cellspacing=\"1\" width=\"100%\" border=\"0\" class=\"Ptable\">\n" +
+					"    <tbody>\n";
+					for (Map map : paramList) {
+						resultHtml += 
+						"        <tr>\n" +
+						"            <th class=\"tdTitle\" colspan=\"2\">"+map.get("group")+"</th>\n" +
+						"        </tr>\n";
+						List<Map> params = (List<Map>) map.get("params");
+						for (Map map2 : params) {
+							
+							resultHtml += 
+								"        <tr>\n" +
+								"            <td class=\"tdTitle\">"+ map2.get("k")+"</td>\n" +
+								"            <td>"+map2.get("v")+"</td>\n" +
+								"        </tr>\n" ;
+						}
+						
+					}
+					resultHtml += "    </tbody>\n" +
+					"</table>";
+					return resultHtml;
+				} catch (Exception e){
+					//如果转换发送异常，忽略。返回一个空字符串。
+					e.printStackTrace();
+				}
+			}
+
+			
+		
+
+		
+			
+		return "";
 	}
 
 }

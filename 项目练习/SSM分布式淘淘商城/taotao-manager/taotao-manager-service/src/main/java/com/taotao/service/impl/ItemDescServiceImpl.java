@@ -19,8 +19,8 @@ public class ItemDescServiceImpl implements ItemDescService {
 	
 	@Override
 	@Transactional(propagation=Propagation.NOT_SUPPORTED)
-	public TbItemDesc geTbItemDescByID(Long ItemDescId) {
-		TbItemDesc itemDesc = itemDescMapper.selectByPrimaryKey(ItemDescId);
+	public TbItemDesc geTbItemDescByID(Long ItemId) {
+		TbItemDesc itemDesc = itemDescMapper.selectByPrimaryKey(ItemId);
 		
 		return itemDesc;
 	}

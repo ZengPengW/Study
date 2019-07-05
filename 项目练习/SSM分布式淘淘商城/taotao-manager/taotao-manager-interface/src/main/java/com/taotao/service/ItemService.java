@@ -9,6 +9,11 @@ import com.taotao.pojo.TbItem;
 
 public interface ItemService {
 	
+	/**
+	 * 根据商品id查询商品
+	 * @param itemId
+	 * @return
+	 */
 	public TbItem getTbItemById(Long itemId);
 	/**
 	 * 根据当前页码和行数,进行分页查询
@@ -49,4 +54,5 @@ public interface ItemService {
 	 */
 	public TaotaoResult reshelfItem(String ids);
 	
+	public String getItemParam(Long itemId);
 }
