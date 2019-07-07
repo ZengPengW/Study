@@ -12,7 +12,9 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.common.utils.IDUtils;
 import com.taotao.common.utils.JsonUtils;
+import com.taotao.manager.jedis.JedisClient;
 import com.taotao.mapper.TbItemDescMapper;
 import com.taotao.mapper.TbItemMapper;
 import com.taotao.mapper.TbItemParamItemMapper;
@@ -57,6 +60,15 @@ public class ItemServiceImpl implements ItemService, Serializable {
 	@Resource(name = "topicDestination")
 	private Destination destination;
 
+	@Autowired
+	private JedisClient jedisClient;
+
+	@Value("${ITEM_INFO_KEY}")
+	private String ITEM_INFO_KEY;
+
+	@Value("${ITEM_INFO_EXPIRE}")
+	private Integer ITEM_INFO_EXPIRE;
+
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public EasyUIDataGridResult<TbItem> getItemList(Integer page, Integer rows) {
@@ -77,7 +89,30 @@ public class ItemServiceImpl implements ItemService, Serializable {
 	@Override
 	@Transactional(propagation = Propagation.NOT_SUPPORTED)
 	public TbItem getTbItemById(Long itemId) {
-		return itemMapper.selectByPrimaryKey(itemId);
+		// 从缓存中获取数据，没有就查数据库
+		try {
+			String jsonstr = jedisClient.get(ITEM_INFO_KEY + itemId + ":BASE");
+			if (StringUtils.isNotBlank(jsonstr)) {
+				// 重置有效时间
+				jedisClient.expire(ITEM_INFO_KEY + itemId + ":BASE", ITEM_INFO_EXPIRE);
+				return JsonUtils.jsonToPojo(jsonstr, TbItem.class);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		TbItem tbItem = itemMapper.selectByPrimaryKey(itemId);
+
+		try {
+			// 添加缓存
+			jedisClient.set(ITEM_INFO_KEY + itemId + ":BASE", JsonUtils.objectToJson(tbItem));
+			// 设置到期时间
+			jedisClient.expire(ITEM_INFO_KEY + itemId + ":BASE", ITEM_INFO_EXPIRE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return tbItem;
 	}
 
 	@Override
@@ -139,7 +174,14 @@ public class ItemServiceImpl implements ItemService, Serializable {
 
 	@Override
 	public TaotaoResult updateItem(TbItem item, String desc, Long itemParamId, String itemParams) {
-
+		//删除缓存
+		try {
+			jedisClient.del(ITEM_INFO_KEY + item.getId() + ":BASE");
+			jedisClient.del(ITEM_INFO_KEY +  item.getId() + ":PARAM");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		// 补全item的属性
 		Date date = new Date();
 		item.setUpdated(date);
@@ -185,6 +227,16 @@ public class ItemServiceImpl implements ItemService, Serializable {
 		for (int i = 0; i < idss.length; i++) {
 			id.add(Long.valueOf(idss[i]));
 		}
+		//删除缓存
+		try {
+			for (Long itemid : id) {
+				jedisClient.del(ITEM_INFO_KEY + itemid + ":BASE");
+				jedisClient.del(ITEM_INFO_KEY +  itemid + ":PARAM");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+				
 		// 删除item
 		TbItemExample itemExample = new TbItemExample();
 		Criteria itemCriteria = itemExample.createCriteria();
@@ -204,13 +256,13 @@ public class ItemServiceImpl implements ItemService, Serializable {
 		itemParamItemMapper.deleteByExample(paramItemExample);
 
 		// 添加发送消息
-		final String idS=ids;
+		final String idS = ids;
 		jmsTemplate.send(destination, new MessageCreator() {
 
 			@Override
 			public Message createMessage(Session session) throws JMSException {
 				// 发送消息
-				return session.createTextMessage("delete:"+idS);
+				return session.createTextMessage("delete:" + idS);
 			}
 		});
 
@@ -255,56 +307,75 @@ public class ItemServiceImpl implements ItemService, Serializable {
 
 	@Override
 	public String getItemParam(Long itemId) {
-		//添加缓存
-	
-		
-		TbItemParamItemExample example=new TbItemParamItemExample();
-		com.taotao.pojo.TbItemParamItemExample.Criteria criteria = example.createCriteria();
-		criteria.andItemIdEqualTo(itemId);
-		List<TbItemParamItem> list = itemParamItemMapper.selectByExampleWithBLOBs(example);
-		if(list!=null&&list.size()>0){
-			TbItemParamItem itemParamItem=list.get(0);
-			String resultHtml = "";
-			
+		TbItemParamItem itemParamItem = null;
+		// 添加缓存
+		// 从缓存中获取数据，没有就查数据库
+		try {
+			String jsonstr = jedisClient.get(ITEM_INFO_KEY + itemId + ":PARAM");
+			if (StringUtils.isNotBlank(jsonstr)) {
+				//System.out.println("有缓存");
+				// 重置有效时间
+				jedisClient.expire(ITEM_INFO_KEY + itemId + ":PARAM", ITEM_INFO_EXPIRE);
+				itemParamItem = JsonUtils.jsonToPojo(jsonstr, TbItemParamItem.class);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 从数据库取值
+		if (itemParamItem == null) {
+			TbItemParamItemExample example = new TbItemParamItemExample();
+			com.taotao.pojo.TbItemParamItemExample.Criteria criteria = example.createCriteria();
+			criteria.andItemIdEqualTo(itemId);
+			List<TbItemParamItem> list = itemParamItemMapper.selectByExampleWithBLOBs(example);
+			if (list != null && list.size() > 0) {
+				itemParamItem = list.get(0);
+
 				try {
-					
-					//取规格参数信息
-					String paramData = itemParamItem.getParamData();
-					//把规格参数转换成java对象
-					List<Map> paramList = JsonUtils.jsonToList(paramData, Map.class);
-					//拼装html
-					resultHtml ="<table cellpadding=\"0\" cellspacing=\"1\" width=\"100%\" border=\"0\" class=\"Ptable\">\n" +
-					"    <tbody>\n";
-					for (Map map : paramList) {
-						resultHtml += 
-						"        <tr>\n" +
-						"            <th class=\"tdTitle\" colspan=\"2\">"+map.get("group")+"</th>\n" +
-						"        </tr>\n";
-						List<Map> params = (List<Map>) map.get("params");
-						for (Map map2 : params) {
-							
-							resultHtml += 
-								"        <tr>\n" +
-								"            <td class=\"tdTitle\">"+ map2.get("k")+"</td>\n" +
-								"            <td>"+map2.get("v")+"</td>\n" +
-								"        </tr>\n" ;
-						}
-						
-					}
-					resultHtml += "    </tbody>\n" +
-					"</table>";
-					return resultHtml;
-				} catch (Exception e){
-					//如果转换发送异常，忽略。返回一个空字符串。
+					// 添加缓存
+					jedisClient.set(ITEM_INFO_KEY + itemId + ":PARAM", JsonUtils.objectToJson(itemParamItem));
+					// 设置到期时间
+					jedisClient.expire(ITEM_INFO_KEY + itemId + ":PARAM", ITEM_INFO_EXPIRE);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
+
 			}
 
-			
-		
+		}
 
-		
-			
+		if (itemParamItem != null) {
+
+			String resultHtml = "";
+
+			try {
+
+				// 取规格参数信息
+				String paramData = itemParamItem.getParamData();
+				// 把规格参数转换成java对象
+				List<Map> paramList = JsonUtils.jsonToList(paramData, Map.class);
+				// 拼装html
+				resultHtml = "<table cellpadding=\"0\" cellspacing=\"1\" width=\"100%\" border=\"0\" class=\"Ptable\">\n"
+						+ "    <tbody>\n";
+				for (Map map : paramList) {
+					resultHtml += "        <tr>\n" + "            <th class=\"tdTitle\" colspan=\"2\">"
+							+ map.get("group") + "</th>\n" + "        </tr>\n";
+					List<Map> params = (List<Map>) map.get("params");
+					for (Map map2 : params) {
+
+						resultHtml += "        <tr>\n" + "            <td class=\"tdTitle\">" + map2.get("k")
+								+ "</td>\n" + "            <td>" + map2.get("v") + "</td>\n" + "        </tr>\n";
+					}
+
+				}
+				resultHtml += "    </tbody>\n" + "</table>";
+				return resultHtml;
+			} catch (Exception e) {
+				// 如果转换发送异常，忽略。返回一个空字符串。
+				e.printStackTrace();
+			}
+		}
+
 		return "";
 	}
 

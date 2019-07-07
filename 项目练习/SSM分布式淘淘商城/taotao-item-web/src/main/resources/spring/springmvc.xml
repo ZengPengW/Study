@@ -39,6 +39,11 @@
 <property name="suffix" value=".jsp" />
 </bean>
 
+<!-- 配置freemarker -->
+<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+<property name="defaultEncoding" value="utf-8"></property>
+<property name="templateLoaderPath" value="/WEB-INF/ftl"></property>
+</bean>
 
 
 <!-- 引入dubbo服务 -->
