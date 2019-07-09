@@ -22,7 +22,7 @@
 <!--  mapping=/js/**  :表示访问静态资源的路径的形式    可以访问 /js/下的静态资源或者所有的子目录下的静态资源-->
 <mvc:resources location="/js/" mapping="/js/**"/>
 <mvc:resources location="/css/" mapping="/css/**"/>
-
+<mvc:resources location="/images/" mapping="/images/**"/>
 
 <!-- 配置视图解析器 -->
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -35,5 +35,9 @@
 <!-- 引入dubbo服务 -->
 <dubbo:application name="taotao-sso-web"/>
 <dubbo:registry protocol="zookeeper" address="192.168.25.128:2181" />
-<!-- <dubbo:reference interface="com.taotao.search.service.SearchService" id="searchService" timeout="300000" />
- --></beans>        
+<dubbo:reference interface="com.taotao.sso.service.UserRegisterService" id="userRegisterService" timeout="300000" />
+<dubbo:reference interface="com.taotao.sso.service.UserLoginService" id="userLoginService" timeout="300000" />
+
+
+
+</beans>        

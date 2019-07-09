@@ -23,7 +23,7 @@
 </servlet>
 
 <servlet-mapping>
-<servlet-name>taotao-manager-web</servlet-name>
+<servlet-name>taotao-sso-web</servlet-name>
 <url-pattern>/</url-pattern>
 </servlet-mapping>
 
