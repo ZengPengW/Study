@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.atguigu.springcloud</groupId>
+  <groupId>com.zp.springcloud</groupId>
   <artifactId>microservicecloud</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -14,7 +14,7 @@
         <lombok.version>1.18.6</lombok.version>
         
        <druid.version>1.1.10</druid.version>
-        <spring-boot.version>1.5.19.RELEASE</spring-boot.version>
+        <spring-boot.version>1.5.2.RELEASE</spring-boot.version>
         <spring-cloud.version>Dalston.SR1</spring-cloud.version>
         <mysql-connector.version>5.1.47</mysql-connector.version>
         <mybatis-starter.version>2.1.0</mybatis-starter.version>
@@ -80,5 +80,32 @@
   <modules>
   	<module>microservicecloud-api</module>
   	<module>microservicecloud-provider-dept-8001</module>
+  	<module>microservicecloud-consumer-dept-80</module>
+  	<module>microservicecloud-eureka-7001</module>
+  	<module>microservicecloud-eureka-7002</module>
+  	<module>microservicecloud-eureka-7003</module>
   </modules>
+  
+  <build>
+        <!--finalName 父工程名称-->
+        <finalName>microservicecloud</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--过滤开启-->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <delimiters>
+                      <delimiter>$</delimiter>
+                    </delimiters>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

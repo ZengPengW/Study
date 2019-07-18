@@ -5,120 +5,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <!-- namespace：命名空间，用于隔离sql-->
-<mapper namespace="com.study.mybatis.mapper.UserMapper">
+<mapper namespace="com.zp.springcloud.dao.DeptDao">
 
 <!-- 抽取通用公共语句 -->
 <sql id="selector">
-select * from user
+select * from dept
 </sql>
 
 
-<!-- 通过id查询用户 -->
-<select id="findUserById" parameterType="Integer" resultType="UsEr">
-select * from user where id=#{param1}
-</select>
-
-
-<!-- 通过用户名模糊查询用户 -->
-<!-- 
-#{} = ?
-${} 是字符串拼接 参数只能用value名字
- -->
-<select id="findUserByUserName" parameterType="String"  resultType="UsEr">
-<!-- select * from user where username like '%${value}%' -->
-<!--或者  -->
-select * from user where username like "%"#{asd}"%"
-</select>
-
-
-<!-- 添加用户 -->
-<insert id="insertUser" parameterType="UsEr" >
-<!-- 添加用户后给user对象返回一个id -->
-<selectKey keyProperty="id" resultType="Integer" order="AFTER">
-select LAST_INSERT_ID() 
-</selectKey>
-insert into user(username,birthday,address,sex) 
-values(#{username},#{birthday},#{address},#{sex})
+<!-- 增加 -->
+<insert id="addDept" parameterType="dept" >
+insert into dept(dname,db_source) values(#{dname},DATABASE())
 </insert>
 
-
-<!-- 修改用户 -->
-<update id="updateUserById" parameterType="User" >
-update user 
-set username=#{username} , sex =#{sex},birthday=#{birthday} ,address=#{address}
-where id=#{id}
-</update>
-
-<!-- 删除 -->
-<delete id="deleteUserById" parameterType="User">
-delete from user
-where id=#{id}
-</delete>
-
-
-
-<!-- 通过用户名模糊查询用户 -->
-<select id="findUserByQueryVo" parameterType="QueryVo"  resultType="UsEr">
-select * from user where username like "%"#{user.username}"%"
-</select>
-
-
-<!-- 查询条数 -->
-<select id="countUser"  resultType="int">
-select count(*) from user
-</select>
-
-<!--根据姓名和性别查询用户
-where标签可以去掉第一个and
--->
-<select id="findUserBySexAndUsername" resultType="user" parameterType="user">
+<!-- 通过id查询 -->
+<select id="findById" parameterType="long" resultType="dept">
 <include refid="selector"/>
 <where>
-<if test="sex != null and sex !='' ">
-sex=#{sex}
-</if>
-<if test="username !=null and username !='' ">
- and username=#{username} 
-</if>
+deptno=#{deptno}
 </where>
 </select>
 
-<!-- foreach 循环数组或集合  -->
-<select id="findUserByIds" parameterType="QueryVo" resultType="user">
+<!-- 查询所有 -->
+<select id="findAll" resultType="dept">
 <include refid="selector"/>
-<where>
-id in<foreach collection="ids1" item="id" separator="," open="(" close=")">
-#{id}
-</foreach>
-</where>
 </select>
-
- 
-
- 
-<resultMap type="user" id="usermap">
-<id column="user_id" property="id"/>
-<result column="username" property="username"/>
-<result column="sex" property="sex"/>
-<result column="birthday" property="birthday"/>
-<result column="address" property="address"/>
-<!-- 一对多 -->
-<collection property="ordersList" ofType="Orders" >
-<id column="id"  property="id"/>
-<result column="user_id"  property="userId"/>
-<result column="number"  property="number"/>
-<result column="createtime"  property="createtime"/>
-<result column="note"  property="note"/>
-</collection>
-</resultMap>
- 
-<select id="findUserOneToMany" resultMap="usermap">
-SELECT o.id,o.user_id,o.number,o.createtime,u.username 
-FROM  `user` u  
-LEFT JOIN orders o 
-ON o.user_id=u.id;
-</select>
-
 
 
 </mapper>

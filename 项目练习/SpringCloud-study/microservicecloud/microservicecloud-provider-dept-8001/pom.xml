@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.atguigu.springcloud</groupId>
+		<groupId>com.zp.springcloud</groupId>
 		<artifactId>microservicecloud</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
@@ -10,9 +10,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.atguigu.springcloud</groupId>
+			<groupId>com.zp.springcloud</groupId>
 			<artifactId>microservicecloud-api</artifactId>
-			<version>${project.version}}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<!--将微服务provider注册进eureka -->
 		<dependency>
@@ -38,9 +38,12 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+		<!-- <dependency> <groupId>com.alibaba</groupId> <artifactId>druid</artifactId> 
+			</dependency> -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+			<version>${druid.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -70,11 +73,14 @@
 			<optional>true</optional>
 			<scope>true</scope>
 		</dependency>
-		<!--  <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>springloaded</artifactId>
-        </dependency> -->
+		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>springloaded</artifactId> 
+			</dependency> -->
 
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-core</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
