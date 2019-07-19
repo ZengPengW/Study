@@ -13,8 +13,9 @@ import com.zp.springcloud.entities.Dept;
 @RestController
 public class DeptController_Consumer {
 
-	private static final String REST_URL_PREFIX="http://localhost:8001";
-	
+	//private static final String REST_URL_PREFIX="http://localhost:8001";
+	private static final String REST_URL_PREFIX="http://"+"microservicecloud-dept".toUpperCase();
+
 	@Autowired
 	private RestTemplate restTemplate;
 	

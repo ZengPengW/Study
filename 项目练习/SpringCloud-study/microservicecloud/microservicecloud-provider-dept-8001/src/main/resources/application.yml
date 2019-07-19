@@ -59,5 +59,5 @@ eureka:
 info:  #配置info信息内容
   app.name: microservicecloud-dept
   company.name: www.zp.com
-  build.artifactId: ${project.artifactId}
-  build.version: ${project.version}
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$

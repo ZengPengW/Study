@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.zp.springcloud.dao.DeptDao">
+
+<!-- 抽取通用公共语句 -->
+<sql id="selector">
+select * from dept
+</sql>
+
+
+<!-- 增加 -->
+<insert id="addDept" parameterType="dept" >
+insert into dept(dname,db_source) values(#{dname},DATABASE())
+</insert>
+
+<!-- 通过id查询 -->
+<select id="findById" parameterType="long" resultType="dept">
+<include refid="selector"/>
+<where>
+deptno=#{deptno}
+</where>
+</select>
+
+<!-- 查询所有 -->
+<select id="findAll" resultType="dept">
+<include refid="selector"/>
+</select>
+
+
+</mapper>
