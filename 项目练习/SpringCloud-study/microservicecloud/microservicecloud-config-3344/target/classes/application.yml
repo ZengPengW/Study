@@ -1,0 +1,37 @@
+server:
+  port: 3344
+
+
+spring:
+  application:
+    name: microservicecloud-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/gongxings/springcloud-study-config.git
+          #search-paths: config-repo
+          #username:   #账号密码写真实的快一些我觉得，不使用也能访问有点慢
+          #password:  #密码  
+          
+#访问方式
+#localhost:3344/application-dev.yml 就可以看到开发环境的配置文件，test同理
+#localhost:3344/application/dev/master  返回json串
+#localhost:3344/master/application-dev.yml 返回文本同第一个
+ 
+          
+#git上的yml内容如下
+#spring:
+#   profiles:
+#       active: dev
+#---
+#spring:
+#  profiles: dev #开发环境
+#  application:
+#    name: microservicecloud-config-dev
+#---
+#spring:
+#  profiles: test #测试环境  
+#  application:
+#    name: microservicecloud-config-test
+          

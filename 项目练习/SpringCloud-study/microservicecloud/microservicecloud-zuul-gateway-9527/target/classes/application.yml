@@ -1,0 +1,32 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: microservicecloud-zull-gateway
+
+eureka:
+  instance:
+    instance-id: gateway-9572
+    prefer-ip-address: true
+  client:
+    service-url:
+      # 单机版配置defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka #设置与eureka server 交互的地址查询服务和注册服务都需要依赖的地址
+      #集群配置
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+
+#zuul 访问格式http://zuulip:port/微服务名或映射名/资源路径
+zuul:
+  routes:
+    mydept.serviceId: microservicecloud-dept #此微服务
+    mydept.path: /mydept/** #映射成这样访问
+  #ignored-services: "*" #这样配置代表所有真实微服务名字禁用
+  ignored-services: microservicecloud-dept #此服务不能再用此名字访问
+  prefix: /springcloud #设置公共前缀  
+
+
+#基本信息描述
+info:
+  app.name: zp-microservicecloud
+  company.name: www.zp.com
+  build.artifactId: microservicecloud-zuul-gateway-9527
+  build.version: 0.0.1-SNAPSHOT
