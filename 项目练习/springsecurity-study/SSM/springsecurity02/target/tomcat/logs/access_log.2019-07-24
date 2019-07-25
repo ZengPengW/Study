@@ -1,0 +1,9 @@
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:42:22 +0800] "GET /favicon.ico HTTP/1.1" 302 - http-bio-8080-exec-1 78
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:42:24 +0800] "GET /index HTTP/1.1" 200 356 http-bio-8080-exec-2 952
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:42:33 +0800] "GET /product/list HTTP/1.1" 302 - http-bio-8080-exec-3 2
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:42:58 +0800] "GET /index HTTP/1.1" 200 356 http-bio-8080-exec-5 5
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:43:10 +0800] "GET /product/list HTTP/1.1" 302 - http-bio-8080-exec-7 6
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:44:03 +0800] "GET /index HTTP/1.1" 200 356 http-bio-8080-exec-8 8
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:44:05 +0800] "GET /index HTTP/1.1" 200 356 http-bio-8080-exec-9 3
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:44:12 +0800] "GET /index HTTP/1.1" 200 356 http-bio-8080-exec-1 4
+0:0:0:0:0:0:0:1 - - [24/Jul/2019:23:44:20 +0800] "GET /product/list HTTP/1.1" 302 - http-bio-8080-exec-1 2

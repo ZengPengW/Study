@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<context:property-placeholder location="classpath:properties/*.properties"/>
+	<!-- Druid连接池 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" 
+		destroy-method="close">
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="driverClassName" value="${jdbc.driverClass}" />
+		<property name="maxActive" value="10" />
+		<property name="minIdle" value="5" />
+	</bean>
+
+	
+	<!-- Mybatis 工厂 -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+	     <property name="dataSource" ref="dataSource"  />
+	     <property name="typeAliasesPackage" value="com.zp.springsecurity.pojo" />
+	     <property name="mapperLocations" value="classpath:mybatis/mapper/**/*.xml"></property>
+	     <!-- 配置核心配置文件 -->
+		 <property name="configLocation" value="classpath:mybatis/sqlMapConfig.xml"></property>
+	</bean>
+	
+	
+	<!-- 原始Dao开发 -->
+	<!-- <bean id="userDao" class="com.sm.dao.impl.UserDaoImpl">
+		<property name="sqlSessionFactory" ref="sqlSessionFactoryBean" />
+	</bean> -->
+	
+	<!-- mapper 动态代理开发 -->
+	<!-- <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactoryBean" />
+		<property name="mapperInterface" value="com.sm.mapper.UserMapper"/>
+	</bean> -->
+	
+	<!-- 动态代理开发增强版  扫描-->
+	<bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 指定基本包  扫描及其子包-->
+		<property name="basePackage" value="com.zp.springsecurity.mapper"></property>
+	</bean>
+	
+	<!-- 配置事务 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    	<property name="dataSource" ref="dataSource"></property>
+    </bean>	
+    
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	</beans>

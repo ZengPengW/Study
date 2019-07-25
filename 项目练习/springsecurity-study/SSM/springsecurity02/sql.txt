@@ -1,0 +1,75 @@
+
+-- -----------用户表------------------
+
+CREATE TABLE sys_user(
+id INT(10) PRIMARY KEY AUTO_INCREMENT COMMENT '用户id',
+`username` VARCHAR(50) NOT NULL COMMENT '用户名',
+`realname` VARCHAR(50) COMMENT '真实姓名',
+`password` VARCHAR(200)  COMMENT '密码',
+`createDate` DATE COMMENT '创建日期',
+`lastLoginTime` DATE COMMENT '最后登录时间',
+`enabled` INT(5) COMMENT '是否可用',
+`accountNonExpired` INT(5) COMMENT '是否过期',
+`accountNonLocked` INT(5) COMMENT '是否锁定',
+`credentialsNonExpired` INT(5) COMMENT '证书是否过期'
+
+);
+
+INSERT INTO sys_user 
+VALUES
+(NULL,"eric","张三","123456","2015-01-01","2016-04-04",1,1,1,1),
+(NULL,"jack","李四","123456","2015-01-01","2016-04-04",1,1,1,1);
+
+-- ----------角色表------------
+
+CREATE TABLE sys_role(
+id INT PRIMARY KEY AUTO_INCREMENT COMMENT '角色id',
+roleName VARCHAR(50) NOT NULL COMMENT '角色名',
+roleDesc VARCHAR(50) NOT NULL COMMENT '角色说明'
+);
+
+INSERT INTO sys_role 
+VALUES
+(NULL,'普通用户','普通用户'),
+(NULL,'管理员','管理员');
+
+
+
+-- ----------权限表-----------------
+
+CREATE TABLE sys_permission(
+id INT PRIMARY KEY AUTO_INCREMENT COMMENT '权限id',
+permName VARCHAR(50) COMMENT '权限名',
+permTag VARCHAR(50) COMMENT '权限标识符'
+);
+
+INSERT INTO sys_permission 
+VALUES
+(NULL,'产品查询','ROLE_LIST_PRODUCT'),
+(NULL,'产品添加','ROLE_ADD_PRODUCT'),
+(NULL,'产品修改','ROLE_UPDATE_PRODUCT'),
+(NULL,'产品删除','ROLE_DELETE_PRODUCT');
+
+-- -----------用户角色表----------------
+CREATE TABLE sys_user_role(
+user_id INT COMMENT '用户id',
+role_id INT COMMENT '角色id',
+FOREIGN KEY (user_id) REFERENCES sys_user(id),
+FOREIGN KEY (role_id) REFERENCES sys_role(id)
+);
+
+INSERT INTO sys_user_role VALUES
+(1,1),(2,2);
+
+
+-- ------------角色权限表----------------
+
+CREATE TABLE sys_role_permission (
+role_id INT COMMENT '角色id',
+perm_id INT COMMENT '权限id',
+FOREIGN KEY(role_id) REFERENCES `sys_role`(id),
+FOREIGN KEY(perm_id) REFERENCES `sys_permission`(id)
+);
+
+INSERT INTO sys_role_permission VALUES
+(1,1),(1,2),(2,3),(2,4);

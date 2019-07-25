@@ -1,0 +1,14 @@
+com\zp\springsecurity\pojo\Role.class
+com\zp\springsecurity\pojo\User.class
+com\zp\springsecurity\service\UserService.class
+com\zp\springsecurity\controller\MainController.class
+com\zp\springsecurity\auth\ImageCodeAuthenticationFilter.class
+com\zp\springsecurity\controller\ProductController.class
+com\zp\springsecurity\auth\UserDetailService.class
+com\zp\springsecurity\utils\CheckImgServlet.class
+com\zp\springsecurity\mapper\UserMapper.class
+com\zp\springsecurity\auth\ImageCodeException.class
+com\zp\springsecurity\pojo\Permission.class
+com\zp\springsecurity\service\impl\UserServiceImpl.class
+com\zp\springsecurity\auth\MyAuthenticationFailHandler.class
+com\zp\springsecurity\auth\MyAuthenticationSuccessHandler.class

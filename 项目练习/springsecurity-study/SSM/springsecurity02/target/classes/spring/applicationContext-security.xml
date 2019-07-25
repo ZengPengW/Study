@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+						http://www.springframework.org/schema/security 
+						http://www.springframework.org/schema/security/spring-security-4.2.xsd ">
+
+	<!-- <security:http>: 1.需要拦截的资源 2.资源权限 3.认证方式：HttpBasic,FormLogin 4.定义登录页面，定义登录请求地址，定义错误处理方式 -->
+
+	<security:http>
+
+
+		<!-- pattern:需要拦截的资源 路径 看requestMapper的路径 
+			access: 拦截方式 
+				isFullyAuthenticated():都要认证 
+				isAnonymous()/permitAll()：不需要认证 区别在于isAnonymous()只有不登录才可以访问
+				isAuthenticated() 
+				isRememberMe() 
+				hasRole('xxx'):只允许此角色访问
+				hasAuthority('xxx'):只允许此权限访问
+				。。。。。 -->
+				
+		<!-- 不拦截部分 -->
+		<security:intercept-url pattern="/js/**" access="permitAll()"/>	
+			
+		<!-- 只允许ROLE_USER 访问 -->
+		<security:intercept-url pattern="/product/add" access="hasAuthority('ROLE_ADD_PRODUCT')"/>	
+		<security:intercept-url pattern="/product/update" access="hasAuthority('ROLE_UPDATE_PRODUCT')"/>	
+		<security:intercept-url pattern="/product/list" access="hasAuthority('ROLE_LIST_PRODUCT')"/>	
+		<security:intercept-url pattern="/product/delete" access="hasAuthority('ROLE_DELETE_PRODUCT')"/>	
+		
+		<security:intercept-url pattern="/autolg" access="permitAll()" />	
+		<security:intercept-url pattern="/imgCode" access="permitAll()" />	
+		<security:intercept-url pattern="/loginAjax" access="permitAll()" />	
+		<security:intercept-url pattern="/index" access="permitAll()" />
+		<security:intercept-url pattern="/login" access="permitAll()" />	
+		<security:intercept-url pattern="/**" access="isFullyAuthenticated()" />
+		
+			
+		
+		
+
+		<!-- http-basic 方式认证 类似弹窗 -->
+		<!--  <security:http-basic />-->
+		
+		
+		<!-- form-login: 方式认证 类似表单
+				login-page 自定义登录页面 controller的地址
+				login-processing-url 登录请求处理的地址
+				default-target-url="每次登录成功跳转的页面"
+				authentication-success-handler-ref:登录成功后的操作类
+				authentication-failure-handler-ref:登录失败后的操作类
+		 		authentication-failure-url:登录失败跳转路径 后面拼接error=true 会返回一个param.error参数可用el表达式获取判断
+		 -->
+		 
+		 <!-- 自定义验证码校验过滤器 -->
+		 <security:custom-filter ref="imageCodeAuthenticationFilter"  before="FORM_LOGIN_FILTER" />
+		 
+		 <!-- 同步登录 -->
+		<!--   <security:form-login 
+		  login-page="/login" 
+		  login-processing-url="/securityLogin"
+		  authentication-failure-url="/login?error=true"
+		  default-target-url="/index"
+		  /> -->
+		  
+		  
+		  
+		  <!-- 异步登录 -->
+		   <security:form-login 
+		  login-page="/loginAjax" 
+		  login-processing-url="/securityLogin"
+		  authentication-failure-handler-ref="myAuthenticationFailHandler"
+		  authentication-success-handler-ref="myAuthenticationSuccessHandler"
+		  />
+		  
+		  
+		  
+		  
+		  <!-- 自定义权限不足处理 返回页面-->
+		  <security:access-denied-handler error-page="/error"/>
+		  
+		  
+		  
+		  <!-- 关闭security CSRF机制 -->
+		  <security:csrf disabled="true"/>
+		  
+		  <!-- 记住我  有效期1天-->
+		  <security:remember-me token-repository-ref="persistentTokenRepository" token-validity-seconds="86400" />
+		  
+		  <!-- 退出 -->
+		  <security:logout  logout-url="/logout"  />
+		  
+	</security:http>
+<!-- 记住我token数据保存到数据库 -->
+<bean class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl" id="persistentTokenRepository">
+<property name="dataSource" ref="dataSource"></property>
+<!-- 第一次自动建表 -->
+<!-- <property name="createTableOnStartup" value="true"></property> -->
+</bean>
+
+
+	<!-- security:authentication-manager: 认证管理器 1.认证信息 （用户名，密码，权限） -->
+	<security:authentication-manager>
+	
+		<!-- 配置用户名密码 和权限  -->
+		<!-- <security:authentication-provider>		   
+			 <security:user-service>
+				<security:user name="zp" password="123456" authorities="ROLE_USER"/>
+				<security:user name="zs" password="123456" authorities="ROLE_ADMINISTRATOR"/>
+			</security:user-service> 			
+		</security:authentication-provider> -->
+		
+			<!-- 自定义配置用户验证 -->
+			<security:authentication-provider  user-service-ref="userDetailService">
+			<!-- 使用加密算法加密密码 -->
+			<security:password-encoder ref="passwordEncoder" />
+			</security:authentication-provider>
+		
+	</security:authentication-manager>
+<bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="passwordEncoder" />	
+<bean class="com.zp.springsecurity.auth.UserDetailService" id="userDetailService"/>
+<bean class="com.zp.springsecurity.auth.MyAuthenticationFailHandler" id="myAuthenticationFailHandler" />
+<bean class="com.zp.springsecurity.auth.MyAuthenticationSuccessHandler" id="myAuthenticationSuccessHandler"/>
+
+<!-- 验证码拦截器 -->
+<bean id="imageCodeAuthenticationFilter" class="com.zp.springsecurity.auth.ImageCodeAuthenticationFilter" >
+	<property name="authenticationFailureHandler" ref="myAuthenticationFailHandler"></property>
+</bean>
+
+</beans>
