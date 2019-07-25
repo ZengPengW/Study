@@ -1,0 +1,67 @@
+server:
+  port: 8080
+ 
+ 
+#数据库信息配置
+spring:
+  application:
+    name: microservicecloud-dept  #应用名称
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid: 
+      url: jdbc:mysql://localhost:3306/security?characterEncoding=utf-8
+      #platform: mysql
+      username: root
+      password: 147258
+      driver-class-name: com.mysql.jdbc.Driver #或者org.gjt.mm.mysql.Driver   
+  #druid连接池配置
+      initialSize: 5 #初始化个数
+      minIdle: 5    #最小空闲数
+      maxActive: 20 #最大连接数
+      maxWait: 60000 #获取连接的最大等待时间
+      timeBetweenEvictionRunsMillis: 60000 #空闲连接的检查时间间隔
+      minEvictableIdleTimeMillis: 300000 #空闲连接最小空闲时间
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      # 配置连接池监控统计拦截的filters,去掉监控界面sql无法统计，‘wall’用于防火墙
+      #http://ip:port/ 项目名/druid/或http://ip:port/ 项目名/druid/index.html即可访问 
+      filters: stat,wall,log4j
+      maxPoolPreparedStatementPerConnectionSize: 20 # 打开PSCache，并且指定每个连接上PSCache的大小
+      #userGlobalDataSourceStat: true # 合并多个DruidDataSource的监控数据
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 #慢SQL记录
+########################################################
+###THYMELEAF (ThymeleafAutoConfiguration)
+########################################################
+#spring.thymeleaf.prefix=classpath:/templates/
+#spring.thymeleaf.suffix=.html
+#spring.thymeleaf.mode=HTML5
+#spring.thymeleaf.encoding=UTF-8
+# ;charset=<encoding> is added
+# set to false for hot refresh
+#thymeleaf关闭缓存.
+  thymeleaf: 
+     cache: false  
+     content-type: text/html 
+     encoding: UTF-8
+     suffix: .html
+     prefix: classpath:/templates/
+#Mybatis配置
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
+  config-location: classpath:mybatis/sqlMapConfig.xml
+  type-aliases-package: com.zp.springsecurity.pojo #设置别名 扫描包 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+

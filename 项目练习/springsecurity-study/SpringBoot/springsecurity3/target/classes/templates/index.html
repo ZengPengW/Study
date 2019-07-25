@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>欢迎: </h1>
+<!-- 当前用户有什么权限才可以看到 -->
+<div sec:authorize="hasAuthority('ROLE_ADD_PRODUCT')">
+<a href="/product/add">增加</a>
+</div>
+
+<div sec:authorize ="hasAuthority('ROLE_UPDATE_PRODUCT')">
+<a href="/product/update">修改</a>
+</div>
+
+<div sec:authorize ="hasAuthority('ROLE_LIST_PRODUCT')">
+<a href="/product/list">查询</a>
+</div>
+
+<div sec:authorize ="hasAuthority('ROLE_DELETE_PRODUCT')">
+<a href="/product/delete">删除</a>
+</div>
+</body>
+</html>
