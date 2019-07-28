@@ -1,0 +1,78 @@
+server:
+  port: 8081
+
+  
+spring:
+  application:
+    name: oauth2-resource
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth2_resource?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 147258
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+
+
+#数据库信息配置
+#spring:
+#  application:
+#    name: oauth2-server  #应用名称
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    druid:
+#      url: jdbc:mysql://localhost:3306/oauth2
+#      #platform: mysql
+#      username: root
+#      password: 147258
+#      driver-class-name: com.mysql.jdbc.Driver #或者org.gjt.mm.mysql.Driver   
+#  #druid连接池配置
+#      initialSize: 5 #初始化个数
+#      minIdle: 5    #最小空闲数
+#      maxActive: 20 #最大连接数
+#      maxWait: 60000 #获取连接的最大等待时间
+#      timeBetweenEvictionRunsMillis: 60000 #空闲连接的检查时间间隔
+#      minEvictableIdleTimeMillis: 300000 #空闲连接最小空闲时间
+#      validationQuery: SELECT 1 FROM DUAL
+#      testWhileIdle: true
+#      testOnBorrow: false
+#      testOnReturn: false
+#      poolPreparedStatements: true
+#      # 配置连接池监控统计拦截的filters,去掉监控界面sql无法统计，‘wall’用于防火墙
+#      #http://ip:port/ 项目名/druid/或http://ip:port/ 项目名/druid/index.html即可访问 
+#      filters: stat,wall,log4j
+#      maxPoolPreparedStatementPerConnectionSize: 20 # 打开PSCache，并且指定每个连接上PSCache的大小
+#      #userGlobalDataSourceStat: true # 合并多个DruidDataSource的监控数据
+#      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000 #慢SQL记录
+
+
+mybatis:
+  type-aliases-package: com.zp.oauth2.resource.pojo
+#  mapper-locations: classpath:mybatis/mapper/**/*.xml 
+  configuration: 
+    map-underscore-to-camel-case: true #开启驼峰命名 使得属性字段驼峰处变成下划线 user_name
+   # cache-enabled: true #开启二级缓存 也可在配置文件开启  
+   
+ 
+#########  oauth2 #############   
+security:
+  oauth2:
+    client:
+      client-id: client  #本客户端id
+      client-secret: secret #本客户端密钥 
+      access-token-uri: http://localhost:8080/oauth/token #通过code 获得令牌 post请求code=2vKd1h&grant_type=authorization_code
+      user-authorization-uri: http://localhost:8080/oauth/authorize #获得code 授权地址
+    resource:
+      token-info-uri: http://localhost:8080/oauth/check_token #检查token 是否有效
+      
+      
+   
